@@ -235,11 +235,10 @@ app.post('/validateUser', async (req, res) => {
 const currentDate = new Date().toISOString().split('T')[0]; // Get current date
 const currentTime = new Date().toLocaleTimeString(); // Get current time
 
-console.log(currentDate);
-console.log(currentTime);
 app.post("/addSurvey", async (req, res) => {
   try {
     const valueToCompare = req.body.platform; // The value you want to compare
+
     const surveyEntry = {
       date: currentDate,
       time: currentTime,
@@ -262,40 +261,134 @@ app.post("/addSurvey", async (req, res) => {
       dep_freq: req.body.depressed,
       int_fluc: req.body.dailyActivity,
       slp_issues: req.body.sleep,
+      // Include other surveyEntry fields from your form
     };
-    console.log(surveyEntry)
-    await knex.transaction(async (trx) => {
-      const result = await trx
-        .select('platform', 'num_plat')
-        .from('plat_info')
-        .where('platform', valueToCompare)
-        .first();
-      console.log(result);
-      let valueToInsert = null;
-      if (result) {
-        valueToInsert = result.num_plat;
-      } else {
-        // If no match found, fetch default value from "plat_info" table
-        const defaultResult = await trx
-          .select('num_plat')
-          .from('plat_info')
-          .first();
-        valueToInsert = defaultResult.num_plat;
+        const organizationValues = req.body.organization || [];
+        const platformValues = req.body.platform || [];
+    
+        // Array to store organization IDs
+        const orgIds = [];
+    
+        // Loop through the organization array and find the num_org for each value
+        for (const org of organizationValues) {
+          const [{ num_org }] = await knex('org_info')
+            .select('num_org')
+            .where('type_org', org);
+    
+          if (num_org) {
+            orgIds.push(num_org);
+          }
+        }
+    
+        // Array to store platform IDs
+        const platformIds = [];
+    
+        // Loop through the platform array and find the num_plat for each value
+        for (const platform of platformValues) {
+          const [{ num_plat }] = await knex('plat_info')
+            .select('num_plat')
+            .where('platform', platform);
+    
+          if (num_plat) {
+            platformIds.push(num_plat);
+          }
+        }
+    
+        await knex.transaction(async (trx) => {
+          // Insert surveyEntry into survey_info table
+          const [surveyId] = await trx('survey_info').insert(surveyEntry).returning('survey_id');
+    
+          // Loop through each selected organization and insert into ind_org table
+          for (const org of organizationValues) {
+            // Find num_org based on the type_org from org_info table
+            const [{ num_org }] = await trx('org_info').select('num_org').where('type_org', org);
+    
+            // Insert num_org and survey_id into ind_org table
+            await trx('ind_org').insert({ num_org, survey_id: surveyId });
+          }
+    
+          // Loop through each selected platform and insert into ind_plat table
+          for (const platform of platformValues) {
+            // Find num_plat based on the platform from plat_info table
+            const [{ num_plat }] = await trx('plat_info').select('num_plat').where('platform', platform);
+    
+            // Insert num_plat and survey_id into ind_plat table
+            await trx('ind_plat').insert({ num_plat, survey_id: surveyId });
+          }
+    
+          // Commit the transaction
+          await trx.commit();
+        });
+    
+        res.status(200).send('Survey added successfully!');
+      } catch (error) {
+        console.error('Error adding survey:', error);
+        res.status(500).send('Error adding survey');
       }
-      console.log(valueToInsert);
-      
-      await trx('survey_info').insert({
-        ...surveyEntry,
-        num_plat: valueToInsert,
-        // Other columns to insert
-      });
     });
-    res.redirect("/");
-  } catch (error) {
-    console.error('Error inserting data:', error);
-    res.status(500).send('Error inserting data');
-  }
-});
+    
+
+console.log(currentDate);
+console.log(currentTime);
+// app.post("/addSurvey", async (req, res) => {
+//   try {
+//     const valueToCompare = req.body.platform; // The value you want to compare
+//     const surveyEntry = {
+//       date: currentDate,
+//       time: currentTime,
+//       location: "Provo",
+//       age: req.body.age,
+//       gender: req.body.gender,
+//       rel_status: req.body.relationship,
+//       occ_status: req.body.work,
+//       sm_user: req.body.mediaUse,
+//       avg_time: req.body.time,
+//       wop_freq: req.body.woPurpose,
+//       distract_freq: req.body.distracted,
+//       restless_freq: req.body.restless,
+//       const_distract: req.body.naturalDistraction,
+//       worried_freq: req.body.worries,
+//       concen_diff: req.body.concentration,
+//       comp_freq: req.body.comparison,
+//       comp_feel: req.body.comparisonsGeneral,
+//       val_freq: req.body.validation,
+//       dep_freq: req.body.depressed,
+//       int_fluc: req.body.dailyActivity,
+//       slp_issues: req.body.sleep,
+//     };
+//     console.log(surveyEntry)
+//     await knex.transaction(async (trx) => {
+//       const result = await trx
+//         .select('platform', 'num_plat')
+//         .from('plat_info')
+//         .where('platform', valueToCompare)
+//         .first();
+//       console.log(result);
+//       let valueToInsert = null;
+//       if (result) {
+//         valueToInsert = result.num_plat;
+//       } else {
+//         // If no match found, fetch default value from "plat_info" table
+//         const defaultResult = await trx
+//           .select('num_plat')
+//           .from('plat_info')
+//           .first();
+//         valueToInsert = defaultResult.num_plat;
+//       }
+//       console.log(valueToInsert);
+      
+//       await trx('survey_info').insert({
+//         ...surveyEntry,
+//         num_plat: valueToInsert,
+//         // Other columns to insert
+//       });
+//     });
+//     res.redirect("/");
+//   } catch (error) {
+//     console.error('Error inserting data:', error);
+//     res.status(500).send('Error inserting data');
+//   }
+// });
 
 
 app.post("/createAccount", async (req, res)=> {
