@@ -137,11 +137,16 @@ app.get('/results', (req, res) => {
 app.get('/login', (req, res) => {
   let loggedIn = req.session.loggedin;
   if (loggedIn) {
-    res.render('pages/login', { error: false, success: true });
+    res.render('pages/login', { msg: "success" });
   }
   else {
-    res.render('pages/login', { error: false, success: false });
+    res.render('pages/login', { msg: "" });
   }  
+})
+
+app.post('/logout', (req, res) => {
+  req.session = {};
+  res.render('pages/login', { msg: "logout" });
 })
 
 // ------- DATABASE CALLS --------
@@ -171,7 +176,7 @@ app.post('/validateUser', async (req, res) => {
         req.session.role = user.status;
         res.redirect('/dashboard');
       } else {
-        res.render('pages/login', { error: true, success: false });
+        res.render('pages/login', { msg: "error" });
       }
     }
   } catch (error) {

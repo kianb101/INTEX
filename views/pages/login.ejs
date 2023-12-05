@@ -14,13 +14,19 @@
                 <label for="password">Enter password:</label>
                 <input type="password" class="form-control" id="password" name="password" placeholder="********">
             </div>
-            <button type="submit" class="btn btn-primary" id="login-btn">Login</button>
+            <button type="submit" class="btn btn-primary" id="survey-btn">Login</button>
         </form>
-        <% if (error) { %>
+        <form action="/logout" method="post">
+            <button type="submit" class="btn btn-primary" id="login-btn">Logout</button>
+        </form>
+        <% if (msg == "error") { %>
             <p style="margin-top: 1em; color: red">Invalid credentials. Please try again or contact administrator.</p>
         <% } %>
-        <% if (success) { %>
+        <% if (msg == "success") { %>
             <p style="margin-top: 1em; color: green">You are already logged in. Feel free to explore other pages.</p>
+        <% } %>
+        <% if (msg == "logout") { %>
+            <p style="margin-top: 1em; color: green">You have been logged out.</p>
         <% } %>
     </div>
 </body>
