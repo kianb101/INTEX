@@ -1,6 +1,7 @@
 const express = require('express');
 let path = require("path");
 const session = require('express-session');
+const bodyParser = require('body-parser');
 
 const knex = require("knex") ({
   // pass parameters to it
@@ -20,8 +21,7 @@ const port =  process.env.PORT || 3000;
 
 app.set('view engine', 'ejs');
 
-app.use(express.json());
-express.urlencoded({ extended: true });
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -174,7 +174,8 @@ app.post('/validateUser', async (req, res) => {
   // res.send('Session variables set for testing.');
 
   // IMPLEMENTATION:
-  console.log(req);
+  console.log("Request body", req.body);
+  // TODO: request body is being returned emtpy
   const usernameToCheck = req.body.username ? req.body.username : '';
   const passwordToCheck = req.body.password ? req.body.password : '';
   try {
