@@ -2,6 +2,7 @@ const express = require('express');
 let path = require("path");
 const session = require('express-session');
 const bodyParser = require('body-parser');
+const MemoryStore = require('memorystore')(session);
 
 const knex = require("knex") ({
   // pass parameters to it
@@ -29,7 +30,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
 	secret: 'secret',
 	resave: false,
-	saveUninitialized: true
+	saveUninitialized: true,
+  store: new MemoryStore()
 }));
 
 // ------- ROUTES --------
