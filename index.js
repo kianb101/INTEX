@@ -231,7 +231,7 @@ const currentTime = new Date().toLocaleTimeString(); // Get current time
 
 app.post("/addSurvey", async (req, res) => {
   try {
-    const valueToCompare = req.body.valueToCompare; // The value you want to compare
+    const valueToCompare = req.body.platform; // The value you want to compare
 
     const surveyEntry = {
       date: currentDate,
@@ -259,20 +259,20 @@ app.post("/addSurvey", async (req, res) => {
 
     await knex.transaction(async (trx) => {
       const result = await trx
-        .select('column_to_check', 'column_to_return')
-        .from('table1')
-        .where('column_to_check', valueToCompare)
+        .select('platform', 'num_plat')
+        .from('plat_info')
+        .where('platform', valueToCompare)
         .first(); // Assuming you expect only one row as a result
 
       let valueToInsert = null;
 
       if (result) {
-        valueToInsert = result.column_to_return;
+        valueToInsert = result.num_plat;
       } else {
         // If no match found in table1, fetch default value from table2
         const defaultResult = await trx
-          .select('default_column_to_return')
-          .from('table2')
+          .select('num_plat')
+          .from('plat_info')
           .first();
 
         valueToInsert = defaultResult.default_column_to_return;
