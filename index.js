@@ -250,48 +250,35 @@ app.post("/createAccount", async (req, res)=> {
 });
 
 
-app.get("/editAccount/:username", (req, res) => {
-  knex.select("username", "password").from("users").where("username", req.params.username).then(user => {
-    res.render("editAccount", { user: user });
-  }).catch(err => {
-    console.log(err);
-    res.status(500).json({ err });
-  });
-});
-
-app.post("/editAccount", (req, res) => {
-  knex("users").where("username", req.body.username).update({
-    username: req.body.newUsername,  // Fix: Use req.body.newUsername for updating the username
-    password: req.body.newPassword,  // Fix: Use req.body.newPassword for updating the password
-  }).then(user => {
-    res.redirect("/editAccount/" + req.body.newUsername);  // Redirect to the edited user's account page
-  }).catch(err => {
-    console.log(err);
-    res.status(500).json({ err });
-  });
-});
 
 
 app.get("/editAccount/:username", (req, res) => {
   knex.from("users").select("username", "password").where("username", req.params.username).then(user => {
-    res.render("editAccount", { user: user });
+    res.render("pages/editAccount", { user: user });
   }).catch(err => {
     console.log(err);
     res.status(500).json({ err });
   });
 });
 
-app.post("/editAccount", (req, res) => {
-  knex.from("users").where("username", req.body.username).update({
-    username: req.body.newUsername,  // Fix: Use req.body.newUsername for updating the username
-    password: req.body.newPassword,  // Fix: Use req.body.newPassword for updating the password
-  }).then(user => {
-    res.render("/editAccount/" + req.body.newUsername);  // Redirect to the edited user's account page
-  }).catch(err => {
-    console.log(err);
-    res.status(500).json({ err });
-  });
+app.post("/editAccount", async (req, res) => {
+  try {
+    const currentUsername = req.body.username;
+    const newUsername = req.body.newUsername;
+
+    // Update the username in the database
+    await knex.from("users").where("username", currentUsername).update({
+      username: newUsername,
+    });
+
+    // Redirect back to the createAccount page after the update
+    res.redirect("/createAccount?success=true");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Invalid Username. (Username already taken)");
+  }
 });
+
 
 app.post("/modifyAccount", (req, res)=> {
   // TODO: edit account here
