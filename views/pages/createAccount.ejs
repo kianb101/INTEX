@@ -13,7 +13,6 @@
                     <label for="username">Enter new username:</label>
                     <input type="username" class="form-control" id="username" placeholder="username">
                 </div>
-                <!-- TODO: if username exists in db, including super user, don't allow person to make account -->
                 <div class="form-group">
                     <label for="password">Enter new password:</label>
                     <input type="password" class="form-control" id="password" placeholder="********">
@@ -35,14 +34,43 @@
         </div>
 
         <h1 class="title">Modify Accounts</h1>
-        <!-- TODO: make this section to modify an account -->
+        <!-- TODO: make this section to display and give the option to modify an account -->
         <div class="container">
-            <form class="login" action="/modifyAccount" method="post">
-                <!-- return account  -->
-        </form>
+            <table class="table table-bordered">
+                <thead style="background-color: #419F42; color: white;">
+                    <tr>
+                        <th style="text-align: center;">Username</th>
+                        <!-- TODO: decide whether to indluce password -->
+                        <!-- <th style="text-align: center;">Password</th> -->
+                        <th style="text-align: center;">Role</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for (let iCount = 0; iCount < user.length; iCount++) { %>
+                       <tr>
+                        <td style="text-align: center;"><%= user[iCount].username %></td>
+                        <!-- <td style="text-align: center;"><%= user[iCount].password %></td> -->
+                        <td style="text-align: center;"><%= user[iCount].status %></td>
+                        <td style="text-align: center;">
+                            <!-- TODO: create page to edit account?? How do i do this -->
+                            <form action="/modifyAccount/<%= user[iCount].username %>" method="GET">
+                                <button class="btn btn-secondary" style="background-color: #A9A9A9; border-color: #A9A9A9;" type="submit">Edit</button>
+                            </form>
+                        </td>
+                        <td style="text-align: center;">
+                            <!-- TODO: have it bring them to a confirmation page if they are sure they want to delete this user -->
+                            <form action="/deleteAccount/<%= user[iCount].username %>" method="POST">
+                            <button class="btn btn-secondary" id="login-btn" type="submit">Delete</button>
+                            </form>
+                        </td>
+                       </tr>
+                    <% } %>
+                </tbody>
+            </table>
         </div>
     </div>
 </body>
-
 
 <%- include('../partials/footer') %>

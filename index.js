@@ -38,16 +38,23 @@ app.get('/survey', (req, res) => {
 })
 
 app.get('/modify', (req, res) => {
-  if (req.session.role == "admin") {
-    res.render('pages/createAccount');
-  }
-  else if (req.session.role == "cityworker") {
-    res.render('pages/modifyAccount');
-  }
-  else {
-    res.render('pages/index');
-  };
-})
+  // knex.select().from("USERS").then(user => {
+    let user = [
+      { id: 1, username: 'superuser', status: 'admin' },
+      { id: 2, username: 'cass', status: 'cityworker' }
+    ]
+    
+    if (req.session.role == "admin") {
+      res.render('pages/createAccount', { user: user });
+    }
+    else if (req.session.role == "cityworker") {
+      res.render('pages/modifyAccount', { user: user });
+    }
+    else {
+      res.render('pages/index');
+    };
+  // });
+});
 
 app.get('/dashboard', (req, res) => {
   res.render('pages/dashboard');
@@ -70,32 +77,32 @@ app.get('/validateUser', async (req, res) => {
   // NOTE: this is setting default values until we can update them with correct ones
 
   // TO TEST:
-  // req.session.loggedin = true;
-  // req.session.username = "superuser";
-  // req.session.role = "admin";
+  req.session.loggedin = true;
+  req.session.username = "superuser";
+  req.session.role = "admin";
 
-  // console.log(req.session.loggedin);
-  // console.log(req.session.username);
-  // console.log(req.session.role);
+  console.log(req.session.loggedin);
+  console.log(req.session.username);
+  console.log(req.session.role);
 
-  // res.send('Session variables set for testing.');
-  
-  // to actually implement it:
-  const usernameToCheck = req.query.username;
-  try {
-    const user = await db('USERS').where({ username: usernameToCheck }).first();
+  res.send('Session variables set for testing.');
 
-    if (user) {
-      req.session.loggedin = true;
-      req.session.username = user.username;
-      req.session.role = user.status;
-    } else {
-      res.render('page/userNotFound');
-    }
-  } catch (error) {
-    console.error('Error validating user:', error);
-    res.status(500).send('Internal Server Error');
-  };
+  // IMPLEMENTATION:
+  // const usernameToCheck = req.query.username;
+  // try {
+  //   const user = await db('USERS').where({ username: usernameToCheck }).first();
+
+  //   if (user) {
+  //     req.session.loggedin = true;
+  //     req.session.username = user.username;
+  //     req.session.role = user.status;
+  //   } else {
+  //     res.render('page/userNotFound');
+  //   }
+  // } catch (error) {
+  //   console.error('Error validating user:', error);
+  //   res.status(500).send('Internal Server Error');
+  // };
 
   // then validate password
 });
@@ -131,7 +138,8 @@ app.post("/addSurvey", (req, res)=> {
 });
 
 app.post("/createAccount", (req, res)=> {
-  // add knex framework to connect with db here
+  // TODO: first check if username exists
+  // If already exists, render page that has error that username already exists, with link back to create page
   knex("USERS").insert({
     username: req.body.username,
     password: req.body.password,
@@ -141,9 +149,17 @@ app.post("/createAccount", (req, res)=> {
  });
 });
 
-app.post("/modifyAccount/:username", (req, res)=> {
-  // add knex framework to connect with db here
+app.get("/modifyAccount/:username", (req, res)=> {
+  // TODO: add knex framework to connect with db here
 });
+
+app.post("/modifyAccount", (req, res)=> {
+  // TODO: edit account here
+})
+
+app.post("/deleteAccount", (req, res)=> {
+  // TODO: connect db here to delete username/password
+})
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
