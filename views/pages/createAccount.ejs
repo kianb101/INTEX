@@ -30,13 +30,13 @@
                     <label for="worker">City Worker</label>
                 </div>
                 <button type="submit" class="btn btn-primary" id="survey-btn">Create User</button>
-                <% if (error) { %>
-                    <p style="color: red">This username is already taken. Please try again.</p>
-                <% } %>
-                <% else if (success) { %>
-                    <p style="color: green">User created!</p>
-                <% } %>
         </form>
+        <% if (error) { %>
+            <p style="color: red">This username is already taken. Please try again.</p>
+        <% } %>
+        <% else if (success) { %>
+            <p style="color: green">User created!</p>
+        <% } %>
         </div>
 
         <h1 class="title">Modify Accounts</h1>

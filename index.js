@@ -1,6 +1,7 @@
 const express = require('express');
 let path = require("path");
 const session = require('express-session');
+const bodyParser = require('body-parser');
 
 const knex = require("knex") ({
   // pass parameters to it
@@ -20,8 +21,8 @@ const port =  process.env.PORT || 3000;
 
 app.set('view engine', 'ejs');
 
-app.use(express.json());
-express.urlencoded({ extended: true });
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -174,17 +175,23 @@ app.post('/validateUser', async (req, res) => {
   // res.send('Session variables set for testing.');
 
   // IMPLEMENTATION:
-  const usernameToCheck = req.body.username;
-  const passwordToCheck = req.body.password;
+  console.log("Request body", req.body);
+  // TODO: request body is being returned emtpy
+  const usernameToCheck = req.body.username ? req.body.username : '';
+  const passwordToCheck = req.body.password ? req.body.password : '';
   try {
-    const user = await knex('users').where({ '"username"': usernameToCheck, '"password"': passwordToCheck });
+    if (usernameToCheck && passwordToCheck) {
+      const user = await knex('users').where({ username: usernameToCheck, password: passwordToCheck }).first();
+      console.log(user);
 
-    if (user.length > 0) {
-      req.session.loggedin = true;
-      req.session.username = user.username;
-      req.session.role = user.status;
-    } else {
-      res.render('pages/login', { error: true });
+      if (user) {
+        req.session.loggedin = true;
+        req.session.username = user.username;
+        req.session.role = user.status;
+        res.redirect('/dashboard');
+      } else {
+        res.render('pages/login', { error: true });
+      }
     }
   } catch (error) {
     console.error('Error validating user:', error);
@@ -195,114 +202,42 @@ app.post('/validateUser', async (req, res) => {
   // res.render('pages/login', { error: true });
 });
 
-// Saving Cassidy's work below:
-// app.post("/addSurvey", (req, res)=> {
-//   knex("survey_info").insert({
-//     date: currentdate(),
-//     time: currenttime(),
-//     location: "Provo",
-//     age: req.body.age,
-//     gender: req.body.gender,
-//     rel_status: req.body.relationship,
-//     occ_status: req.body.work,
-//     sm_user: req.body.mediaUse,
-//     avg_time: req.body.time,
-//     wop_freq: req.body.woPurpose,
-//     distract_freq: req.body.distracted,
-//     restless_freq: req.body.restless,
-//     const_distract: req.body.naturalDistraction,
-//     worried_freq: req.body.worries,
-//     concen_diff: req.body.concentration,
-//     comp_freq: req.body.comparison,
-//     comp_feel: req.body.comparisonsGeneral,
-//     val_freq: req.body.validation,
-//     dep_freq: req.body.depressed,
-//     int_fluc: req.body.dailyActivity,
-//     slp_issues: req.body.sleep,
-//  }).then(entry => {
-//     res.redirect("/");
-//  });
-//   //  TODO: insert org affiliations and social media platforms into appropriate tables- how should i do that?
-
-// });
-
-const currentDate = new Date().toISOString().split('T')[0]; // Get current date
-const currentTime = new Date().toLocaleTimeString(); // Get current time
-
-app.post("/addSurvey", async (req, res) => {
-  try {
-    const valueToCompare = req.body.platform; // The value you want to compare
-
-    const surveyEntry = {
-      date: currentDate,
-      time: currentTime,
-      location: "Provo",
-      age: req.body.age,
-      gender: req.body.gender,
-      rel_status: req.body.relationship,
-      occ_status: req.body.work,
-      sm_user: req.body.mediaUse,
-      avg_time: req.body.time,
-      wop_freq: req.body.woPurpose,
-      distract_freq: req.body.distracted,
-      restless_freq: req.body.restless,
-      const_distract: req.body.naturalDistraction,
-      worried_freq: req.body.worries,
-      concen_diff: req.body.concentration,
-      comp_freq: req.body.comparison,
-      comp_feel: req.body.comparisonsGeneral,
-      val_freq: req.body.validation,
-      dep_freq: req.body.depressed,
-      int_fluc: req.body.dailyActivity,
-      slp_issues: req.body.sleep,
-    };
-    console.log(surveyEntry)
-
-    await knex.transaction(async (trx) => {
-      const result = await trx
-        .select('platform', 'num_plat')
-        .from('plat_info')
-        .where('platform', valueToCompare)
-        .first();
-
-      console.log(result);
-      let valueToInsert = null;
-
-      if (result) {
-        valueToInsert = result.num_plat;
-      } else {
-        // If no match found, fetch default value from "plat_info" table
-        const defaultResult = await trx
-          .select('num_plat')
-          .from('plat_info')
-          .first();
-
-        valueToInsert = defaultResult.num_plat;
-      }
-
-      console.log(valueToInsert);
-      
-      await trx('survey_info').insert({
-        ...surveyEntry,
-        num_plat: valueToInsert,
-        // Other columns to insert
-      });
-    });
-
+app.post("/addSurvey", (req, res)=> {
+  knex("survey_info").insert({
+    date: currentdate(),
+    time: currenttime(),
+    location: "Provo",
+    age: req.body.age,
+    gender: req.body.gender,
+    rel_status: req.body.relationship,
+    occ_status: req.body.work,
+    sm_user: req.body.mediaUse,
+    avg_time: req.body.time,
+    wop_freq: req.body.woPurpose,
+    distract_freq: req.body.distracted,
+    restless_freq: req.body.restless,
+    const_distract: req.body.naturalDistraction,
+    worried_freq: req.body.worries,
+    concen_diff: req.body.concentration,
+    comp_freq: req.body.comparison,
+    comp_feel: req.body.comparisonsGeneral,
+    val_freq: req.body.validation,
+    dep_freq: req.body.depressed,
+    int_fluc: req.body.dailyActivity,
+    slp_issues: req.body.sleep,
+ }).then(entry => {
     res.redirect("/");
-  } catch (error) {
-    console.error('Error inserting data:', error);
-    res.status(500).send('Error inserting data');
-  }
-});
+ });
+  //  TODO: insert org affiliations and social media platforms into appropriate tables- how should i do that?
 
+});
 
 app.post("/createAccount", async (req, res)=> {
   // TODO: first check if username exists
   // If already exists, render page that has error that username already exists, with link back to create page
   const usernameToCheck = req.query.username;
-  const user = await knex('users').where({ username: usernameToCheck });
-  if (user.length > 0) {
+  const user = await knex('users').select().where({ username: usernameToCheck }).first();
+  if (user) {
     res.render("pages/createAccount", { user: req.session.users, error: true, success: false })
   }
   else {
