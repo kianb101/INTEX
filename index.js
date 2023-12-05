@@ -275,12 +275,12 @@ app.post("/addSurvey", async (req, res) => {
           .from('plat_info')
           .first();
 
-        valueToInsert = defaultResult.default_column_to_return;
+        valueToInsert = defaultResult.num_plat;
       }
 
       await trx('survey_info').insert({
         ...surveyEntry,
-        column_to_insert: valueToInsert, // Replace with your column name
+        num_plat: valueToInsert, // Replace with your column name
         // Other columns to insert
       });
     });
