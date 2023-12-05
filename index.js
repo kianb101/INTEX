@@ -242,7 +242,7 @@ app.post("/createAccount", async (req, res)=> {
   let users = await knex.from("users").select('username', 'password', 'status');
 
   if (user) {
-    res.render('pages/createAccount', { user: users, error: false, success: false });
+    res.render('pages/createAccount', { user: users, error: true, success: false });
   }
   else {
     knex.from("users").insert({
