@@ -294,8 +294,17 @@ app.post("/addSurvey", async (req, res) => {
     
         await knex.transaction(async (trx) => {
           // Insert surveyEntry into survey_info table
-          const [surveyId] = await trx('survey_info').insert(surveyEntry).returning('survey_id');
-    
+          const [surveyIDpg] = await trx('survey_info').insert(surveyEntry).returning('survey_id');
+          const entries =  Object.entries(surveyIDpg);
+          let surveynum = 0
+
+          entries.forEach(([key, value]) => {
+            console.log(`${key}: ${value}`);
+            console.log(value);
+            surveynum = value;
+          });
+
+          let surveyId = surveynum
           // Loop through each selected organization and insert into ind_org table
           for (const org of organizationValues) {
             // Find num_org based on the type_org from org_info table
