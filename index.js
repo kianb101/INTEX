@@ -37,23 +37,25 @@ app.get('/survey', (req, res) => {
     res.render('pages/survey');
 })
 
-app.get('/modify', (req, res) => {
+app.get('/manage', (req, res) => {
     // FOR TESTING:
-    // let users = [
-    //   { id: 1, username: 'superuser', status: 'admin' },
-    //   { id: 2, username: 'person', status: 'cityworker' }
-    // ]
+    let users = [
+      { id: 1, username: 'superuser', status: 'admin' },
+      { id: 2, username: 'person', status: 'cityworker' }
+    ]
 
-    // let user = [
-    // { id: 2, username: 'person', status: 'cityworker' }
-    // ]
+    let user = [
+    { id: 2, username: 'person', status: 'cityworker' }
+    ]
     
     if (req.session.role == "admin") {
-      let users = knex.select().from("users");
-      res.render('pages/createAccount', { user: users, error: false });
+      // let users = knex.select().from("users");
+      req.session.users = users;
+      res.render('pages/createAccount', { user: users, error: false, success: false });
     }
     else if (req.session.role == "cityworker") {
-      let user = knex.select().from("users").where({ username: req.session.username });
+      // let user = knex.select().from("users").where({ username: req.session.username });
+      req.session.user = user;
       res.render('pages/modifyAccount', { user: user });
     }
     else {
@@ -158,33 +160,33 @@ app.get('/login', (req, res) => {
 // ------- DATABASE CALLS --------
 app.get('/validateUser', async (req, res) => {
   // TO TEST:
-  // req.session.loggedin = true;
-  // req.session.username = "person";
-  // req.session.role = "cityworker";
+  req.session.loggedin = true;
+  req.session.username = "person";
+  req.session.role = "admin";
 
-  // console.log(req.session.loggedin);
-  // console.log(req.session.username);
-  // console.log(req.session.role);
+  console.log(req.session.loggedin);
+  console.log(req.session.username);
+  console.log(req.session.role);
 
-  // res.send('Session variables set for testing.');
+  res.send('Session variables set for testing.');
 
   // // IMPLEMENTATION:
-  const usernameToCheck = req.query.username;
-  const passwordToCheck = req.query.password;
-  try {
-    const user = await db('users').where({ username: usernameToCheck, password: passwordToCheck }).first();
+  // const usernameToCheck = req.query.username;
+  // const passwordToCheck = req.query.password;
+  // try {
+  //   const user = await db('users').where({ username: usernameToCheck, password: passwordToCheck }).first();
 
-    if (user) {
-      req.session.loggedin = true;
-      req.session.username = user.username;
-      req.session.role = user.status;
-    } else {
-      res.render('pages/login', { error: true });
-    }
-  } catch (error) {
-    console.error('Error validating user:', error);
-    res.status(500).send('Internal Server Error');
-  };
+  //   if (user) {
+  //     req.session.loggedin = true;
+  //     req.session.username = user.username;
+  //     req.session.role = user.status;
+  //   } else {
+  //     res.render('pages/login', { error: true });
+  //   }
+  // } catch (error) {
+  //   console.error('Error validating user:', error);
+  //   res.status(500).send('Internal Server Error');
+  // };
 
   // TO TEST
   // res.render('pages/login', { error: true });
@@ -225,17 +227,19 @@ app.post("/createAccount", async (req, res)=> {
   const usernameToCheck = req.query.username;
   const user = await db('users').where({ username: usernameToCheck }).first();
   if (user) {
-    res.render("/createAccount", { error: true, success: false })
+    res.render("pages/createAccount", { user: req.session.users, error: true, success: false })
   }
-
-  // if not, create user
-  knex("users").insert({
-    username: req.body.username,
-    password: req.body.password,
-    status: req.body.role
- }).then(entry => {
-    res.redirect("/createAccount", { error: false, success: true });
- });
+  else {
+    knex("users").insert({
+      username: req.body.username,
+      password: req.body.password,
+      status: req.body.role
+    }).then(entry => {
+      res.redirect("pages/createAccount", { user: req.session.users, error: false, success: true });
+    }).catch(error => {
+      console.error(error);
+    });
+  };
 });
 
 app.get("/modifyAccount/:username", (req, res)=> {

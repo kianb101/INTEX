@@ -31,10 +31,10 @@
                 </div>
                 <button type="submit" class="btn btn-primary" id="survey-btn">Create User</button>
                 <% if (error) { %>
-                    <p style="margin-top: 1em; color: red">This username is already taken. Please choose another</p>
+                    <p style="color: red">This username is already taken. Please try again.</p>
                 <% } %>
                 <% if (success) { %>
-                    <p style="margin-top: 1em; color: green">User created!</p>
+                    <p style="color: green">User created!</p>
                 <% } %>
         </form>
         </div>
