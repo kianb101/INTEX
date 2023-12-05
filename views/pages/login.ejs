@@ -19,7 +19,7 @@
         <% if (error) { %>
             <p style="margin-top: 1em; color: red">Invalid credentials. Please try again or contact administrator.</p>
         <% } %>
-        <% else if (success) { %>
+        <% if (success) { %>
             <p style="margin-top: 1em; color: green">You are already logged in. Feel free to explore other pages.</p>
         <% } %>
     </div>
