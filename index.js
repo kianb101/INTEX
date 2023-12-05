@@ -193,7 +193,6 @@ app.post('/validateUser', async (req, res) => {
       console.log(user);
 
       if (user) {
-        user.toObject();
         req.session.loggedin = true;
         req.session.username = user.username;
         req.session.role = user.status;
