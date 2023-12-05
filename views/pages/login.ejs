@@ -2,11 +2,10 @@
 <%- include('../partials/header') %>
 
 <body>
-    <h1 class="title">Login</h1>
-
     <!-- Login portal -->
-    <div class="container" id="login-section">
-        <form class="login" action="/validateUser" method="post">
+    <div class="container account">
+        <h1 class="title">Login</h1>
+        <form class="login" action="/validateUser" method="get">
             <div class="form-group">
                 <label for="username">Enter username:</label>
                 <input type="text" class="form-control" id="username" placeholder="username">

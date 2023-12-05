@@ -38,8 +38,6 @@ app.get('/survey', (req, res) => {
 })
 
 app.get('/modify', (req, res) => {
-  console.log("User role:", req.session.role)
-  // if user role = admin, show this view
   if (req.session.role == "admin") {
     res.render('pages/createAccount');
   }
@@ -66,20 +64,41 @@ app.get('/login', (req, res) => {
 })
 
 // interacting with DB
-app.post('/validateUser', (req, res) => {
+app.get('/validateUser', async (req, res) => {
   // add knex framework to connect with db here
   // if user exists, load session vars with loggedIn = True, store username, and store userRole
   // NOTE: this is setting default values until we can update them with correct ones
-  req.session.loggedin = true;
-  req.session.username = "superuser";
-  req.session.role = "cityworker";
 
-  console.log(req.session.loggedin);
-  console.log(req.session.username);
-  console.log(req.session.role);
+  // TO TEST:
+  // req.session.loggedin = true;
+  // req.session.username = "superuser";
+  // req.session.role = "admin";
 
-  res.send('Session variables set for testing.');
-})
+  // console.log(req.session.loggedin);
+  // console.log(req.session.username);
+  // console.log(req.session.role);
+
+  // res.send('Session variables set for testing.');
+  
+  // to actually implement it:
+  const usernameToCheck = req.query.username;
+  try {
+    const user = await db('USERS').where({ username: usernameToCheck }).first();
+
+    if (user) {
+      req.session.loggedin = true;
+      req.session.username = user.username;
+      req.session.role = user.status;
+    } else {
+      res.render('page/userNotFound');
+    }
+  } catch (error) {
+    console.error('Error validating user:', error);
+    res.status(500).send('Internal Server Error');
+  };
+
+  // then validate password
+});
 
 app.post("/addSurvey", (req, res)=> {
   knex("SURVEY_INFO").insert({

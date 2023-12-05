@@ -4,41 +4,43 @@
 <!-- ONLY admin can view this page -->
 
 <body>
-    <h1 class="title">Create Admin Account</h1>
+    <div class="account">
+        <h1 class="title">Create Admin Account</h1>
 
-    <div class="container">
-        <form class="login" action="/createAccount" method="post">
-            <div class="form-group">
-                <label for="username">Enter new username:</label>
-                <input type="username" class="form-control" id="username" placeholder="username">
-            </div>
-            <!-- TODO: if username exists in db, including super user, don't allow person to make account -->
-            <div class="form-group">
-                <label for="password">Enter new password:</label>
-                <input type="password" class="form-control" id="password" placeholder="********">
-            </div>
-            <!-- TODO: add simple function here to check if passwords match, if they don't hightlight in red and show message "passwords don't match" -->
-            <div class="form-group">
-                <label for="confirm-password">Confirm new password:</label>
-                <input type="password" class="form-control" id="confirm-password" placeholder="********">
-            </div>
-            <button type="submit" class="btn btn-primary" id="login-btn">Create User</button>
-            <div class="form-group">
-                <label>Select role:</label><br/>
-                <input type="radio" id="admin" name="role" value="admin" required>
-                <label for="admin">Admin</label>
-                <input type="radio" id="worker" name="role" value="cityworker" required>
-                <label for="worker">City Worker</label>
-              </div>
-      </form>
-    </div>
+        <div class="container">
+            <form class="login" action="/createAccount" method="post">
+                <div class="form-group">
+                    <label for="username">Enter new username:</label>
+                    <input type="username" class="form-control" id="username" placeholder="username">
+                </div>
+                <!-- TODO: if username exists in db, including super user, don't allow person to make account -->
+                <div class="form-group">
+                    <label for="password">Enter new password:</label>
+                    <input type="password" class="form-control" id="password" placeholder="********">
+                </div>
+                <!-- TODO: add simple function here to check if passwords match, if they don't hightlight in red and show message "passwords don't match" -->
+                <div class="form-group">
+                    <label for="confirm-password">Confirm new password:</label>
+                    <input type="password" class="form-control" id="confirm-password" placeholder="********">
+                </div>
+                <div class="form-group">
+                    <label>Select role:</label>
+                    <input type="radio" id="admin" name="role" value="admin" required>
+                    <label for="admin">Admin</label>
+                    <input type="radio" id="worker" name="role" value="cityworker" required>
+                    <label for="worker">City Worker</label>
+                </div>
+                <button type="submit" class="btn btn-primary" id="survey-btn">Create User</button>
+        </form>
+        </div>
 
-    <h1 class="title">Modify Accounts</h1>
-    <!-- TODO: make this section to modify an account -->
-    <div class="container">
-        <form class="login" action="/modifyAccount" method="post">
-            <!-- return account  -->
-      </form>
+        <h1 class="title">Modify Accounts</h1>
+        <!-- TODO: make this section to modify an account -->
+        <div class="container">
+            <form class="login" action="/modifyAccount" method="post">
+                <!-- return account  -->
+        </form>
+        </div>
     </div>
 </body>
 
