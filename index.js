@@ -2,6 +2,7 @@ const express = require('express');
 let path = require("path");
 const session = require('express-session');
 const bodyParser = require('body-parser');
+const MemoryStore = require('memorystore')(session);
 
 const knex = require("knex") ({
   // pass parameters to it
@@ -28,8 +29,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({
 	secret: 'secret',
-	resave: true,
-	saveUninitialized: true
+	resave: false,
+	saveUninitialized: true,
+  store: new MemoryStore()
 }));
 
 // ------- ROUTES --------
@@ -41,40 +43,15 @@ app.get('/survey', (req, res) => {
     res.render('pages/survey');
 })
 
-app.get('/manage', (req, res) => {
-    // FOR TESTING:
-    // let users = [
-    //   { id: 1, username: 'superuser', status: 'admin' },
-    //   { id: 2, username: 'person', status: 'cityworker' }
-    // ]
-
-    // let user = [
-    // { id: 2, username: 'person', status: 'cityworker' }
-    // ]
-    
-    if (req.session.role == "admin") {
-      let users = knex.select().from("users");
-      req.session.users = users;
-      res.render('pages/createAccount', { user: users, error: false, success: false });
-    }
-    else if (req.session.role == "cityworker") {
-      let user = knex.select().from("users").where({ username: req.session.username });
-      req.session.user = user;
-      res.render('pages/modifyAccount', { user: user });
-    }
-    else {
-      res.render('pages/index');
-    };
-});
-
 app.get('/dashboard', (req, res) => {
   res.render('pages/dashboard');
 })
 
 app.get('/results', (req, res) => {
-  if (req.session.loggedin) {
+  let loggedIn = req.session.loggedin;
+  if (loggedIn) {
     // TODO: come back to this page and figure out what to show...
-    let entries = knex.select().from("survey_info")
+    let entries = knex.from("survey_info")
     // TEST DATA
     // const entries = [
     //   {
@@ -158,7 +135,21 @@ app.get('/results', (req, res) => {
 })
 
 app.get('/login', (req, res) => {
-  res.render('pages/login', { error: false });
+  let loggedIn = req.session.loggedin;
+  if (loggedIn) {
+    res.render('pages/login', { msg: "success" });
+  }
+  else {
+    res.render('pages/login', { msg: "" });
+  }  
+})
+
+app.post('/logout', (req, res) => {
+  delete req.session.username;
+  delete req.session.password;
+  delete req.session.role;
+  delete req.session.loggedin;
+  res.render('pages/login', { msg: "logout" });
 })
 
 // ------- DATABASE CALLS --------
@@ -175,13 +166,11 @@ app.post('/validateUser', async (req, res) => {
   // res.send('Session variables set for testing.');
 
   // IMPLEMENTATION:
-  console.log("Request body", req.body);
-  // TODO: request body is being returned emtpy
   const usernameToCheck = req.body.username ? req.body.username : '';
   const passwordToCheck = req.body.password ? req.body.password : '';
   try {
     if (usernameToCheck && passwordToCheck) {
-      const user = await knex('users').where({ username: usernameToCheck, password: passwordToCheck }).first();
+      const user = await knex.from('users').select('username', 'status').where({ username: usernameToCheck, password: passwordToCheck }).first();
       console.log(user);
 
       if (user) {
@@ -190,7 +179,7 @@ app.post('/validateUser', async (req, res) => {
         req.session.role = user.status;
         res.redirect('/dashboard');
       } else {
-        res.render('pages/login', { error: true });
+        res.render('pages/login', { msg: "error" });
       }
     }
   } catch (error) {
@@ -303,29 +292,62 @@ app.post("/addSurvey", async (req, res) => {
       }
     });
 
-app.post("/createAccount", async (req, res)=> {
-  // TODO: first check if username exists
-  // If already exists, render page that has error that username already exists, with link back to create page
-  const usernameToCheck = req.query.username;
-  const user = await knex('users').select().where({ username: usernameToCheck }).first();
-  if (user) {
-    res.render("pages/createAccount", { user: req.session.users, error: true, success: false })
+app.get("/createAccount", async (req, res) => {
+  let role = req.session.role;
+
+  if (role == "admin") {
+    let users = await knex.from("users").select('username', 'password', 'status');
+    res.render('pages/createAccount', { user: users, error: false, success: false });
+  }
+  else if (role == "cityworker") {
+    let user = await knex.from("users").select('username', 'password', 'status').where({ username: req.session.username });
+    res.render('pages/modifyAccount', { user: user });
   }
   else {
-    knex("users").insert({
+    res.redirect('/');
+  };
+});
+
+app.post("/createAccount", async (req, res)=> {
+  const usernameToCheck = req.body.username ? req.body.username : '';
+  let user = await knex.from('users').where({ username: usernameToCheck }).first();
+  let users = await knex.from("users").select('username', 'password', 'status');
+
+  if (user) {
+    res.render('pages/createAccount', { user: users, error: true, success: false });
+  }
+  else {
+    knex.from("users").insert({
       username: req.body.username,
       password: req.body.password,
       status: req.body.role
     }).then(entry => {
-      res.redirect("pages/createAccount", { user: req.session.users, error: false, success: true });
+      res.render("pages/createAccount", { user: users, error: false, success: true });
     }).catch(error => {
       console.error(error);
     });
   };
 });
 
-app.get("/modifyAccount/:username", (req, res)=> {
-  // TODO: add knex framework to connect with db here
+app.get("/editAccount/:username", (req, res) => {
+  knex.from("users").select("username", "password").where("username", req.params.username).then(user => {
+    res.render("editAccount", { user: user });
+  }).catch(err => {
+    console.log(err);
+    res.status(500).json({ err });
+  });
+});
+
+app.post("/editAccount", (req, res) => {
+  knex.from("users").where("username", req.body.username).update({
+    username: req.body.newUsername,  // Fix: Use req.body.newUsername for updating the username
+    password: req.body.newPassword,  // Fix: Use req.body.newPassword for updating the password
+  }).then(user => {
+    res.render("/editAccount/" + req.body.newUsername);  // Redirect to the edited user's account page
+  }).catch(err => {
+    console.log(err);
+    res.status(500).json({ err });
+  });
 });
 
 app.post("/modifyAccount", (req, res)=> {
