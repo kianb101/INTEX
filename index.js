@@ -66,13 +66,19 @@ app.get('/login', (req, res) => {
 })
 
 // interacting with DB
-app.get('/validateUser', (req, res) => {
+app.post('/validateUser', (req, res) => {
   // add knex framework to connect with db here
   // if user exists, load session vars with loggedIn = True, store username, and store userRole
   // NOTE: this is setting default values until we can update them with correct ones
   req.session.loggedin = true;
   req.session.username = "superuser";
-  req.session.role = "admin";
+  req.session.role = "cityworker";
+
+  console.log(req.session.loggedin);
+  console.log(req.session.username);
+  console.log(req.session.role);
+
+  res.send('Session variables set for testing.');
 })
 
 app.post("/addSurvey", (req, res)=> {
