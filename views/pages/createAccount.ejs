@@ -11,16 +11,16 @@
             <form class="login" action="/createAccount" method="post">
                 <div class="form-group">
                     <label for="username">Enter new username:</label>
-                    <input type="username" class="form-control" id="username" placeholder="username">
+                    <input type="username" class="form-control" id="username" name="username" placeholder="username">
                 </div>
                 <div class="form-group">
                     <label for="password">Enter new password:</label>
-                    <input type="password" class="form-control" id="password" placeholder="********">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="********">
                 </div>
                 <!-- TODO: add simple function here to check if passwords match, if they don't hightlight in red and show message "passwords don't match" -->
                 <div class="form-group">
                     <label for="confirm-password">Confirm new password:</label>
-                    <input type="password" class="form-control" id="confirm-password" placeholder="********">
+                    <input type="password" class="form-control" id="confirm-password" name="new-password" placeholder="********">
                 </div>
                 <div class="form-group">
                     <label>Select role:</label>
