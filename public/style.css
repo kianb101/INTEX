@@ -3,7 +3,7 @@
     position: relative;
     height: 40em; /* Adjust the height as needed */
     background: url('provo_banner.jpg') center/cover no-repeat;
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 5px 10px 10px rgba(0, 0, 0, 0.3);
     color: #fff;
     text-align: center;
     display: flex;
@@ -65,4 +65,24 @@
 
 .account h1 {
     margin-bottom: 1em;
+}
+
+#card-1 {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    margin: 2em;
+    max-width: 100em;
+    padding: 2em;
+}
+
+#card-2 {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    margin: 2em;
+    max-width: 100em;
+    padding: 2em;
 }
