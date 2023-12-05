@@ -202,36 +202,6 @@ app.post('/validateUser', async (req, res) => {
   // res.render('pages/login', { error: true });
 });
 
-// app.post("/addSurvey", (req, res)=> {
-//   knex("survey_info").insert({
-//     date: currentdate(),
-//     time: currenttime(),
-//     location: "Provo",
-//     age: req.body.age,
-//     gender: req.body.gender,
-//     rel_status: req.body.relationship,
-//     occ_status: req.body.work,
-//     sm_user: req.body.mediaUse,
-//     avg_time: req.body.time,
-//     wop_freq: req.body.woPurpose,
-//     distract_freq: req.body.distracted,
-//     restless_freq: req.body.restless,
-//     const_distract: req.body.naturalDistraction,
-//     worried_freq: req.body.worries,
-//     concen_diff: req.body.concentration,
-//     comp_freq: req.body.comparison,
-//     comp_feel: req.body.comparisonsGeneral,
-//     val_freq: req.body.validation,
-//     dep_freq: req.body.depressed,
-//     int_fluc: req.body.dailyActivity,
-//     slp_issues: req.body.sleep,
-//  }).then(entry => {
-//     res.redirect("/");
-//  });
-//   //  TODO: insert org affiliations and social media platforms into appropriate tables- how should i do that?
-
-// });
-
 const currentDate = new Date().toISOString().split('T')[0]; // Get current date
 const currentTime = new Date().toLocaleTimeString(); // Get current time
 
@@ -297,10 +267,9 @@ app.post("/addSurvey", async (req, res) => {
           const [surveyIDpg] = await trx('survey_info').insert(surveyEntry).returning('survey_id');
           const entries =  Object.entries(surveyIDpg);
           let surveynum = 0
-
+          // goes through the json object returned from postgres and isolates the survey_id value, returning it to surveynum
           entries.forEach(([key, value]) => {
             console.log(`${key}: ${value}`);
-            console.log(value);
             surveynum = value;
           });
 
@@ -333,70 +302,6 @@ app.post("/addSurvey", async (req, res) => {
         res.status(500).send('Error adding survey');
       }
     });
-    
-
-console.log(currentDate);
-console.log(currentTime);
-// app.post("/addSurvey", async (req, res) => {
-//   try {
-//     const valueToCompare = req.body.platform; // The value you want to compare
-//     const surveyEntry = {
-//       date: currentDate,
-//       time: currentTime,
-//       location: "Provo",
-//       age: req.body.age,
-//       gender: req.body.gender,
-//       rel_status: req.body.relationship,
-//       occ_status: req.body.work,
-//       sm_user: req.body.mediaUse,
-//       avg_time: req.body.time,
-//       wop_freq: req.body.woPurpose,
-//       distract_freq: req.body.distracted,
-//       restless_freq: req.body.restless,
-//       const_distract: req.body.naturalDistraction,
-//       worried_freq: req.body.worries,
-//       concen_diff: req.body.concentration,
-//       comp_freq: req.body.comparison,
-//       comp_feel: req.body.comparisonsGeneral,
-//       val_freq: req.body.validation,
-//       dep_freq: req.body.depressed,
-//       int_fluc: req.body.dailyActivity,
-//       slp_issues: req.body.sleep,
-//     };
-//     console.log(surveyEntry)
-//     await knex.transaction(async (trx) => {
-//       const result = await trx
-//         .select('platform', 'num_plat')
-//         .from('plat_info')
-//         .where('platform', valueToCompare)
-//         .first();
-//       console.log(result);
-//       let valueToInsert = null;
-//       if (result) {
-//         valueToInsert = result.num_plat;
-//       } else {
-//         // If no match found, fetch default value from "plat_info" table
-//         const defaultResult = await trx
-//           .select('num_plat')
-//           .from('plat_info')
-//           .first();
-//         valueToInsert = defaultResult.num_plat;
-//       }
-//       console.log(valueToInsert);
-      
-//       await trx('survey_info').insert({
-//         ...surveyEntry,
-//         num_plat: valueToInsert,
-//         // Other columns to insert
-//       });
-//     });
-//     res.redirect("/");
-//   } catch (error) {
-//     console.error('Error inserting data:', error);
-//     res.status(500).send('Error inserting data');
-//   }
-// });
-
 
 app.post("/createAccount", async (req, res)=> {
   // TODO: first check if username exists
