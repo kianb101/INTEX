@@ -17,10 +17,9 @@
                     <label for="password">Enter new password:</label>
                     <input type="password" class="form-control" id="password" name="password" placeholder="********">
                 </div>
-                <!-- TODO: add simple function here to check if passwords match, if they don't hightlight in red and show message "passwords don't match" -->
                 <div class="form-group">
                     <label for="confirm-password">Confirm new password:</label>
-                    <input type="password" class="form-control" id="confirm-password" name="new-password" placeholder="********">
+                    <input type="password" class="form-control" id="confirm-password" name="newPassword" placeholder="********">
                 </div>
                 <div class="form-group">
                     <label>Select role:</label>
@@ -31,10 +30,13 @@
                 </div>
                 <button type="submit" class="btn btn-primary" id="survey-btn">Create User</button>
         </form>
-        <% if (error) { %>
+        <% if (msg == "error") { %>
             <p style="color: red">This username is already taken. Please try again.</p>
-        <% } %>
-        <% if (success) { %>
+        <% }
+        <% if (msg == "password") { %>
+            <p style="color: red">Passwords do not match. Please try again.</p>
+        <% }
+        <% if (msg == "success") { %>
             <p style="color: green">User created!</p>
         <% } %>
         </div>
