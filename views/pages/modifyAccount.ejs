@@ -10,22 +10,19 @@
                 <thead style="background-color: #419F42; color: white;">
                     <tr>
                         <th style="text-align: center;">Username</th>
-                        <!-- TODO: decide whether to indluce password -->
-                        <!-- <th style="text-align: center;">Password</th> -->
+                        <th style="text-align: center;">Password</th>
                         <th style="text-align: center;">Role</th>
                         <th></th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- TODO: only show the user row for the user logged in -->
                     <% for (let iCount = 0; iCount < user.length; iCount++) { %>
                        <tr>
                         <td style="text-align: center;"><%= user[iCount].username %></td>
-                        <!-- <td style="text-align: center;"><%= user[iCount].password %></td> -->
+                        <td style="text-align: center;"><%= user[iCount].password %></td>
                         <td style="text-align: center;"><%= user[iCount].status %></td>
                         <td style="text-align: center;">
-                            <!-- TODO: create page to edit account?? How do i do this -->
                             <form action="/modifyAccount/<%= user[iCount].username %>" method="GET">
                                 <button class="btn btn-secondary" style="background-color: #A9A9A9; border-color: #A9A9A9;" type="submit">Edit</button>
                             </form>
