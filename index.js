@@ -11,7 +11,7 @@ const knex = require("knex") ({
     host: process.env.RDS_HOSTNAME || 'localhost', // name of host, on AWS use the one they give 
     user:  process.env.RDS_USERNAME || 'postgres', // name of user w/ permissions on database 
     password: process.env.RDS_PASSWORD || 'admin',
-    database:  process.env.RDS_DB_NAME || 'ebdb', // name of database on postgres
+    database:  process.env.RDS_DB_NAME || 'INTEXtest', // name of database on postgres
     port:  process.env.RDS_PORT || 5432, // port number for postgres (postgres > properties > connection > port)
     ssl: process.env.DB_SSL_INTEX ? {rejectUnauthorized: false} : false
   }
@@ -329,26 +329,54 @@ app.post("/createAccount", async (req, res)=> {
   };
 });
 
+
+
+
 app.get("/editAccount/:username", (req, res) => {
   knex.from("users").select("username", "password").where("username", req.params.username).then(user => {
-    res.render("editAccount", { user: user });
+    res.render("pages/editAccount", { user: user });
   }).catch(err => {
     console.log(err);
     res.status(500).json({ err });
   });
 });
 
-app.post("/editAccount", (req, res) => {
-  knex.from("users").where("username", req.body.username).update({
-    username: req.body.newUsername,  // Fix: Use req.body.newUsername for updating the username
-    password: req.body.newPassword,  // Fix: Use req.body.newPassword for updating the password
-  }).then(user => {
-    res.render("/editAccount/" + req.body.newUsername);  // Redirect to the edited user's account page
-  }).catch(err => {
-    console.log(err);
-    res.status(500).json({ err });
-  });
+app.post("/editAccountUsername", async (req, res) => {
+  try {
+    const currentUsername = req.body.username;
+    const newUsername = req.body.newUsername;
+
+    // Update the username in the database
+    await knex.from("users").where("username", currentUsername).update({
+      username: newUsername,
+    });
+
+    // Redirect back to the createAccount page after the update
+    res.redirect("/createAccount?success=true");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Invalid Username. (Username already taken)");
+  }
 });
+
+app.post("/editAccountPassword", async (req, res) => {
+  try {
+    const currentUsername = req.body.username;
+    const newPassword = req.body.newPassword;
+
+    // Update the username in the database
+    await knex.from("users").where("username", currentUsername).update({
+      password: newPassword,
+    });
+
+    // Redirect back to the createAccount page after the update
+    res.redirect("/createAccount?success=true");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Invalid Username. (Username already taken)");
+  }
+});
+
 
 app.post("/modifyAccount", (req, res)=> {
   // TODO: edit account here
