@@ -39,22 +39,22 @@ app.get('/survey', (req, res) => {
 
 app.get('/manage', (req, res) => {
     // FOR TESTING:
-    let users = [
-      { id: 1, username: 'superuser', status: 'admin' },
-      { id: 2, username: 'person', status: 'cityworker' }
-    ]
+    // let users = [
+    //   { id: 1, username: 'superuser', status: 'admin' },
+    //   { id: 2, username: 'person', status: 'cityworker' }
+    // ]
 
-    let user = [
-    { id: 2, username: 'person', status: 'cityworker' }
-    ]
+    // let user = [
+    // { id: 2, username: 'person', status: 'cityworker' }
+    // ]
     
     if (req.session.role == "admin") {
-      // let users = knex.select().from("users");
+      let users = knex.select().from("users");
       req.session.users = users;
       res.render('pages/createAccount', { user: users, error: false, success: false });
     }
     else if (req.session.role == "cityworker") {
-      // let user = knex.select().from("users").where({ username: req.session.username });
+      let user = knex.select().from("users").where({ username: req.session.username });
       req.session.user = user;
       res.render('pages/modifyAccount', { user: user });
     }
@@ -159,34 +159,34 @@ app.get('/login', (req, res) => {
 
 // ------- DATABASE CALLS --------
 app.get('/validateUser', async (req, res) => {
-  // TO TEST:
-  req.session.loggedin = true;
-  req.session.username = "person";
-  req.session.role = "admin";
+  // // TO TEST:
+  // req.session.loggedin = true;
+  // req.session.username = "person";
+  // req.session.role = "admin";
 
-  console.log(req.session.loggedin);
-  console.log(req.session.username);
-  console.log(req.session.role);
+  // console.log(req.session.loggedin);
+  // console.log(req.session.username);
+  // console.log(req.session.role);
 
-  res.send('Session variables set for testing.');
+  // res.send('Session variables set for testing.');
 
-  // // IMPLEMENTATION:
-  // const usernameToCheck = req.query.username;
-  // const passwordToCheck = req.query.password;
-  // try {
-  //   const user = await db('users').where({ username: usernameToCheck, password: passwordToCheck }).first();
+  // IMPLEMENTATION:
+  const usernameToCheck = req.query.username;
+  const passwordToCheck = req.query.password;
+  try {
+    const user = await db('users').where({ username: usernameToCheck, password: passwordToCheck }).first();
 
-  //   if (user) {
-  //     req.session.loggedin = true;
-  //     req.session.username = user.username;
-  //     req.session.role = user.status;
-  //   } else {
-  //     res.render('pages/login', { error: true });
-  //   }
-  // } catch (error) {
-  //   console.error('Error validating user:', error);
-  //   res.status(500).send('Internal Server Error');
-  // };
+    if (user) {
+      req.session.loggedin = true;
+      req.session.username = user.username;
+      req.session.role = user.status;
+    } else {
+      res.render('pages/login', { error: true });
+    }
+  } catch (error) {
+    console.error('Error validating user:', error);
+    res.status(500).send('Internal Server Error');
+  };
 
   // TO TEST
   // res.render('pages/login', { error: true });
