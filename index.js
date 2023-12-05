@@ -57,13 +57,11 @@ app.get('/manage', (req, res) => {
 
     if (role == "admin") {
       let users = knex.from("users").select('username', 'password', 'status');
-      req.session.users = users;
-      res.render('pages/createAccount', { user: req.session.users, error: false, success: false });
+      res.render('pages/createAccount', { user: users, error: false, success: false });
     }
     else if (role == "cityworker") {
       let user = knex.from("users").select('username', 'password', 'status').where({ username: req.session.username });
-      req.session.user = user;
-      res.render('pages/modifyAccount', { user: req.session.user });
+      res.render('pages/modifyAccount', { user: user });
     }
     else {
       res.redirect('/');
@@ -211,7 +209,7 @@ app.post('/validateUser', async (req, res) => {
 });
 
 app.post("/addSurvey", (req, res)=> {
-  knex("survey_info").insert({
+  knex.from("survey_info").insert({
     date: currentdate(),
     time: currenttime(),
     location: "Provo",
@@ -244,17 +242,19 @@ app.post("/createAccount", async (req, res)=> {
   // TODO: first check if username exists
   // If already exists, render page that has error that username already exists, with link back to create page
   const usernameToCheck = req.body.username;
-  const user = await knex('users').where({ username: usernameToCheck }).first();
+  let user = await knex.from('users').where({ username: usernameToCheck }).first();
+  let users = await knex.from("users").select('username', 'password', 'status');
+
   if (user) {
-    res.render("pages/createAccount", { user: req.session.users, error: true, success: false })
+    res.render('pages/createAccount', { user: users, error: false, success: false });
   }
   else {
-    knex("users").insert({
+    knex.from("users").insert({
       username: req.body.username,
       password: req.body.password,
       status: req.body.role
     }).then(entry => {
-      res.redirect("pages/createAccount", { user: req.session.users, error: false, success: true });
+      res.redirect("pages/createAccount", { user: users, error: false, success: true });
     }).catch(error => {
       console.error(error);
     });
