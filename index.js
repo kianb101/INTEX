@@ -53,17 +53,17 @@ app.get('/manage', (req, res) => {
     // ]
     
     if (req.session.role == "admin") {
-      let users = knex.select().from("users");
+      let users = knex.from("users");
       req.session.users = users;
       res.render('pages/createAccount', { user: users, error: false, success: false });
     }
     else if (req.session.role == "cityworker") {
-      let user = knex.select().from("users").where({ username: req.session.username });
+      let user = knex.from("users").where({ username: req.session.username });
       req.session.user = user;
       res.render('pages/modifyAccount', { user: user });
     }
     else {
-      res.render('pages/index');
+      res.redirect('/');
     };
 });
 
@@ -180,8 +180,6 @@ app.post('/validateUser', async (req, res) => {
   // res.send('Session variables set for testing.');
 
   // IMPLEMENTATION:
-  console.log("Request body", req.body);
-  // TODO: request body is being returned emtpy
   const usernameToCheck = req.body.username ? req.body.username : '';
   const passwordToCheck = req.body.password ? req.body.password : '';
   try {
@@ -240,8 +238,8 @@ app.post("/addSurvey", (req, res)=> {
 app.post("/createAccount", async (req, res)=> {
   // TODO: first check if username exists
   // If already exists, render page that has error that username already exists, with link back to create page
-  const usernameToCheck = req.query.username;
-  const user = await knex('users').select().where({ username: usernameToCheck }).first();
+  const usernameToCheck = req.body.username;
+  const user = await knex('users').where({ username: usernameToCheck }).first();
   if (user) {
     res.render("pages/createAccount", { user: req.session.users, error: true, success: false })
   }
