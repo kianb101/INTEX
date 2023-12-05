@@ -137,11 +137,19 @@ app.get('/results', (req, res) => {
 app.get('/login', (req, res) => {
   let loggedIn = req.session.loggedin;
   if (loggedIn) {
-    res.render('pages/login', { error: false, success: true });
+    res.render('pages/login', { msg: "success" });
   }
   else {
-    res.render('pages/login', { error: false, success: false });
+    res.render('pages/login', { msg: "" });
   }  
+})
+
+app.post('/logout', (req, res) => {
+  delete req.session.username;
+  delete req.session.password;
+  delete req.session.role;
+  delete req.session.loggedin;
+  res.render('pages/login', { msg: "logout" });
 })
 
 // ------- DATABASE CALLS --------
@@ -171,7 +179,7 @@ app.post('/validateUser', async (req, res) => {
         req.session.role = user.status;
         res.redirect('/dashboard');
       } else {
-        res.render('pages/login', { error: true, success: false });
+        res.render('pages/login', { msg: "error" });
       }
     }
   } catch (error) {
@@ -183,35 +191,107 @@ app.post('/validateUser', async (req, res) => {
   // res.render('pages/login', { error: true });
 });
 
-app.post("/addSurvey", (req, res)=> {
-  knex.from("survey_info").insert({
-    date: currentdate(),
-    time: currenttime(),
-    location: "Provo",
-    age: req.body.age,
-    gender: req.body.gender,
-    rel_status: req.body.relationship,
-    occ_status: req.body.work,
-    sm_user: req.body.mediaUse,
-    avg_time: req.body.time,
-    wop_freq: req.body.woPurpose,
-    distract_freq: req.body.distracted,
-    restless_freq: req.body.restless,
-    const_distract: req.body.naturalDistraction,
-    worried_freq: req.body.worries,
-    concen_diff: req.body.concentration,
-    comp_freq: req.body.comparison,
-    comp_feel: req.body.comparisonsGeneral,
-    val_freq: req.body.validation,
-    dep_freq: req.body.depressed,
-    int_fluc: req.body.dailyActivity,
-    slp_issues: req.body.sleep,
- }).then(entry => {
-    res.redirect("/");
- });
-  //  TODO: insert org affiliations and social media platforms into appropriate tables- how should i do that?
+const currentDate = new Date().toISOString().split('T')[0]; // Get current date
+const currentTime = new Date().toLocaleTimeString(); // Get current time
 
-});
+app.post("/addSurvey", async (req, res) => {
+  try {
+    const surveyEntry = {
+      date: currentDate,
+      time: currentTime,
+      location: "Provo",
+      age: req.body.age,
+      gender: req.body.gender,
+      rel_status: req.body.relationship,
+      occ_status: req.body.work,
+      sm_user: req.body.mediaUse,
+      avg_time: req.body.time,
+      wop_freq: req.body.woPurpose,
+      distract_freq: req.body.distracted,
+      restless_freq: req.body.restless,
+      const_distract: req.body.naturalDistraction,
+      worried_freq: req.body.worries,
+      concen_diff: req.body.concentration,
+      comp_freq: req.body.comparison,
+      comp_feel: req.body.comparisonsGeneral,
+      val_freq: req.body.validation,
+      dep_freq: req.body.depressed,
+      int_fluc: req.body.dailyActivity,
+      slp_issues: req.body.sleep,
+      // Include other surveyEntry fields from your form
+    };
+        const organizationValues = req.body.organization || [];
+        const platformValues = req.body.platform || [];
+        console.log("request: ", req.body)
+        // Array to store organization IDs
+        const orgIds = [];
+    
+        // Loop through the organization array and find the num_org for each value
+        for (const org of organizationValues) {
+          const [{ num_org }] = await knex('org_info')
+            .select('num_org')
+            .where('type_org', org);
+    
+          if (num_org) {
+            orgIds.push(num_org);
+          }
+        }
+    
+        // Array to store platform IDs
+        const platformIds = [];
+    
+        // Loop through the platform array and find the num_plat for each value
+        for (const platform of platformValues) {
+          const [{ num_plat }] = await knex('plat_info')
+            .select('num_plat')
+            .where('platform', platform);
+    
+          if (num_plat) {
+            platformIds.push(num_plat);
+          }
+        }
+    
+        await knex.transaction(async (trx) => {
+          // Insert surveyEntry into survey_info table
+          const [surveyIDpg] = await trx('survey_info').insert(surveyEntry).returning('survey_id');
+          const entries =  Object.entries(surveyIDpg);
+          let surveynum = 0
+          // goes through the json object returned from postgres and isolates the survey_id value, returning it to surveynum
+          entries.forEach(([key, value]) => {
+            console.log(`${key}: ${value}`);
+            surveynum = value;
+          });
+
+          let surveyId = surveynum
+          // Loop through each selected organization and insert into ind_org table
+          for (const org of organizationValues) {
+            // Find num_org based on the type_org from org_info table
+            const [{ num_org }] = await trx('org_info').select('num_org').where('type_org', org);
+    
+            // Insert num_org and survey_id into ind_org table
+            await trx('ind_org').insert({ num_org, survey_id: surveyId });
+          }
+    
+          // Loop through each selected platform and insert into ind_plat table
+          for (const platform of platformValues) {
+            // Find num_plat based on the platform from plat_info table
+            const [{ num_plat }] = await trx('plat_info').select('num_plat').where('platform', platform);
+    
+            // Insert num_plat and survey_id into ind_plat table
+            await trx('ind_plat').insert({ num_plat, survey_id: surveyId });
+          }
+    
+          // Commit the transaction
+          await trx.commit();
+        });
+    
+        res.status(200).send('Survey added successfully!');
+      } catch (error) {
+        console.error('Error adding survey:', error);
+        res.status(500).send('Error adding survey');
+      }
+    });
+
 app.get("/createAccount", async (req, res) => {
   let role = req.session.role;
 
@@ -234,7 +314,7 @@ app.post("/createAccount", async (req, res)=> {
   let users = await knex.from("users").select('username', 'password', 'status');
 
   if (user) {
-    res.render('pages/createAccount', { user: users, error: false, success: false });
+    res.render('pages/createAccount', { user: users, error: true, success: false });
   }
   else {
     knex.from("users").insert({
