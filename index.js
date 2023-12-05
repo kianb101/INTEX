@@ -145,7 +145,10 @@ app.get('/login', (req, res) => {
 })
 
 app.post('/logout', (req, res) => {
-  req.session = {};
+  delete req.session.username;
+  delete req.session.password;
+  delete req.session.role;
+  delete req.session.loggedin;
   res.render('pages/login', { msg: "logout" });
 })
 
