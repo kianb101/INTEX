@@ -1,6 +1,7 @@
 const express = require('express');
 let path = require("path");
 const session = require('express-session');
+const bodyParser = require('body-parser');
 
 const knex = require("knex") ({
   // pass parameters to it
@@ -20,8 +21,8 @@ const port =  process.env.PORT || 3000;
 
 app.set('view engine', 'ejs');
 
-app.use(express.json());
-express.urlencoded({ extended: true });
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -174,17 +175,23 @@ app.post('/validateUser', async (req, res) => {
   // res.send('Session variables set for testing.');
 
   // IMPLEMENTATION:
-  const usernameToCheck = req.body.username;
-  const passwordToCheck = req.body.password;
+  console.log("Request body", req.body);
+  // TODO: request body is being returned emtpy
+  const usernameToCheck = req.body.username ? req.body.username : '';
+  const passwordToCheck = req.body.password ? req.body.password : '';
   try {
-    const user = await knex('users').where({ "username": usernameToCheck, "password": passwordToCheck });
+    if (usernameToCheck && passwordToCheck) {
+      const user = await knex('users').where({ username: usernameToCheck, password: passwordToCheck }).first();
+      console.log(user);
 
-    if (user.length > 0) {
-      req.session.loggedin = true;
-      req.session.username = user.username;
-      req.session.role = user.status;
-    } else {
-      res.render('pages/login', { error: true });
+      if (user) {
+        req.session.loggedin = true;
+        req.session.username = user.username;
+        req.session.role = user.status;
+        res.redirect('/dashboard');
+      } else {
+        res.render('pages/login', { error: true });
+      }
     }
   } catch (error) {
     console.error('Error validating user:', error);
@@ -222,14 +229,15 @@ app.post("/addSurvey", (req, res)=> {
     res.redirect("/");
  });
   //  TODO: insert org affiliations and social media platforms into appropriate tables- how should i do that?
+
 });
 
 app.post("/createAccount", async (req, res)=> {
   // TODO: first check if username exists
   // If already exists, render page that has error that username already exists, with link back to create page
   const usernameToCheck = req.query.username;
-  const user = await knex('users').where({ username: usernameToCheck });
-  if (user.length > 0) {
+  const user = await knex('users').select().where({ username: usernameToCheck }).first();
+  if (user) {
     res.render("pages/createAccount", { user: req.session.users, error: true, success: false })
   }
   else {
