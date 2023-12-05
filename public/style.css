@@ -54,3 +54,15 @@
 .subtitle {
     color: #505251;
 }
+
+.account {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2em;
+}
+
+.account h1 {
+    margin-bottom: 1em;
+}
