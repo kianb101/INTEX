@@ -179,6 +179,7 @@ app.post('/validateUser', async (req, res) => {
   try {
     if (usernameToCheck && passwordToCheck) {
       const user = await knex('users').where({ username: usernameToCheck, password: passwordToCheck }).first();
+      console.log(user);
 
       if (user) {
         req.session.loggedin = true;
