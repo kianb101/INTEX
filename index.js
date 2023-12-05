@@ -53,16 +53,17 @@ app.get('/manage', (req, res) => {
     // let user = [
     // { id: 2, username: 'person', status: 'cityworker' }
     // ]
-    
-    if (req.session.role == "admin") {
+    let role = req.session.role;
+
+    if (role == "admin") {
       let users = knex.from("users");
       req.session.users = users;
-      res.render('pages/createAccount', { user: users, error: false, success: false });
+      res.render('pages/createAccount', { user: req.session.users, error: false, success: false });
     }
-    else if (req.session.role == "cityworker") {
+    else if (role == "cityworker") {
       let user = knex.from("users").where({ username: req.session.username });
       req.session.user = user;
-      res.render('pages/modifyAccount', { user: user });
+      res.render('pages/modifyAccount', { user: req.session.user });
     }
     else {
       res.redirect('/');
@@ -74,7 +75,8 @@ app.get('/dashboard', (req, res) => {
 })
 
 app.get('/results', (req, res) => {
-  if (req.session.loggedin) {
+  let loggedIn = req.session.loggedin;
+  if (loggedIn) {
     // TODO: come back to this page and figure out what to show...
     let entries = knex.select().from("survey_info")
     // TEST DATA
@@ -160,7 +162,8 @@ app.get('/results', (req, res) => {
 })
 
 app.get('/login', (req, res) => {
-  if (req.session.loggedin) {
+  let loggedIn = req.session.loggedin;
+  if (loggedIn) {
     res.render('pages/login', { error: false, success: true });
   }
   else {
