@@ -40,8 +40,7 @@
                 <thead style="background-color: #419F42; color: white;">
                     <tr>
                         <th style="text-align: center;">Username</th>
-                        <!-- TODO: decide whether to indluce password -->
-                        <!-- <th style="text-align: center;">Password</th> -->
+                        <th style="text-align: center;">Password</th>
                         <th style="text-align: center;">Role</th>
                         <th></th>
                         <th></th>
@@ -51,7 +50,7 @@
                     <% for (let iCount = 0; iCount < user.length; iCount++) { %>
                        <tr>
                         <td style="text-align: center;"><%= user[iCount].username %></td>
-                        <!-- <td style="text-align: center;"><%= user[iCount].password %></td> -->
+                        <td style="text-align: center;"><%= user[iCount].password %></td>
                         <td style="text-align: center;"><%= user[iCount].status %></td>
                         <td style="text-align: center;">
                             <!-- TODO: create page to edit account?? How do i do this -->

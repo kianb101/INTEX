@@ -38,22 +38,23 @@ app.get('/survey', (req, res) => {
 })
 
 app.get('/modify', (req, res) => {
-  // knex.select().from("USERS").then(user => {
-    let user = [
-      { id: 1, username: 'superuser', status: 'admin' },
-      { id: 2, username: 'cass', status: 'cityworker' }
-    ]
+  let users = knex.select().from("users");
+
+    // FOR TESTING:
+    // let user = [
+    //   { id: 1, username: 'superuser', status: 'admin' },
+    //   { id: 2, username: 'cass', status: 'cityworker' }
+    // ]
     
     if (req.session.role == "admin") {
-      res.render('pages/createAccount', { user: user });
+      res.render('pages/createAccount', { user: users });
     }
     else if (req.session.role == "cityworker") {
-      res.render('pages/modifyAccount', { user: user });
+      res.render('pages/modifyAccount', { user: users });
     }
     else {
       res.render('pages/index');
     };
-  // });
 });
 
 app.get('/dashboard', (req, res) => {
@@ -62,7 +63,8 @@ app.get('/dashboard', (req, res) => {
 
 app.get('/results', (req, res) => {
   if (req.session.loggedin) {
-    // knex.select().from("SURVEY_INFO").then(entries =>
+    // TODO: come back to this page and figure out what to show...
+    // knex.select().from("survey_info").then(entries =>
     // TEST DATA
     const entries = [
       {
