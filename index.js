@@ -158,7 +158,7 @@ app.get('/login', (req, res) => {
 })
 
 // ------- DATABASE CALLS --------
-app.get('/validateUser', async (req, res) => {
+app.post('/validateUser', async (req, res) => {
   // // TO TEST:
   // req.session.loggedin = true;
   // req.session.username = "person";
@@ -171,8 +171,8 @@ app.get('/validateUser', async (req, res) => {
   // res.send('Session variables set for testing.');
 
   // IMPLEMENTATION:
-  const usernameToCheck = req.query.username;
-  const passwordToCheck = req.query.password;
+  const usernameToCheck = req.body.username;
+  const passwordToCheck = req.body.password;
   try {
     const user = await db('users').where({ username: usernameToCheck, password: passwordToCheck }).first();
 
