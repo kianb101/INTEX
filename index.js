@@ -38,20 +38,23 @@ app.get('/survey', (req, res) => {
 })
 
 app.get('/modify', (req, res) => {
-  let users = knex.select().from("users");
-  console.log(users);
-
     // FOR TESTING:
-    // let user = [
+    // let users = [
     //   { id: 1, username: 'superuser', status: 'admin' },
-    //   { id: 2, username: 'cass', status: 'cityworker' }
+    //   { id: 2, username: 'person', status: 'cityworker' }
+    // ]
+
+    // let user = [
+    // { id: 2, username: 'person', status: 'cityworker' }
     // ]
     
     if (req.session.role == "admin") {
-      res.render('pages/createAccount', { user: users });
+      let users = knex.select().from("users");
+      res.render('pages/createAccount', { user: users, error: false });
     }
     else if (req.session.role == "cityworker") {
-      res.render('pages/modifyAccount', { user: users });
+      let user = knex.select().from("users").where({ username: req.session.username });
+      res.render('pages/modifyAccount', { user: user });
     }
     else {
       res.render('pages/index');
@@ -156,8 +159,8 @@ app.get('/login', (req, res) => {
 app.get('/validateUser', async (req, res) => {
   // TO TEST:
   // req.session.loggedin = true;
-  // req.session.username = "superuser";
-  // req.session.role = "admin";
+  // req.session.username = "person";
+  // req.session.role = "cityworker";
 
   // console.log(req.session.loggedin);
   // console.log(req.session.username);
@@ -165,11 +168,11 @@ app.get('/validateUser', async (req, res) => {
 
   // res.send('Session variables set for testing.');
 
-  // IMPLEMENTATION:
+  // // IMPLEMENTATION:
   const usernameToCheck = req.query.username;
   const passwordToCheck = req.query.password;
   try {
-    const user = await db('users').where({ username: usernameToCheck, passowrd: passwordToCheck }).first();
+    const user = await db('users').where({ username: usernameToCheck, password: passwordToCheck }).first();
 
     if (user) {
       req.session.loggedin = true;
@@ -216,15 +219,22 @@ app.post("/addSurvey", (req, res)=> {
   //  TODO: insert org affiliations and social media platforms into appropriate tables- how should i do that?
 });
 
-app.post("/createAccount", (req, res)=> {
+app.post("/createAccount", async (req, res)=> {
   // TODO: first check if username exists
   // If already exists, render page that has error that username already exists, with link back to create page
+  const usernameToCheck = req.query.username;
+  const user = await db('users').where({ username: usernameToCheck }).first();
+  if (user) {
+    res.render("/createAccount", { error: true, success: false })
+  }
+
+  // if not, create user
   knex("users").insert({
     username: req.body.username,
     password: req.body.password,
     status: req.body.role
  }).then(entry => {
-    res.redirect("/createAccount");
+    res.redirect("/createAccount", { error: false, success: true });
  });
 });
 
