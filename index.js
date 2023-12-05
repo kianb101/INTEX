@@ -177,7 +177,7 @@ app.post('/validateUser', async (req, res) => {
         req.session.loggedin = true;
         req.session.username = user.username;
         req.session.role = user.status;
-        res.redirect('/dashboard');
+        res.redirect('/createAccount');
       } else {
         res.render('pages/login', { msg: "error" });
       }
@@ -297,7 +297,7 @@ app.get("/createAccount", async (req, res) => {
 
   if (role == "admin") {
     let users = await knex.from("users").select('username', 'password', 'status');
-    res.render('pages/createAccount', { user: users, error: false, success: false });
+    res.render('pages/createAccount', { user: users, msg: "" });
   }
   else if (role == "cityworker") {
     let user = await knex.from("users").select('username', 'password', 'status').where({ username: req.session.username });
@@ -310,11 +310,16 @@ app.get("/createAccount", async (req, res) => {
 
 app.post("/createAccount", async (req, res)=> {
   const usernameToCheck = req.body.username ? req.body.username : '';
+  const passwordOne = req.body.password ? req.body.password : '';
+  const passwordTwo = req.body.newPassword ? req.body.newPassword : '';
   let user = await knex.from('users').where({ username: usernameToCheck }).first();
-  let users = await knex.from("users").select('username', 'password', 'status');
+  let users = await knex.from('users').select('username', 'password', 'status');
 
   if (user) {
-    res.render('pages/createAccount', { user: users, error: true, success: false });
+    res.render('pages/createAccount', { user: users, msg: 'error' });
+  }
+  else if (passwordOne != passwordTwo) {
+    res.render('pages/createAccount', { user: users, msg: 'password' })
   }
   else {
     knex.from("users").insert({
@@ -322,15 +327,12 @@ app.post("/createAccount", async (req, res)=> {
       password: req.body.password,
       status: req.body.role
     }).then(entry => {
-      res.render("pages/createAccount", { user: users, error: false, success: true });
+      res.render('pages/createAccount', { user: users, msg: 'success' });
     }).catch(error => {
       console.error(error);
     });
   };
 });
-
-
-
 
 app.get("/editAccount/:username", (req, res) => {
   knex.from("users").select("username", "password").where("username", req.params.username).then(user => {
