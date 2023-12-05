@@ -158,7 +158,12 @@ app.get('/results', (req, res) => {
 })
 
 app.get('/login', (req, res) => {
-  res.render('pages/login', { error: false });
+  if (req.session.loggedin) {
+    res.render('pages/login', { error: false, success: true });
+  }
+  else {
+    res.render('pages/login', { error: false, success: false });
+  }  
 })
 
 // ------- DATABASE CALLS --------
