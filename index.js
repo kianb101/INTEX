@@ -149,45 +149,46 @@ app.get('/results', (req, res) => {
 })
 
 app.get('/login', (req, res) => {
-  res.render('pages/login');
+  res.render('pages/login', { error: false });
 })
 
 // ------- DATABASE CALLS --------
 app.get('/validateUser', async (req, res) => {
   // TO TEST:
-  req.session.loggedin = true;
-  req.session.username = "superuser";
-  req.session.role = "admin";
+  // req.session.loggedin = true;
+  // req.session.username = "superuser";
+  // req.session.role = "admin";
 
-  console.log(req.session.loggedin);
-  console.log(req.session.username);
-  console.log(req.session.role);
+  // console.log(req.session.loggedin);
+  // console.log(req.session.username);
+  // console.log(req.session.role);
 
-  res.send('Session variables set for testing.');
+  // res.send('Session variables set for testing.');
 
   // IMPLEMENTATION:
-  // const usernameToCheck = req.query.username;
-  // try {
-  //   const user = await db('USERS').where({ username: usernameToCheck }).first();
+  const usernameToCheck = req.query.username;
+  const passwordToCheck = req.query.password;
+  try {
+    const user = await db('users').where({ username: usernameToCheck, passowrd: passwordToCheck }).first();
 
-  //   if (user) {
-  //     req.session.loggedin = true;
-  //     req.session.username = user.username;
-  //     req.session.role = user.status;
-  //   } else {
-  //     res.render('page/userNotFound');
-  //   }
-  // } catch (error) {
-  //   console.error('Error validating user:', error);
-  //   res.status(500).send('Internal Server Error');
-  // };
+    if (user) {
+      req.session.loggedin = true;
+      req.session.username = user.username;
+      req.session.role = user.status;
+    } else {
+      res.render('pages/login', { error: true });
+    }
+  } catch (error) {
+    console.error('Error validating user:', error);
+    res.status(500).send('Internal Server Error');
+  };
 
-  // then validate password
+  // TO TEST
+  // res.render('pages/login', { error: true });
 });
 
 app.post("/addSurvey", (req, res)=> {
-  knex("SURVEY_INFO").insert({
-    // i don't need to include the survey id here, right?
+  knex("survey_info").insert({
     date: currentdate(),
     time: currenttime(),
     location: "Provo",
@@ -212,13 +213,13 @@ app.post("/addSurvey", (req, res)=> {
  }).then(entry => {
     res.redirect("/");
  });
-  //  TODO: insert org affiliations and social media platforms into apporpriate tables- how should i do that?
+  //  TODO: insert org affiliations and social media platforms into appropriate tables- how should i do that?
 });
 
 app.post("/createAccount", (req, res)=> {
   // TODO: first check if username exists
   // If already exists, render page that has error that username already exists, with link back to create page
-  knex("USERS").insert({
+  knex("users").insert({
     username: req.body.username,
     password: req.body.password,
     status: req.body.role
