@@ -5,7 +5,7 @@
 
 <body>
     <div class="account">
-        <h1 class="title">Create Admin Account</h1>
+        <h1 class="title">Create New Account</h1>
 
         <div class="container">
             <form class="login" action="/createAccount" method="post">
@@ -30,6 +30,12 @@
                     <label for="worker">City Worker</label>
                 </div>
                 <button type="submit" class="btn btn-primary" id="survey-btn">Create User</button>
+                <% if (error) { %>
+                    <p style="color: red">This username is already taken. Please try again.</p>
+                <% } %>
+                <% else if (success) { %>
+                    <p style="color: green">User created!</p>
+                <% } %>
         </form>
         </div>
 
@@ -40,8 +46,7 @@
                 <thead style="background-color: #419F42; color: white;">
                     <tr>
                         <th style="text-align: center;">Username</th>
-                        <!-- TODO: decide whether to indluce password -->
-                        <!-- <th style="text-align: center;">Password</th> -->
+                        <th style="text-align: center;">Password</th>
                         <th style="text-align: center;">Role</th>
                         <th></th>
                         <th></th>
@@ -51,7 +56,7 @@
                     <% for (let iCount = 0; iCount < user.length; iCount++) { %>
                        <tr>
                         <td style="text-align: center;"><%= user[iCount].username %></td>
-                        <!-- <td style="text-align: center;"><%= user[iCount].password %></td> -->
+                        <td style="text-align: center;"><%= user[iCount].password %></td>
                         <td style="text-align: center;"><%= user[iCount].status %></td>
                         <td style="text-align: center;">
                             <!-- TODO: create page to edit account?? How do i do this -->

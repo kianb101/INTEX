@@ -1,0 +1,47 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+
+<body>
+    <div style="float: left; margin-right: 20px;">
+        <form action="/edit" method="POST">
+            <fieldset style="width: 200px;">
+                <legend>Edit Username:</legend>
+                <!-- Display current username -->
+                <label for="username">Current Username:</label>
+                <input type="text" id="username" name="username" value="<%= myuser[0].username %>" readonly>
+                <br><br>
+                <!-- Enter new username -->
+                <label for="newUsername">New Username:</label>
+                <input type="text" id="newUsername" name="newUsername" placeholder="Enter new username">
+                <br><br>
+            </fieldset>
+            <button type="submit">Save Username</button>
+        </form>
+    </div>
+
+    <div style="float: left;">
+        <form action="/editCountry" method="POST">
+            <fieldset style="width: 200px;">
+                <legend>Edit Password:</legend>
+                <!-- Enter current password -->
+                <label for="currentPassword">Current Password:</label>
+                <input type="password" id="currentPassword" name="currentPassword" placeholder="Enter current password">
+                <br><br>
+                <!-- Enter new password -->
+                <label for="newPassword">New Password:</label>
+                <input type="password" id="newPassword" name="newPassword" placeholder="Enter new password">
+                <br><br>
+                <!-- Confirm new password -->
+                <label for="confirmPassword">Confirm New Password:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm new password">
+                <br><br>
+            </fieldset>
+            <button type="submit">Save Password</button>
+        </form>
+    </div>
+</body>
+
+
+
+
+<%- include('../partials/footer') %>
