@@ -9,7 +9,7 @@ const knex = require("knex") ({
     host: process.env.RDS_HOSTNAME || 'localhost', // name of host, on AWS use the one they give 
     user:  process.env.RDS_USERNAME || 'postgres', // name of user w/ permissions on database 
     password: process.env.RDS_PASSWORD || 'admin',
-    database:  process.env.RDS_DB_NAME || 'bucket_list', // name of database on postgres
+    database:  process.env.RDS_DB_NAME || 'INTEXtest', // name of database on postgres
     port:  process.env.RDS_PORT || 5432, // port number for postgres (postgres > properties > connection > port)
     ssl: process.env.DB_SSL_INTEX ? {rejectUnauthorized: false} : false
   }
@@ -241,6 +241,29 @@ app.post("/createAccount", async (req, res)=> {
     });
   };
 });
+
+
+app.get("/editAccount/:username", (req, res) => {
+  knex.select("username", "password").from("users").where("username", req.params.username).then(user => {
+    res.render("editAccount", { user: user });
+  }).catch(err => {
+    console.log(err);
+    res.status(500).json({ err });
+  });
+});
+
+app.post("/editAccount", (req, res) => {
+  knex("users").where("username", req.body.username).update({
+    username: req.body.newUsername,  // Fix: Use req.body.newUsername for updating the username
+    password: req.body.newPassword,  // Fix: Use req.body.newPassword for updating the password
+  }).then(user => {
+    res.redirect("/editAccount/" + req.body.newUsername);  // Redirect to the edited user's account page
+  }).catch(err => {
+    console.log(err);
+    res.status(500).json({ err });
+  });
+});
+
 
 app.get("/modifyAccount/:username", (req, res)=> {
   // TODO: add knex framework to connect with db here
