@@ -177,7 +177,7 @@ app.post('/validateUser', async (req, res) => {
   const usernameToCheck = req.body.username;
   const passwordToCheck = req.body.password;
   try {
-    const user = await db('users').where({ username: usernameToCheck, password: passwordToCheck }).first();
+    const user = await knex('users').where({ username: usernameToCheck, password: passwordToCheck }).first();
 
     if (user) {
       req.session.loggedin = true;
@@ -228,7 +228,7 @@ app.post("/createAccount", async (req, res)=> {
   // TODO: first check if username exists
   // If already exists, render page that has error that username already exists, with link back to create page
   const usernameToCheck = req.query.username;
-  const user = await db('users').where({ username: usernameToCheck }).first();
+  const user = await knex('users').where({ username: usernameToCheck }).first();
   if (user) {
     res.render("pages/createAccount", { user: req.session.users, error: true, success: false })
   }
