@@ -177,9 +177,9 @@ app.post('/validateUser', async (req, res) => {
   const usernameToCheck = req.body.username;
   const passwordToCheck = req.body.password;
   try {
-    const user = await knex('users').select().where({ "username": usernameToCheck, "password": passwordToCheck });
+    const user = await knex('users').select().where({ "username": usernameToCheck, "password": passwordToCheck }).first();
 
-    if (user.length > 0) {
+    if (user) {
       req.session.loggedin = true;
       req.session.username = user.username;
       req.session.role = user.status;
