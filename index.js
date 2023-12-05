@@ -10,7 +10,7 @@ const knex = require("knex") ({
     host: process.env.RDS_HOSTNAME || 'localhost', // name of host, on AWS use the one they give 
     user:  process.env.RDS_USERNAME || 'postgres', // name of user w/ permissions on database 
     password: process.env.RDS_PASSWORD || 'admin',
-    database:  process.env.RDS_DB_NAME || 'bucket_list', // name of database on postgres
+    database:  process.env.RDS_DB_NAME || 'ebdb', // name of database on postgres
     port:  process.env.RDS_PORT || 5432, // port number for postgres (postgres > properties > connection > port)
     ssl: process.env.DB_SSL_INTEX ? {rejectUnauthorized: false} : false
   }
