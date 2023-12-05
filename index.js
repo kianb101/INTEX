@@ -254,7 +254,7 @@ app.post("/createAccount", async (req, res)=> {
       password: req.body.password,
       status: req.body.role
     }).then(entry => {
-      res.redirect("pages/createAccount", { user: users, error: false, success: true });
+      res.render("pages/createAccount", { user: users, error: false, success: true });
     }).catch(error => {
       console.error(error);
     });
@@ -275,7 +275,7 @@ app.post("/editAccount", (req, res) => {
     username: req.body.newUsername,  // Fix: Use req.body.newUsername for updating the username
     password: req.body.newPassword,  // Fix: Use req.body.newPassword for updating the password
   }).then(user => {
-    res.redirect("/editAccount/" + req.body.newUsername);  // Redirect to the edited user's account page
+    res.render("/editAccount/" + req.body.newUsername);  // Redirect to the edited user's account page
   }).catch(err => {
     console.log(err);
     res.status(500).json({ err });
