@@ -3,16 +3,16 @@ let path = require("path");
 const session = require('express-session');
 
 const db = require("knex") ({
-    // pass parameters to it
-    client: "pg",
-    connection: {
-      host: process.env.RDS_HOSTNAME || 'localhost', // name of host, on AWS use the one they give 
-      user:  process.env.RDS_USERNAME || 'postgres', // name of user w/ permissions on database 
-      password: process.env.RDS_PASSWORD || 'admin',
-      database:  process.env.RDS_DB_NAME || 'bucket_list', // name of database on postgres
-      port:  process.env.RDS_PORT || 5432, // port number for postgres (postgres > properties > connection > port)
-      ssl: process.env.DB_SSL_INTEX ? {rejectUnauthorized: false} : false
-    }
+  // pass parameters to it
+  client: "pg",
+  connection: {
+    host: process.env.RDS_HOSTNAME || 'localhost', // name of host, on AWS use the one they give 
+    user:  process.env.RDS_USERNAME || 'postgres', // name of user w/ permissions on database 
+    password: process.env.RDS_PASSWORD || 'admin',
+    database:  process.env.RDS_DB_NAME || 'bucket_list', // name of database on postgres
+    port:  process.env.RDS_PORT || 5432, // port number for postgres (postgres > properties > connection > port)
+    ssl: process.env.DB_SSL_INTEX ? {rejectUnauthorized: false} : false
+  }
 });
 
 const app = express();
@@ -76,36 +76,44 @@ app.get('/validateUser', (req, res) => {
 })
 
 app.post("/addSurvey", (req, res)=> {
-  knex("survey_results").insert({
+  knex("SURVEY_INFO").insert({
+    // i don't need to include the survey id here, right?
     date: currentdate(),
     time: currenttime(),
+    location: "Provo",
     age: req.body.age,
     gender: req.body.gender,
-    relationship_status: req.body.relationship,
-    occupation_status: req.body.work,
-    affiliated_org: req.body.organization,
-    social_media_use: req.body.mediaUse,
-    platform: req.body.platform,
-    time_spent: req.body.time,
-    without_purpose: req.body.woPurpose,
-    distracted: req.body.distracted,
-    restless: req.body.restless,
-    naturaly_distraction: req.body.naturalDistraction,
-    worries: req.body.worries,
-    concentration: req.body.concentration,
-    comparison: req.body.comparison,
-    comparisons_general: req.body.comparisonsGeneral,
-    validation: req.body.validation,
-    depressed: req.body.depressed,
-    daily_activity: req.body.dailyActivity,
-    sleep_issues: req.body.sleep,
+    rel_status: req.body.relationship,
+    occ_status: req.body.work,
+    sm_user: req.body.mediaUse,
+    avg_time: req.body.time,
+    wop_freq: req.body.woPurpose,
+    distract_freq: req.body.distracted,
+    restless_freq: req.body.restless,
+    const_distract: req.body.naturalDistraction,
+    worried_freq: req.body.worries,
+    concen_diff: req.body.concentration,
+    comp_freq: req.body.comparison,
+    comp_feel: req.body.comparisonsGeneral,
+    val_freq: req.body.validation,
+    dep_freq: req.body.depressed,
+    int_fluc: req.body.dailyActivity,
+    slp_issues: req.body.sleep,
  }).then(entry => {
     res.redirect("/");
  });
+  //  TODO: insert org affiliations and social media platforms into apporpriate tables- how should i do that?
 });
 
 app.post("/createAccount", (req, res)=> {
   // add knex framework to connect with db here
+  knex("USERS").insert({
+    username: req.body.username,
+    password: req.body.password,
+    status: req.body.role
+ }).then(entry => {
+    res.redirect("/createAccount");
+ });
 });
 
 app.post("/modifyAccount/:username", (req, res)=> {
