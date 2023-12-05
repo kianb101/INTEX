@@ -195,7 +195,6 @@ app.post('/validateUser', async (req, res) => {
   // res.render('pages/login', { error: true });
 });
 
-// Saving Cassidy's work below:
 app.post("/addSurvey", (req, res)=> {
   knex("survey_info").insert({
     date: currentdate(),
