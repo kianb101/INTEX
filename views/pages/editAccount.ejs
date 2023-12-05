@@ -26,7 +26,7 @@
                     <legend>Edit Password:</legend>
                     <!-- Display current password -->
                     <label for="password">Current Password:</label>
-                    <input type="password" id="password" name="password" value="<%= user[0].password %>" readonly>
+                    <input type="text" id="password" name="password" value="<%= user[0].password %>" readonly>
                     <br><br>
                     <!-- Hidden input for username -->
                     <input type="hidden" name="username" value="<%= user[0].username %>">
@@ -40,46 +40,6 @@
             </form>
         </div>
     </body>
-    
-    
-
-    <!-- <div style="float: left; margin-right: 20px;">
-        <form action="/editAccount" method="POST">
-            <fieldset style="width: 200px;">
-                <legend>Edit Password:</legend>
-               
-                <label for="password">Current Password:</label>
-                <input type="text" id="password" name="password" value="<%= user[0].password %>" readonly>
-                <br><br>
-         
-                <label for="newPassword">New Password:</label>
-                <input type="text" id="newPassword" name="newPassword" placeholder="Enter new password">
-                <br><br>
-            </fieldset>
-            <button type="submit">Save Password</button>
-        </form>
-    </div> -->
-
-    <!-- <div style="float: left;">
-        <form action="/editAccount" method="POST">
-            <fieldset style="width: 200px;">
-                <legend>Edit Password:</legend>
-               
-                <label for="currentPassword">Current Password:</label>
-                <input type="password" id="currentPassword" name="currentPassword" placeholder="Enter current password">
-                <br><br>
-               
-                <label for="newPassword">New Password:</label>
-                <input type="password" id="newPassword" name="newPassword" placeholder="Enter new password">
-                <br><br>
-                
-                <label for="confirmPassword">Confirm New Password:</label>
-                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm new password">
-                <br><br>
-            </fieldset>
-            <button type="submit">Save Password</button>
-        </form>
-    </div> -->
 </body>
 
 

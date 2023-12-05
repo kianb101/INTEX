@@ -340,6 +340,14 @@ app.get("/editAccount/:username", (req, res) => {
     res.status(500).json({ err });
   });
 });
+app.get("/editAccountWorker/:username", (req, res) => {
+  knex.from("users").select("username", "password").where("username", req.params.username).then(user => {
+    res.render("pages/editAccountWorker", { user: user });
+  }).catch(err => {
+    console.log(err);
+    res.status(500).json({ err });
+  });
+});
 
 app.post("/editAccountUsername", async (req, res) => {
   try {
@@ -373,7 +381,7 @@ app.post("/editAccountPassword", async (req, res) => {
     res.redirect("/createAccount?success=true");
   } catch (error) {
     console.error(error);
-    res.status(500).send("Invalid Username. (Username already taken)");
+    res.status(500).send("Invalid Password.");
   }
 });
 
