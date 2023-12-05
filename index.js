@@ -195,7 +195,7 @@ app.post('/validateUser', async (req, res) => {
         req.session.role = user.status;
         res.redirect('/dashboard');
       } else {
-        res.render('pages/login', { error: true });
+        res.render('pages/login', { error: true, success: false });
       }
     }
   } catch (error) {
