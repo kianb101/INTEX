@@ -62,6 +62,7 @@ app.get('/dashboard', (req, res) => {
 
 app.get('/results', (req, res) => {
   if (req.session.loggedin) {
+    // knex.select().from("SURVEY_INFO").then(entries =>
     // TEST DATA
     const entries = [
       {
