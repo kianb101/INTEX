@@ -43,31 +43,6 @@ app.get('/survey', (req, res) => {
     res.render('pages/survey');
 })
 
-app.get('/manage', (req, res) => {
-    // FOR TESTING:
-    // let users = [
-    //   { id: 1, username: 'superuser', status: 'admin' },
-    //   { id: 2, username: 'person', status: 'cityworker' }
-    // ]
-
-    // let user = [
-    // { id: 2, username: 'person', status: 'cityworker' }
-    // ]
-    let role = req.session.role;
-
-    if (role == "admin") {
-      let users = knex.from("users").select('username', 'password', 'status');
-      res.render('pages/createAccount', { user: users, error: false, success: false });
-    }
-    else if (role == "cityworker") {
-      let user = knex.from("users").select('username', 'password', 'status').where({ username: req.session.username });
-      res.render('pages/modifyAccount', { user: user });
-    }
-    else {
-      res.redirect('/');
-    };
-});
-
 app.get('/dashboard', (req, res) => {
   res.render('pages/dashboard');
 })
@@ -237,11 +212,24 @@ app.post("/addSurvey", (req, res)=> {
   //  TODO: insert org affiliations and social media platforms into appropriate tables- how should i do that?
 
 });
+app.get("/createAccount", async (req, res) => {
+  let role = req.session.role;
+
+  if (role == "admin") {
+    let users = await knex.from("users").select('username', 'password', 'status');
+    res.render('pages/createAccount', { user: users, error: false, success: false });
+  }
+  else if (role == "cityworker") {
+    let user = await knex.from("users").select('username', 'password', 'status').where({ username: req.session.username });
+    res.render('pages/modifyAccount', { user: user });
+  }
+  else {
+    res.redirect('/');
+  };
+});
 
 app.post("/createAccount", async (req, res)=> {
-  // TODO: first check if username exists
-  // If already exists, render page that has error that username already exists, with link back to create page
-  const usernameToCheck = req.body.username;
+  const usernameToCheck = req.body.username ? req.body.username : '';
   let user = await knex.from('users').where({ username: usernameToCheck }).first();
   let users = await knex.from("users").select('username', 'password', 'status');
 
@@ -254,7 +242,7 @@ app.post("/createAccount", async (req, res)=> {
       password: req.body.password,
       status: req.body.role
     }).then(entry => {
-      res.redirect("pages/createAccount", { user: users, error: false, success: true });
+      res.render("pages/createAccount", { user: users, error: false, success: true });
     }).catch(error => {
       console.error(error);
     });
@@ -298,7 +286,7 @@ app.post("/editAccount", (req, res) => {
     username: req.body.newUsername,  // Fix: Use req.body.newUsername for updating the username
     password: req.body.newPassword,  // Fix: Use req.body.newPassword for updating the password
   }).then(user => {
-    res.redirect("/editAccount/" + req.body.newUsername);  // Redirect to the edited user's account page
+    res.render("/editAccount/" + req.body.newUsername);  // Redirect to the edited user's account page
   }).catch(err => {
     console.log(err);
     res.status(500).json({ err });
