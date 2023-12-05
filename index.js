@@ -174,17 +174,20 @@ app.post('/validateUser', async (req, res) => {
   // res.send('Session variables set for testing.');
 
   // IMPLEMENTATION:
-  const usernameToCheck = req.body.username;
-  const passwordToCheck = req.body.password;
+  const usernameToCheck = req.query.username;
+  const passwordToCheck = req.query.password;
   try {
-    const user = await knex('users').select().where({ "username": usernameToCheck, "password": passwordToCheck }).first();
+    if (usernameToCheck && passwordToCheck) {
+      const user = await knex('users').where({ username: usernameToCheck, password: passwordToCheck }).first();
 
-    if (user) {
-      req.session.loggedin = true;
-      req.session.username = user.username;
-      req.session.role = user.status;
-    } else {
-      res.render('pages/login', { error: true });
+      if (user) {
+        req.session.loggedin = true;
+        req.session.username = user.username;
+        req.session.role = user.status;
+        res.redirect('/dashboard');
+      } else {
+        res.render('pages/login', { error: true });
+      }
     }
   } catch (error) {
     console.error('Error validating user:', error);
@@ -229,8 +232,8 @@ app.post("/createAccount", async (req, res)=> {
   // TODO: first check if username exists
   // If already exists, render page that has error that username already exists, with link back to create page
   const usernameToCheck = req.query.username;
-  const user = await knex('users').where({ username: usernameToCheck });
-  if (user.length > 0) {
+  const user = await knex('users').select().where({ username: usernameToCheck }).first();
+  if (user) {
     res.render("pages/createAccount", { user: req.session.users, error: true, success: false })
   }
   else {
