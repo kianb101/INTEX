@@ -9,7 +9,7 @@ const knex = require("knex") ({
     host: process.env.RDS_HOSTNAME || 'localhost', // name of host, on AWS use the one they give 
     user:  process.env.RDS_USERNAME || 'postgres', // name of user w/ permissions on database 
     password: process.env.RDS_PASSWORD || 'admin',
-    database:  process.env.RDS_DB_NAME || 'bucket_list', // name of database on postgres
+    database:  process.env.RDS_DB_NAME || 'ebdb', // name of database on postgres
     port:  process.env.RDS_PORT || 5432, // port number for postgres (postgres > properties > connection > port)
     ssl: process.env.DB_SSL_INTEX ? {rejectUnauthorized: false} : false
   }
@@ -256,20 +256,22 @@ app.post("/addSurvey", async (req, res) => {
       int_fluc: req.body.dailyActivity,
       slp_issues: req.body.sleep,
     };
+    console.log(surveyEntry)
 
     await knex.transaction(async (trx) => {
       const result = await trx
         .select('platform', 'num_plat')
         .from('plat_info')
         .where('platform', valueToCompare)
-        .first(); // Assuming you expect only one row as a result
+        .first();
 
+      console.log(result);
       let valueToInsert = null;
 
       if (result) {
         valueToInsert = result.num_plat;
       } else {
-        // If no match found in table1, fetch default value from table2
+        // If no match found, fetch default value from "plat_info" table
         const defaultResult = await trx
           .select('num_plat')
           .from('plat_info')
@@ -278,9 +280,11 @@ app.post("/addSurvey", async (req, res) => {
         valueToInsert = defaultResult.num_plat;
       }
 
+      console.log(valueToInsert);
+      
       await trx('survey_info').insert({
         ...surveyEntry,
-        num_plat: valueToInsert, // Replace with your column name
+        num_plat: valueToInsert,
         // Other columns to insert
       });
     });
