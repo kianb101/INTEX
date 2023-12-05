@@ -3,9 +3,14 @@
 
 <body>
     <div>
-        <h1 class="account">All Survey Results</h1>
-        <input type="text" id="searchInput" placeholder="Search for survey details">
-        <div class="container">
+        <div class="account">
+            <h1>All Survey Results</h1>
+            <form action="/search" method="get">
+                <input type="text" id="searchInput" name="searchID" placeholder="Search for survey id" style="margin-bottom: 2em;">
+                <button class="btn btn-secondary" id="login-btn">Search</button>
+            </form>
+        </div>
+        <div class="container" id="table-container">
             <!-- TODO: fix styling of this table -->
             <!-- TODO: add drop down to select survey id and filter by that ID -->
             <table class="table table-bordered" id="dataTable" style="white-space: normal; word-wrap: break-word;">
@@ -64,38 +69,6 @@
             </table>
         </div>
     </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const searchInput = document.getElementById('searchInput');
-            const dataTable = document.getElementById('dataTable');
-            const rows = dataTable.getElementsByTagName('tr');
-
-            searchInput.addEventListener('input', function () {
-                const searchTerm = searchInput.value.toLowerCase();
-
-                for (let i = 1; i < rows.length; i++) {
-                    const row = rows[i];
-                    const cells = row.getElementsByTagName('td');
-                    let found = false;
-
-                    for (let j = 0; j < cells.length; j++) {
-                        const cellText = cells[j].innerText.toLowerCase();
-
-                        if (cellText.includes(searchTerm)) {
-                            found = true;
-                            break;
-                        }
-                    }
-
-                    if (found) {
-                        row.style.display = '';
-                    } else {
-                        row.style.display = 'none';
-                    }
-                }
-            });
-        });
-    </script>
 </body>
 
 <%- include('../partials/footer') %>
