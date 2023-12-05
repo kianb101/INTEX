@@ -195,34 +195,103 @@ app.post('/validateUser', async (req, res) => {
   // res.render('pages/login', { error: true });
 });
 
-app.post("/addSurvey", (req, res)=> {
-  knex("survey_info").insert({
-    date: currentdate(),
-    time: currenttime(),
-    location: "Provo",
-    age: req.body.age,
-    gender: req.body.gender,
-    rel_status: req.body.relationship,
-    occ_status: req.body.work,
-    sm_user: req.body.mediaUse,
-    avg_time: req.body.time,
-    wop_freq: req.body.woPurpose,
-    distract_freq: req.body.distracted,
-    restless_freq: req.body.restless,
-    const_distract: req.body.naturalDistraction,
-    worried_freq: req.body.worries,
-    concen_diff: req.body.concentration,
-    comp_freq: req.body.comparison,
-    comp_feel: req.body.comparisonsGeneral,
-    val_freq: req.body.validation,
-    dep_freq: req.body.depressed,
-    int_fluc: req.body.dailyActivity,
-    slp_issues: req.body.sleep,
- }).then(entry => {
+// Saving Cassidy's work below:
+// app.post("/addSurvey", (req, res)=> {
+//   knex("survey_info").insert({
+//     date: currentdate(),
+//     time: currenttime(),
+//     location: "Provo",
+//     age: req.body.age,
+//     gender: req.body.gender,
+//     rel_status: req.body.relationship,
+//     occ_status: req.body.work,
+//     sm_user: req.body.mediaUse,
+//     avg_time: req.body.time,
+//     wop_freq: req.body.woPurpose,
+//     distract_freq: req.body.distracted,
+//     restless_freq: req.body.restless,
+//     const_distract: req.body.naturalDistraction,
+//     worried_freq: req.body.worries,
+//     concen_diff: req.body.concentration,
+//     comp_freq: req.body.comparison,
+//     comp_feel: req.body.comparisonsGeneral,
+//     val_freq: req.body.validation,
+//     dep_freq: req.body.depressed,
+//     int_fluc: req.body.dailyActivity,
+//     slp_issues: req.body.sleep,
+//  }).then(entry => {
+//     res.redirect("/");
+//  });
+//   //  TODO: insert org affiliations and social media platforms into appropriate tables- how should i do that?
+
+// });
+
+const currentDate = new Date().toISOString().split('T')[0]; // Get current date
+const currentTime = new Date().toLocaleTimeString(); // Get current time
+
+app.post("/addSurvey", async (req, res) => {
+  try {
+    const valueToCompare = req.body.valueToCompare; // The value you want to compare
+
+    const surveyEntry = {
+      date: currentDate,
+      time: currentTime,
+      location: "Provo",
+      age: req.body.age,
+      gender: req.body.gender,
+      rel_status: req.body.relationship,
+      occ_status: req.body.work,
+      sm_user: req.body.mediaUse,
+      avg_time: req.body.time,
+      wop_freq: req.body.woPurpose,
+      distract_freq: req.body.distracted,
+      restless_freq: req.body.restless,
+      const_distract: req.body.naturalDistraction,
+      worried_freq: req.body.worries,
+      concen_diff: req.body.concentration,
+      comp_freq: req.body.comparison,
+      comp_feel: req.body.comparisonsGeneral,
+      val_freq: req.body.validation,
+      dep_freq: req.body.depressed,
+      int_fluc: req.body.dailyActivity,
+      slp_issues: req.body.sleep,
+    };
+
+    await knex.transaction(async (trx) => {
+      const result = await trx
+        .select('column_to_check', 'column_to_return')
+        .from('table1')
+        .where('column_to_check', valueToCompare)
+        .first(); // Assuming you expect only one row as a result
+
+      let valueToInsert = null;
+
+      if (result) {
+        valueToInsert = result.column_to_return;
+      } else {
+        // If no match found in table1, fetch default value from table2
+        const defaultResult = await trx
+          .select('default_column_to_return')
+          .from('table2')
+          .first();
+
+        valueToInsert = defaultResult.default_column_to_return;
+      }
+
+      await trx('survey_info').insert({
+        ...surveyEntry,
+        column_to_insert: valueToInsert, // Replace with your column name
+        // Other columns to insert
+      });
+    });
+
     res.redirect("/");
- });
-  //  TODO: insert org affiliations and social media platforms into appropriate tables- how should i do that?
+  } catch (error) {
+    console.error('Error inserting data:', error);
+    res.status(500).send('Error inserting data');
+  }
 });
+
 
 app.post("/createAccount", async (req, res)=> {
   // TODO: first check if username exists
