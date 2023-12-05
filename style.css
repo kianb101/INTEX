@@ -1,0 +1,56 @@
+/* Custom styles for the banner */
+.banner {
+    position: relative;
+    height: 40em; /* Adjust the height as needed */
+    background: url('provo_banner.jpg') center/cover no-repeat;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+    color: #fff;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.banner h1 {
+    font-size: 3em;
+    margin-bottom: 20px;
+}
+
+/* Custom styles for the content section */
+.content-section {
+    background-color: #f8f9fa; /* Change background color as needed */
+    padding: 50px 0;
+    text-align: center;
+}
+
+/* need to find a dynamic way to do this */
+.sliderLabel {
+    display: inline-block;
+    width: 23px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+#logo {
+    width: 15em;
+}
+
+.btns {
+    margin-top: 5em;
+}
+
+#survey-btn {
+    background-color: #419F42;
+    border-color: #419F42;
+    margin-bottom: 2em;
+}
+
+#login-btn {
+    background-color: #A9A9A9;
+    border-color: #A9A9A9;
+}
+
+.subtitle {
+    color: #505251;
+}

@@ -1,0 +1,24 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+
+<body>
+    <h1 class="title">Login</h1>
+
+    <!-- Login portal -->
+    <div class="container" id="login-section">
+        <form class="login" action="/validateUser" method="get">
+            <div class="form-group">
+                <label for="username">Enter username:</label>
+                <input type="username" class="form-control" id="username" placeholder="username">
+            </div>
+                <div class="form-group">
+                <label for="password">Enter password:</label>
+                <input type="password" class="form-control" id="password" placeholder="********">
+            </div>
+            <button type="submit" class="btn btn-primary" id="login-btn">Login</button>
+      </form>
+    </div>
+</body>
+
+
+<%- include('../partials/footer') %>
