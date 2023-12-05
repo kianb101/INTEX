@@ -237,11 +237,21 @@ app.post("/addSurvey", (req, res)=> {
   //  TODO: insert org affiliations and social media platforms into appropriate tables- how should i do that?
 
 });
+app.get("/createAccount", async (req, res) => {
+  try {
+    // Fetch existing users from the database
+    let users = await knex.from("users").select('username', 'password', 'status');
+
+    // Render the page with the existing user data
+    res.render('pages/createAccount', { user: users, error: false, success: false });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
 
 app.post("/createAccount", async (req, res)=> {
-  // TODO: first check if username exists
-  // If already exists, render page that has error that username already exists, with link back to create page
-  const usernameToCheck = req.body.username;
+  const usernameToCheck = req.body.username ? req.body.username : '';
   let user = await knex.from('users').where({ username: usernameToCheck }).first();
   let users = await knex.from("users").select('username', 'password', 'status');
 
