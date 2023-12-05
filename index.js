@@ -341,7 +341,7 @@ app.get("/editAccount/:username", (req, res) => {
   });
 });
 
-app.post("/editAccount", async (req, res) => {
+app.post("/editAccountUsername", async (req, res) => {
   try {
     const currentUsername = req.body.username;
     const newUsername = req.body.newUsername;
@@ -349,6 +349,24 @@ app.post("/editAccount", async (req, res) => {
     // Update the username in the database
     await knex.from("users").where("username", currentUsername).update({
       username: newUsername,
+    });
+
+    // Redirect back to the createAccount page after the update
+    res.redirect("/createAccount?success=true");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Invalid Username. (Username already taken)");
+  }
+});
+
+app.post("/editAccountPassword", async (req, res) => {
+  try {
+    const currentUsername = req.body.username;
+    const newPassword = req.body.newPassword;
+
+    // Update the username in the database
+    await knex.from("users").where("username", currentUsername).update({
+      password: newPassword,
     });
 
     // Redirect back to the createAccount page after the update
