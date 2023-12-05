@@ -38,14 +38,14 @@ app.get('/survey', (req, res) => {
 })
 
 app.get('/modify', (req, res) => {
-  let users = knex.select().from("users");
-  console.log(users);
+  // let users = knex.select().from("users");
+  // console.log(users);
 
     // FOR TESTING:
-    // let user = [
-    //   { id: 1, username: 'superuser', status: 'admin' },
-    //   { id: 2, username: 'cass', status: 'cityworker' }
-    // ]
+    let users = [
+      { id: 1, username: 'superuser', status: 'admin' },
+      { id: 2, username: 'cass', status: 'cityworker' }
+    ]
     
     if (req.session.role == "admin") {
       res.render('pages/createAccount', { user: users });
