@@ -53,19 +53,19 @@ app.get('/manage', (req, res) => {
     // let user = [
     // { id: 2, username: 'person', status: 'cityworker' }
     // ]
-    let role = req.session.role;
+    // let role = req.session.role;
 
-    if (role == "admin") {
-      let users = knex.from("users").select('username', 'password', 'status');
-      res.render('pages/createAccount', { user: users, error: false, success: false });
-    }
-    else if (role == "cityworker") {
-      let user = knex.from("users").select('username', 'password', 'status').where({ username: req.session.username });
-      res.render('pages/modifyAccount', { user: user });
-    }
-    else {
-      res.redirect('/');
-    };
+    // if (role == "admin") {
+    //   let users = knex.from("users").select('username', 'password', 'status');
+    //   res.render('pages/createAccount', { user: users, error: false, success: false });
+    // }
+    // else if (role == "cityworker") {
+    //   let user = knex.from("users").select('username', 'password', 'status').where({ username: req.session.username });
+    //   res.render('pages/modifyAccount', { user: user });
+    // }
+    // else {
+    //   res.redirect('/');
+    // };
 });
 
 app.get('/dashboard', (req, res) => {
@@ -238,16 +238,30 @@ app.post("/addSurvey", (req, res)=> {
 
 });
 app.get("/createAccount", async (req, res) => {
-  try {
-    // Fetch existing users from the database
-    let users = await knex.from("users").select('username', 'password', 'status');
+  let role = req.session.role;
 
-    // Render the page with the existing user data
+  if (role == "admin") {
+    let users = knex.from("users").select('username', 'password', 'status');
     res.render('pages/createAccount', { user: users, error: false, success: false });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Internal Server Error");
   }
+  else if (role == "cityworker") {
+    let user = knex.from("users").select('username', 'password', 'status').where({ username: req.session.username });
+    res.render('pages/modifyAccount', { user: user });
+  }
+  else {
+    res.redirect('/');
+  };
+
+  // try {
+  //   // Fetch existing users from the database
+  //   let users = await knex.from("users").select('username', 'password', 'status');
+
+  //   // Render the page with the existing user data
+  //   res.render('pages/createAccount', { user: users, error: false, success: false });
+  // } catch (error) {
+  //   console.error(error);
+  //   res.status(500).send("Internal Server Error");
+  // }
 });
 
 app.post("/createAccount", async (req, res)=> {
