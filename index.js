@@ -261,8 +261,25 @@ app.post("/createAccount", async (req, res)=> {
   };
 });
 
-app.get("/modifyAccount/:username", (req, res)=> {
-  // TODO: add knex framework to connect with db here
+app.get("/editAccount/:username", (req, res) => {
+  knex.from("users").select("username", "password").where("username", req.params.username).then(user => {
+    res.render("editAccount", { user: user });
+  }).catch(err => {
+    console.log(err);
+    res.status(500).json({ err });
+  });
+});
+
+app.post("/editAccount", (req, res) => {
+  knex.from("users").where("username", req.body.username).update({
+    username: req.body.newUsername,  // Fix: Use req.body.newUsername for updating the username
+    password: req.body.newPassword,  // Fix: Use req.body.newPassword for updating the password
+  }).then(user => {
+    res.redirect("/editAccount/" + req.body.newUsername);  // Redirect to the edited user's account page
+  }).catch(err => {
+    console.log(err);
+    res.status(500).json({ err });
+  });
 });
 
 app.post("/modifyAccount", (req, res)=> {
