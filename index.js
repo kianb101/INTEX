@@ -237,8 +237,6 @@ const currentTime = new Date().toLocaleTimeString(); // Get current time
 
 app.post("/addSurvey", async (req, res) => {
   try {
-    const valueToCompare = req.body.platform; // The value you want to compare
-
     const surveyEntry = {
       date: currentDate,
       time: currentTime,
@@ -265,7 +263,7 @@ app.post("/addSurvey", async (req, res) => {
     };
         const organizationValues = req.body.organization || [];
         const platformValues = req.body.platform || [];
-    
+        console.log("request: ", req.body)
         // Array to store organization IDs
         const orgIds = [];
     
