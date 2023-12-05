@@ -20,6 +20,9 @@ const port =  process.env.PORT || 3000;
 
 app.set('view engine', 'ejs');
 
+app.use(express.json());
+express.urlencoded({ extended: true });
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({
@@ -174,9 +177,9 @@ app.post('/validateUser', async (req, res) => {
   const usernameToCheck = req.body.username;
   const passwordToCheck = req.body.password;
   try {
-    const user = await db('users').where({ username: usernameToCheck, password: passwordToCheck }).first();
+    const user = await knex('users').where({ "username": usernameToCheck, "password": passwordToCheck });
 
-    if (user) {
+    if (user.length > 0) {
       req.session.loggedin = true;
       req.session.username = user.username;
       req.session.role = user.status;
@@ -225,8 +228,8 @@ app.post("/createAccount", async (req, res)=> {
   // TODO: first check if username exists
   // If already exists, render page that has error that username already exists, with link back to create page
   const usernameToCheck = req.query.username;
-  const user = await db('users').where({ username: usernameToCheck }).first();
-  if (user) {
+  const user = await knex('users').where({ username: usernameToCheck });
+  if (user.length > 0) {
     res.render("pages/createAccount", { user: req.session.users, error: true, success: false })
   }
   else {
