@@ -56,12 +56,12 @@ app.get('/manage', (req, res) => {
     let role = req.session.role;
 
     if (role == "admin") {
-      let users = knex.from("users");
+      let users = knex.from("users").select('username', 'password', 'status');
       req.session.users = users;
       res.render('pages/createAccount', { user: req.session.users, error: false, success: false });
     }
     else if (role == "cityworker") {
-      let user = knex.from("users").where({ username: req.session.username });
+      let user = knex.from("users").select('username', 'password', 'status').where({ username: req.session.username });
       req.session.user = user;
       res.render('pages/modifyAccount', { user: req.session.user });
     }
@@ -78,7 +78,7 @@ app.get('/results', (req, res) => {
   let loggedIn = req.session.loggedin;
   if (loggedIn) {
     // TODO: come back to this page and figure out what to show...
-    let entries = knex.select().from("survey_info")
+    let entries = knex.from("survey_info")
     // TEST DATA
     // const entries = [
     //   {
@@ -189,7 +189,7 @@ app.post('/validateUser', async (req, res) => {
   const passwordToCheck = req.body.password ? req.body.password : '';
   try {
     if (usernameToCheck && passwordToCheck) {
-      const user = await knex('users').where({ username: usernameToCheck, password: passwordToCheck }).first();
+      const user = await knex.from('users').select('username', 'status').where({ username: usernameToCheck, password: passwordToCheck }).first();
       console.log(user);
 
       if (user) {
