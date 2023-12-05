@@ -175,8 +175,8 @@ app.post('/validateUser', async (req, res) => {
 
   // IMPLEMENTATION:
   console.log(req);
-  const usernameToCheck = req.body.username;
-  const passwordToCheck = req.body.password;
+  const usernameToCheck = req.body.username ? req.body.username : '';
+  const passwordToCheck = req.body.password ? req.body.password : '';
   try {
     if (usernameToCheck && passwordToCheck) {
       const user = await knex('users').where({ username: usernameToCheck, password: passwordToCheck }).first();
