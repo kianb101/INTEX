@@ -241,11 +241,11 @@ app.get("/createAccount", async (req, res) => {
   let role = req.session.role;
 
   if (role == "admin") {
-    let users = knex.from("users").select('username', 'password', 'status');
+    let users = await knex.from("users").select('username', 'password', 'status');
     res.render('pages/createAccount', { user: users, error: false, success: false });
   }
   else if (role == "cityworker") {
-    let user = knex.from("users").select('username', 'password', 'status').where({ username: req.session.username });
+    let user = await knex.from("users").select('username', 'password', 'status').where({ username: req.session.username });
     res.render('pages/modifyAccount', { user: user });
   }
   else {
