@@ -11,7 +11,7 @@ const db = require("knex") ({
       password: process.env.RDS_PASSWORD || 'admin',
       database:  process.env.RDS_DB_NAME || 'bucket_list', // name of database on postgres
       port:  process.env.RDS_PORT || 5432, // port number for postgres (postgres > properties > connection > port)
-      ssl: process.env.DB_SSL ? {rejectUnauthorized: false} : false
+      ssl: process.env.DB_SSL_INTEX ? {rejectUnauthorized: false} : false
     }
 });
 
