@@ -174,8 +174,9 @@ app.post('/validateUser', async (req, res) => {
   // res.send('Session variables set for testing.');
 
   // IMPLEMENTATION:
-  const usernameToCheck = req.query.username;
-  const passwordToCheck = req.query.password;
+  console.log(req);
+  const usernameToCheck = req.body.username;
+  const passwordToCheck = req.body.password;
   try {
     if (usernameToCheck && passwordToCheck) {
       const user = await knex('users').where({ username: usernameToCheck, password: passwordToCheck }).first();
