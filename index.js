@@ -80,7 +80,7 @@ app.get('/login', (req, res) => {
   }  
 })
 
-app.post('/logout', (req, res) => {
+app.get('/logout', (req, res) => {
   delete req.session.username;
   delete req.session.password;
   delete req.session.role;
