@@ -91,9 +91,6 @@
     padding: 2em;
 }
 
-
-
-
 fieldset {
     width: 100%;
     margin: 0;
@@ -143,4 +140,15 @@ button:hover {
 #small-search {
     width: 10em;
     float: right;
+}
+
+.table-container {
+    width: 80%; 
+    overflow-x: auto;
+    margin: 20px auto; 
+}
+
+table {
+    width: 100%; 
+    border-collapse: collapse; 
 }
