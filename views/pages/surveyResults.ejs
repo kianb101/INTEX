@@ -3,10 +3,17 @@
 
 <body>
     <div>
-        <h1 class="account">All Survey Results</h1>
-        <div class="container">
+        <div class="account">
+            <h1>All Survey Results</h1>
+            <form action="/search" method="get">
+                <input type="text" id="searchInput" name="searchID" placeholder="Search for survey id" style="margin-bottom: 2em;">
+                <button class="btn btn-secondary" id="login-btn">Search</button>
+            </form>
+        </div>
+        <div class="container" id="table-container">
             <!-- TODO: fix styling of this table -->
-            <table class="table table-bordered" style="white-space: normal; word-wrap: break-word;">
+            <!-- TODO: add drop down to select survey id and filter by that ID -->
+            <table class="table table-bordered" id="dataTable" style="white-space: normal; word-wrap: break-word;">
                 <thead style="background-color: #419F42; color: white;">
                     <tr>
                         <th style="text-align: center;">Survey ID</th>

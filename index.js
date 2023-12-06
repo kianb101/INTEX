@@ -47,12 +47,12 @@ app.get('/dashboard', (req, res) => {
   res.render('pages/dashboard');
 })
 
-app.get('/results', (req, res) => {
+app.get('/report', (req, res) => {
   let loggedIn = req.session.loggedin;
   if (loggedIn) {
     // TODO: come back to this page and figure out what to show...
-    let entries = knex.from("survey_info")
-    // TEST DATA
+    let entries = knex.from("survey_info").select(survey_id, date, time, location, age, gender, rel_status, occ_status, sm_user, avg_time, wop_freq, distract_freq, restless_freq, const_distract, worried_freq, concen_dif, comp_freq, comp_feel, val_freq, dep_freq, int_fluc, sli_issues)
+    // // TEST DATA
     // const entries = [
     //   {
     //     survey_id: 1,
@@ -132,7 +132,13 @@ app.get('/results', (req, res) => {
   else {
     res.render('pages/index');
   }
-})
+});
+
+app.get('/search', async(req, res) => {
+  let surveyID = req.body.searchID;
+  let result = knex.from('survey_info').where({ survey_id: surveyID });
+  res.render('pages/surveyResults', { entries: result });
+});
 
 app.get('/login', (req, res) => {
   let loggedIn = req.session.loggedin;
@@ -177,7 +183,7 @@ app.post('/validateUser', async (req, res) => {
         req.session.loggedin = true;
         req.session.username = user.username;
         req.session.role = user.status;
-        res.redirect('/dashboard');
+        res.redirect('/createAccount');
       } else {
         res.render('pages/login', { msg: "error" });
       }
@@ -297,7 +303,7 @@ app.get("/createAccount", async (req, res) => {
 
   if (role == "admin") {
     let users = await knex.from("users").select('username', 'password', 'status');
-    res.render('pages/createAccount', { user: users, error: false, success: false });
+    res.render('pages/createAccount', { user: users, msg: "" });
   }
   else if (role == "cityworker") {
     let user = await knex.from("users").select('username', 'password', 'status').where({ username: req.session.username });
@@ -310,11 +316,16 @@ app.get("/createAccount", async (req, res) => {
 
 app.post("/createAccount", async (req, res)=> {
   const usernameToCheck = req.body.username ? req.body.username : '';
+  const passwordOne = req.body.password ? req.body.password : '';
+  const passwordTwo = req.body.newPassword ? req.body.newPassword : '';
   let user = await knex.from('users').where({ username: usernameToCheck }).first();
-  let users = await knex.from("users").select('username', 'password', 'status');
+  let users = await knex.from('users').select('username', 'password', 'status');
 
   if (user) {
-    res.render('pages/createAccount', { user: users, error: true, success: false });
+    res.render('pages/createAccount', { user: users, msg: 'error' });
+  }
+  else if (passwordOne != passwordTwo) {
+    res.render('pages/createAccount', { user: users, msg: 'password' })
   }
   else {
     knex.from("users").insert({
@@ -322,15 +333,12 @@ app.post("/createAccount", async (req, res)=> {
       password: req.body.password,
       status: req.body.role
     }).then(entry => {
-      res.render("pages/createAccount", { user: users, error: false, success: true });
+      res.render('pages/createAccount', { user: users, msg: 'success' });
     }).catch(error => {
       console.error(error);
     });
   };
 });
-
-
-
 
 app.get("/editAccount/:username", (req, res) => {
   knex.from("users").select("username", "password").where("username", req.params.username).then(user => {
