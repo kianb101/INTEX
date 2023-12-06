@@ -29,22 +29,22 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({
 	secret: 'secret',
-	resave: false,
+	resave: true,
 	saveUninitialized: true,
   store: new MemoryStore()
 }));
 
 // ------- ROUTES --------
 app.get('/', (req, res) => {
-  res.render('pages/index');
+  res.render('pages/index', { loggedin: req.session.loggedin });
 })
 
 app.get('/survey', (req, res) => {
-    res.render('pages/survey');
+    res.render('pages/survey', { loggedin: req.session.loggedin });
 })
 
 app.get('/dashboard', (req, res) => {
-  res.render('pages/dashboard');
+  res.render('pages/dashboard', { loggedin: req.session.loggedin });
 })
 
 app.get('/report', async (req, res) => {
@@ -57,7 +57,7 @@ app.get('/report', async (req, res) => {
       entry.date = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
     });
     
-    res.render('pages/surveyResults', { entries: entries });
+    res.render('pages/surveyResults', { loggedin: req.session.loggedin, entries: entries });
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
@@ -67,16 +67,16 @@ app.get('/report', async (req, res) => {
 app.get('/search', async(req, res) => {
   let surveyID = req.query.searchID;
   let result = knex.from('survey_info').select('survey_id', 'date', 'time', 'location', 'age', 'gender', 'rel_status', 'occ_status', 'sm_user', 'avg_time', 'wop_freq', 'distract_freq', 'restless_freq', 'const_distract', 'worried_freq', 'concen_dif', 'comp_freq', 'comp_feel', 'val_freq', 'dep_freq', 'int_fluc', 'slp_issues').where({ survey_id: surveyID });
-  res.render('pages/surveyResults', { entries: result });
+  res.render('pages/surveyResults', { loggedin: req.session.loggedin, entries: result });
 });
 
 app.get('/login', (req, res) => {
   let loggedIn = req.session.loggedin;
   if (loggedIn) {
-    res.render('pages/login', { msg: "success" });
+    res.render('pages/login', { msg: "success", loggedin: req.session.loggedin });
   }
   else {
-    res.render('pages/login', { msg: "" });
+    res.render('pages/login', { msg: "", loggedin: req.session.loggedin });
   }  
 })
 
@@ -85,7 +85,7 @@ app.post('/logout', (req, res) => {
   delete req.session.password;
   delete req.session.role;
   delete req.session.loggedin;
-  res.render('pages/login', { msg: "logout" });
+  res.render('pages/login', { msg: "logout", loggedin: req.session.loggedin });
 })
 
 // ------- DATABASE CALLS --------
@@ -115,16 +115,13 @@ app.post('/validateUser', async (req, res) => {
         req.session.role = user.status;
         res.redirect('/createAccount');
       } else {
-        res.render('pages/login', { msg: "error" });
+        res.render('pages/login', { msg: "error", loggedin: req.session.loggedin });
       }
     }
   } catch (error) {
     console.error('Error validating user:', error);
     res.status(500).send('Internal Server Error');
   };
-
-  // TO TEST
-  // res.render('pages/login', { error: true });
 });
 
 const currentDate = new Date().toISOString().split('T')[0]; // Get current date
@@ -234,16 +231,16 @@ app.get("/createAccount", async (req, res) => {
   if (role == "admin") {
     if (req.query.msg == 'success') {
       let users = await knex.from("users").select('username', 'password', 'status');
-      res.render('pages/createAccount', { user: users, msg: "success" });
+      res.render('pages/createAccount', { user: users, msg: "success", loggedin: req.session.loggedin });
     }
     else {
       let users = await knex.from("users").select('username', 'password', 'status');
-      res.render('pages/createAccount', { user: users, msg: "" });
+      res.render('pages/createAccount', { user: users, msg: "", loggedin: req.session.loggedin });
     }
   }
   else if (role == "cityworker") {
     let user = await knex.from("users").select('username', 'password', 'status').where({ username: req.session.username });
-    res.render('pages/modifyAccount', { user: user });
+    res.render('pages/modifyAccount', { user: user, loggedin: req.session.loggedin });
   }
   else {
     res.redirect('/');
@@ -258,10 +255,10 @@ app.post("/createAccount", async (req, res)=> {
   let users = await knex.from('users').select('username', 'password', 'status');
 
   if (user) {
-    res.render('pages/createAccount', { user: users, msg: 'error' });
+    res.render('pages/createAccount', { user: users, msg: 'error', loggedin: req.session.loggedin });
   }
   else if (passwordOne != passwordTwo) {
-    res.render('pages/createAccount', { user: users, msg: 'password' })
+    res.render('pages/createAccount', { user: users, msg: 'password', loggedin: req.session.loggedin })
   }
   else {
     knex.from("users").insert({
@@ -279,7 +276,7 @@ app.post("/createAccount", async (req, res)=> {
 
 app.get("/editAccount/:username", (req, res) => {
   knex.from("users").select("username", "password").where("username", req.params.username).then(user => {
-    res.render("pages/editAccount", { user: user });
+    res.render("pages/editAccount", { user: user, loggedin: req.session.loggedin });
   }).catch(err => {
     console.log(err);
     res.status(500).json({ err });
@@ -287,7 +284,7 @@ app.get("/editAccount/:username", (req, res) => {
 });
 app.get("/editAccountWorker/:username", (req, res) => {
   knex.from("users").select("username", "password").where("username", req.params.username).then(user => {
-    res.render("pages/editAccountWorker", { user: user });
+    res.render("pages/editAccountWorker", { user: user, loggedin: req.session.loggedin });
   }).catch(err => {
     console.log(err);
     res.status(500).json({ err });
