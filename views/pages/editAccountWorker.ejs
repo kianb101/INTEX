@@ -1,10 +1,15 @@
 <%- include('../partials/head') %>
 <%- include('../partials/header') %>
+<!-- Update your HTML body section -->
+<body>
+    <div class="content-section">
+        <div class="form-container">
+            <!-- Your first form here -->
+        </div>
 
-    <body>
-        <div style="float: left; margin-right: 20px;">
+        <div class="form-container-2">
             <form action="/editAccountPassword" method="POST">
-                <fieldset style="width: 200px;">
+                <fieldset>
                     <legend>Edit Password:</legend>
                     <label for="username">Current Username:</label>
                     <input type="text" id="username" name="username" value="<%= user[0].username %>" readonly>
@@ -19,10 +24,12 @@
                     <!-- The 'required' attribute ensures that the field cannot be left blank -->
                     <br><br>
                 </fieldset>
-                <button type="submit">Save Password</button>
+                <button class="btn btn-primary" id="survey-btn" type="submit">Save Password</button>
             </form>
         </div>
-    </body>
+    </div>
+
+    <%- include('../partials/footer') %>
 </body>
 
 
