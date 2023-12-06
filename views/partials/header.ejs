@@ -16,13 +16,21 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/dashboard">Dashboard</a>
                 </li>
-                <!-- use embedded javascript to say "if loggedIn = true" show these links -->
-                <li class="nav-item">
-                    <a class="nav-link" href="/createAccount">Manage Accounts</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/report">Report</a>
-                </li>
+                <% if (loggedin) { %>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/createAccount">Manage Accounts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/report">Report</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                    </li>
+                <% } else { %>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">Login</a>
+                    </li>
+                <% } %>
             </ul>
         </div>
     </nav>
