@@ -1,4 +1,10 @@
-/* Custom styles for the banner */
+/* google fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+/* landing page */
 .banner-container {
     position: relative;
     height: 35em;
@@ -42,31 +48,8 @@
     font-size: 1.5em;
 }
 
-/* .navbar {
-    font-size: 1.5em;
-} */
-
-/* .navbar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    background-color: rgba(0, 0, 0, 0.7);
-    z-index: 1000;
-}
-
-.navbar-brand {
-    color: #fff !important;
-}
-
-.banner-text {
-    position: relative;
-    z-index: 1;
-} */
-
-/* Custom styles for the content section */
 .content-section {
-    background-color: #f8f9fa; /* Change background color as needed */
+    background-color: #f8f9fa;
     padding: 50px 0;
     text-align: center;
 }
