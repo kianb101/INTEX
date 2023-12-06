@@ -6,7 +6,8 @@
         <div class="account">
             <h1>All Survey Results</h1>
             <form action="/search" method="get">
-                <input type="text" id="searchInput" name="searchID" placeholder="Search for survey id" style="margin-bottom: 2em;">
+                <h3>Search for survey entries</h3>
+                <input type="number" id="searchInput" name="id" placeholder="Search for Survey ID">
                 <button class="btn btn-secondary" id="login-btn">Search</button>
             </form>
         </div>
@@ -19,6 +20,7 @@
                         <th style="text-align: center;">Survey ID</th>
                         <th style="text-align: center;">Date</th>
                         <th style="text-align: center;">Time</th>
+                        <th style="text-align: center;">Location</th>
                         <th style="text-align: center;">Age</th>
                         <th style="text-align: center;">Gender</th>
                         <th style="text-align: center;">Relationship</th>
@@ -31,12 +33,12 @@
                         <th style="text-align: center;">Overall Distraction</th>
                         <th style="text-align: center;">Freq of Worry</th>
                         <th style="text-align: center;">Concentration</th>
+                        <th style="text-align: center;">Comparison Freq</th>
                         <th style="text-align: center;">Feelings of Comparison</th>
                         <th style="text-align: center;">Seeking Validation</th>
                         <th style="text-align: center;">Feeling Depressed</th>
-                        <th style="text-align: center;">??</th>
-                        <th style="text-align: center;">Sleep Issues</th> 
-                        <th style="text-align: center;">Location</th>                       
+                        <th style="text-align: center;">Fluctuated Interest</th>
+                        <th style="text-align: center;">Sleep Issues</th>                        
                     </tr>
                 </thead>
                 <tbody>
@@ -45,6 +47,7 @@
                         <td style="text-align: center;"><%= entries[iCount].survey_id %></td>
                         <td style="text-align: center;"><%= entries[iCount].date %></td>
                         <td style="text-align: center;"><%= entries[iCount].time %></td>
+                        <td style="text-align: center;"><%= entries[iCount].location %></td>
                         <td style="text-align: center;"><%= entries[iCount].age %></td>
                         <td style="text-align: center;"><%= entries[iCount].gender %></td>
                         <td style="text-align: center;"><%= entries[iCount].rel_status %></td>
@@ -69,6 +72,38 @@
             </table>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchInput = document.getElementById('searchInput');
+            const dataTable = document.getElementById('dataTable');
+            const rows = dataTable.getElementsByTagName('tr');
+
+            searchInput.addEventListener('input', function () {
+                const searchTerm = searchInput.value.toLowerCase();
+
+                for (let i = 1; i < rows.length; i++) {
+                    const row = rows[i];
+                    const cells = row.getElementsByTagName('td');
+                    let found = false;
+
+                    for (let j = 0; j < cells.length; j++) {
+                        const cellText = cells[j].innerText.toLowerCase();
+
+                        if (cellText.includes(searchTerm)) {
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if (found) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 
 <%- include('../partials/footer') %>

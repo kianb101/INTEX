@@ -93,3 +93,33 @@
 
 
 
+
+fieldset {
+    width: 100%;
+    margin: 0;
+    padding: 10px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 12px;
+}
+
+button {
+    background-color: #419F42;
+    border-color: #419F42;
+    color: #fff;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #2b6e2b;
+}
