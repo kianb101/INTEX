@@ -135,6 +135,12 @@ button:hover {
 }
 
 .counter{
-  padding:8px; 
+  padding:1em; 
   color:#ccc;
+  float: right;
+}
+
+#small-search {
+    width: 10em;
+    float: right;
 }
