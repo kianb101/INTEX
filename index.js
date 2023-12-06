@@ -80,7 +80,7 @@ app.get('/report', async (req, res) => {
       entry.platforms = platData.map(data => data.platform); // Attach platform data to each entry
     }
 
-    res.render('pages/surveyResults', { entries: entries });
+    res.render('pages/surveyResults', { loggedin: req.session.loggedin, entries: entries });
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
