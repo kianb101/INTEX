@@ -135,7 +135,7 @@ app.get('/report', (req, res) => {
 });
 
 app.get('/search', async(req, res) => {
-  let surveyID = req.body.searchID;
+  let surveyID = req.query.searchID;
   let result = knex.from('survey_info').select('survey_id', 'date', 'time', 'location', 'age', 'gender', 'rel_status', 'occ_status', 'sm_user', 'avg_time', 'wop_freq', 'distract_freq', 'restless_freq', 'const_distract', 'worried_freq', 'concen_dif', 'comp_freq', 'comp_feel', 'val_freq', 'dep_freq', 'int_fluc', 'slp_issues').where({ survey_id: surveyID });
   res.render('pages/surveyResults', { entries: result });
 });
