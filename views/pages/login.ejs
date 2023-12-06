@@ -1,6 +1,21 @@
 <%- include('../partials/head') %>
 <%- include('../partials/header') %>
 
+<style>
+    .container {
+        text-align: center;
+    }
+
+    .login,
+    form[action="/logout"] {
+        display: inline-block;
+        margin-top: 10px;
+    }
+
+    #login-btn {
+        margin-top: 10px;
+    }
+</style>
 <body>
     <!-- Login portal -->
     <div class="container account">
@@ -16,7 +31,7 @@
             </div>
             <button type="submit" class="btn btn-primary" id="survey-btn">Login</button>
         </form>
-        <form action="/logout" method="post">
+        <form action="/logout" method="get">
             <button type="submit" class="btn btn-primary" id="login-btn">Logout</button>
         </form>
         <% if (msg == "error") { %>

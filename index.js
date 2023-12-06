@@ -11,7 +11,7 @@ const knex = require("knex") ({
     host: process.env.RDS_HOSTNAME || 'localhost', // name of host, on AWS use the one they give 
     user:  process.env.RDS_USERNAME || 'postgres', // name of user w/ permissions on database 
     password: process.env.RDS_PASSWORD || 'admin',
-    database:  process.env.RDS_DB_NAME || 'ebdb', // name of database on postgres
+    database:  process.env.RDS_DB_NAME || 'INTEXtest', // name of database on postgres
     port:  process.env.RDS_PORT || 5432, // port number for postgres (postgres > properties > connection > port)
     ssl: process.env.DB_SSL_INTEX ? {rejectUnauthorized: false} : false
   }
@@ -29,51 +29,23 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({
 	secret: 'secret',
-	resave: false,
+	resave: true,
 	saveUninitialized: true,
   store: new MemoryStore()
 }));
 
 // ------- ROUTES --------
 app.get('/', (req, res) => {
-  res.render('pages/index');
+  res.render('pages/index', { loggedin: req.session.loggedin });
 })
 
 app.get('/survey', (req, res) => {
-    res.render('pages/survey');
+    res.render('pages/survey', { loggedin: req.session.loggedin });
 })
 
 app.get('/dashboard', (req, res) => {
-  res.render('pages/dashboard');
+  res.render('pages/dashboard', { loggedin: req.session.loggedin });
 })
-
-// app.get('/report', async (req, res) => {
-//   try {
-//     const entries = await knex.from('survey_info').select('survey_id', 'date', 'time', 'location', 'age', 'gender', 'rel_status', 'occ_status', 'sm_user', 'avg_time', 'wop_freq', 'distract_freq', 'restless_freq', 'const_distract', 'worried_freq', 'concen_diff', 'comp_freq', 'comp_feel', 'val_freq', 'dep_freq', 'int_fluc', 'slp_issues');
-//     // Format the date in each entry to a simpler format
-//     entries.forEach(entry => {
-//       const dateObj = new Date(entry.date);
-//       entry.date = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-//     });
-    
-//     res.render('pages/surveyResults', { entries: entries });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send('Internal Server Error');
-//   }
-// });
-
-// app.get('/report', async (req, res) => {
-//   try {
-//     const entries = await knex
-//       .from('survey_info')
-//       .select('survey_id', 'date', 'time', 'location', 'age', 'gender', 'rel_status', 'occ_status', 'sm_user', 'avg_time', 'wop_freq', 'distract_freq', 'restless_freq', 'const_distract', 'worried_freq', 'concen_diff', 'comp_freq', 'comp_feel', 'val_freq', 'dep_freq', 'int_fluc', 'slp_issues'); /* include other survey_info fields */
-
-//     // Format the date in each entry to a simpler format
-//     entries.forEach(entry => {
-//       const dateObj = new Date(entry.date);
-//       entry.date = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-//     });
 
     app.get('/report', async (req, res) => {
       try {
@@ -114,89 +86,30 @@ app.get('/dashboard', (req, res) => {
         res.status(500).send('Internal Server Error');
       }
     });
-    
-    // const indOrgData = await knex
-    //   .from('ind_org')
-    //   .select('survey_id', 'num_org');
-
-    // const indPlatData = await knex
-    //   .from('ind_plat')
-    //   .select('survey_id', 'num_plat');
-
-    // // Combine the data from different tables based on survey_id
-    // const entries = entries.map(entry => {
-    //   const relatedIndOrg = indOrgData.filter(orgEntry => orgEntry.survey_id === entry.survey_id);
-    //   const relatedIndPlat = indPlatData.filter(platEntry => platEntry.survey_id === entry.survey_id);
-
-    //   return {
-    //     ...entry,
-    //     indOrg: relatedIndOrg,
-    //     indPlat: relatedIndPlat,
-    //   };
-    // });
-
-  // Fetch related organizations and platforms based on the survey_id
-//   for (const entry of entries) {
-//     const orgNums = await knex('ind_org')
-//       .select('num_org')
-//       .where('survey_id', entry.survey_id);
-  
-//     // Extract the type_org numbers from the query result
-//     const orgNumbers = orgNums.map(({ num_org }) => num_org);
-  
-//     // Fetch type_org names from org_info based on orgNumbers
-//     const orgNames = await knex('org_info')
-//       .select('type_org')
-//       .whereIn('num_org', orgNumbers)
-//       .pluck('type_org');
-
-//       const entries = await knex('survey_info').select(/* your fields */);
-
-//       // Fetch platform names for each survey ID
-//       for (const entry of entries) {
-//         const platData = await knex('ind_plat')
-//           .join('plat_info', 'ind_plat.num_plat', 'plat_info.num_plat')
-//           .select('plat_info.platform')
-//           .where('ind_plat.survey_id', entry.survey_id);
-      
-//         entry.platforms = platData.map(data => data.platform);
-//       }
-      
-
-//      entry.organizations = orgNames; // Attach organization data to each entry
-//     // entry.platforms = platNames; // Attach platform data to each entry
-//   }
-
-//     res.render('pages/surveyResults', { entries: entries });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send('Internal Server Error');
-//   }
-// });
 
 
 app.get('/search', async(req, res) => {
   let surveyID = req.query.searchID;
   let result = knex.from('survey_info').select('survey_id', 'date', 'time', 'location', 'age', 'gender', 'rel_status', 'occ_status', 'sm_user', 'avg_time', 'wop_freq', 'distract_freq', 'restless_freq', 'const_distract', 'worried_freq', 'concen_dif', 'comp_freq', 'comp_feel', 'val_freq', 'dep_freq', 'int_fluc', 'slp_issues').where({ survey_id: surveyID });
-  res.render('pages/surveyResults', { entries: result });
+  res.render('pages/surveyResults', { loggedin: req.session.loggedin, entries: result });
 });
 
 app.get('/login', (req, res) => {
   let loggedIn = req.session.loggedin;
   if (loggedIn) {
-    res.render('pages/login', { msg: "success" });
+    res.render('pages/login', { msg: "success", loggedin: req.session.loggedin });
   }
   else {
-    res.render('pages/login', { msg: "" });
+    res.render('pages/login', { msg: "", loggedin: req.session.loggedin });
   }  
 })
 
-app.post('/logout', (req, res) => {
+app.get('/logout', (req, res) => {
   delete req.session.username;
   delete req.session.password;
   delete req.session.role;
   delete req.session.loggedin;
-  res.render('pages/login', { msg: "logout" });
+  res.render('pages/login', { msg: "logout", loggedin: req.session.loggedin });
 })
 
 // ------- DATABASE CALLS --------
@@ -226,16 +139,13 @@ app.post('/validateUser', async (req, res) => {
         req.session.role = user.status;
         res.redirect('/createAccount');
       } else {
-        res.render('pages/login', { msg: "error" });
+        res.render('pages/login', { msg: "error", loggedin: req.session.loggedin });
       }
     }
   } catch (error) {
     console.error('Error validating user:', error);
     res.status(500).send('Internal Server Error');
   };
-
-  // TO TEST
-  // res.render('pages/login', { error: true });
 });
 
 const currentDate = new Date().toISOString().split('T')[0]; // Get current date
@@ -345,16 +255,16 @@ app.get("/createAccount", async (req, res) => {
   if (role == "admin") {
     if (req.query.msg == 'success') {
       let users = await knex.from("users").select('username', 'password', 'status');
-      res.render('pages/createAccount', { user: users, msg: "success" });
+      res.render('pages/createAccount', { user: users, msg: "success", loggedin: req.session.loggedin });
     }
     else {
       let users = await knex.from("users").select('username', 'password', 'status');
-      res.render('pages/createAccount', { user: users, msg: "" });
+      res.render('pages/createAccount', { user: users, msg: "", loggedin: req.session.loggedin });
     }
   }
   else if (role == "cityworker") {
     let user = await knex.from("users").select('username', 'password', 'status').where({ username: req.session.username });
-    res.render('pages/modifyAccount', { user: user });
+    res.render('pages/modifyAccount', { user: user, loggedin: req.session.loggedin });
   }
   else {
     res.redirect('/');
@@ -369,10 +279,10 @@ app.post("/createAccount", async (req, res)=> {
   let users = await knex.from('users').select('username', 'password', 'status');
 
   if (user) {
-    res.render('pages/createAccount', { user: users, msg: 'error' });
+    res.render('pages/createAccount', { user: users, msg: 'error', loggedin: req.session.loggedin });
   }
   else if (passwordOne != passwordTwo) {
-    res.render('pages/createAccount', { user: users, msg: 'password' })
+    res.render('pages/createAccount', { user: users, msg: 'password', loggedin: req.session.loggedin })
   }
   else {
     knex.from("users").insert({
@@ -390,7 +300,7 @@ app.post("/createAccount", async (req, res)=> {
 
 app.get("/editAccount/:username", (req, res) => {
   knex.from("users").select("username", "password").where("username", req.params.username).then(user => {
-    res.render("pages/editAccount", { user: user });
+    res.render("pages/editAccount", { user: user, loggedin: req.session.loggedin });
   }).catch(err => {
     console.log(err);
     res.status(500).json({ err });
@@ -398,7 +308,7 @@ app.get("/editAccount/:username", (req, res) => {
 });
 app.get("/editAccountWorker/:username", (req, res) => {
   knex.from("users").select("username", "password").where("username", req.params.username).then(user => {
-    res.render("pages/editAccountWorker", { user: user });
+    res.render("pages/editAccountWorker", { user: user, loggedin: req.session.loggedin });
   }).catch(err => {
     console.log(err);
     res.status(500).json({ err });
