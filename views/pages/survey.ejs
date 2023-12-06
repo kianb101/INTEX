@@ -9,7 +9,7 @@
         <!-- Q1: age -->
         <div class="form-group">
             <label for="age">1. Enter your age:</label><br/>
-            <input type="number" class="form-control" name="age" placeholder="00" required min="1">
+            <input type="number" class="form-control" name="age" placeholder="00" required min="1" max="100">
         </div>
         <!-- Q2: Gender -->
         <div class="form-group">
@@ -238,8 +238,15 @@
             <label class="sliderLabel" for="question20">4</label>
             <label class="sliderLabel" for="question20">5</label>
         </div>
-        <button type="submit" class="btn btn-primary" id="survey-btn">Submit</button>
+        <button type="submit" class="btn btn-primary" id="survey-btn" onclick="clearForm()">Submit</button>
     </form>
+
+    <script>
+        function clearForm() {
+            // You can use JavaScript to reset the form by accessing the form element and calling the reset() method
+            document.getElementById("myForm").reset();
+        }
+    </script>
 </body>
 
 

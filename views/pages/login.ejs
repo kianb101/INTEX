@@ -1,10 +1,10 @@
 <%- include('../partials/head') %>
 <%- include('../partials/header') %>
 
-<style>
-    .container {
+<!-- <style>
+    /* .container {
         text-align: center;
-    }
+    } */
 
     .login,
     form[action="/logout"] {
@@ -15,12 +15,12 @@
     #login-btn {
         margin-top: 10px;
     }
-</style>
+</style> -->
 <body>
     <!-- Login portal -->
     <div class="container account">
         <h1 class="title">Login</h1>
-        <form class="login" action="/validateUser" method="post">
+        <form class="login border rounded" id="login-form" action="/validateUser" method="post">
             <div class="form-group">
                 <label for="username">Enter username:</label>
                 <input type="text" class="form-control" id="username" name="username" placeholder="username">
@@ -29,10 +29,12 @@
                 <label for="password">Enter password:</label>
                 <input type="password" class="form-control" id="password" name="password" placeholder="********">
             </div>
-            <button type="submit" class="btn btn-primary" id="survey-btn">Login</button>
-        </form>
-        <form action="/logout" method="get">
-            <button type="submit" class="btn btn-primary" id="login-btn">Logout</button>
+            <div id="log-btns">
+                <button type="submit" class="btn btn-primary" id="survey-btn">Login</button>
+                <form action="/logout" method="get">
+                    <button type="submit" class="btn btn-primary" id="login-btn">Logout</button>
+                </form>
+            </div>
         </form>
         <% if (msg == "error") { %>
             <p style="margin-top: 1em; color: red">Invalid credentials. Please try again or contact administrator.</p>
