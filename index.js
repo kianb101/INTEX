@@ -263,7 +263,8 @@ app.post("/createAccount", async (req, res)=> {
       password: req.body.password,
       status: req.body.role
     }).then(entry => {
-      res.render('pages/createAccount', { user: users, msg: 'success' });
+      // res.render('pages/createAccount', { user: users, msg: 'success' });
+      res.redirect('/createAccount');
     }).catch(error => {
       console.error(error);
     });
