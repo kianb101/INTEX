@@ -1,0 +1,31 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+
+    <body>
+        <div style="float: left; margin-right: 20px;">
+            <form action="/editAccountPassword" method="POST">
+                <fieldset style="width: 200px;">
+                    <legend>Edit Password:</legend>
+                    <label for="username">Current Username:</label>
+                    <input type="text" id="username" name="username" value="<%= user[0].username %>" readonly>
+                    <br><br>
+                    <!-- Display current password -->
+                    <label for="password">Current Password:</label>
+                    <input type="text" id="password" name="password" value="<%= user[0].password %>" readonly>
+                    <br><br>
+                    <!-- Enter new password -->
+                    <label for="newPassword">New Password:</label>
+                    <input type="text" id="newPassword" name="newPassword" placeholder="Enter new password" required>
+                    <!-- The 'required' attribute ensures that the field cannot be left blank -->
+                    <br><br>
+                </fieldset>
+                <button type="submit">Save Password</button>
+            </form>
+        </div>
+    </body>
+</body>
+
+
+
+
+<%- include('../partials/footer') %>

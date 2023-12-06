@@ -13,7 +13,7 @@
                         <th style="text-align: center;">Password</th>
                         <th style="text-align: center;">Role</th>
                         <th></th>
-                        <th></th>
+                        <!-- <th></th> -->
                     </tr>
                 </thead>
                 <tbody>
@@ -23,16 +23,17 @@
                         <td style="text-align: center;"><%= user[iCount].password %></td>
                         <td style="text-align: center;"><%= user[iCount].status %></td>
                         <td style="text-align: center;">
+                            <!-- TODO: create page to edit account?? How do i do this -->
                             <form action="/modifyAccount/<%= user[iCount].username %>" method="GET">
                                 <button class="btn btn-secondary" style="background-color: #A9A9A9; border-color: #A9A9A9;" type="submit">Edit</button>
                             </form>
                         </td>
-                        <td style="text-align: center;">
-                            <!-- TODO: have it bring them to a confirmation page if they are sure they want to delete this user -->
+                        <!-- <td style="text-align: center;">
+                            TODO: have it bring them to a confirmation page if they are sure they want to delete this user 
                             <form action="/deleteAccount/<%= user[iCount].username %>" method="POST">
                             <button class="btn btn-secondary" id="login-btn" type="submit">Delete</button>
                             </form>
-                        </td>
+                        </td> -->
                        </tr>
                     <% } %>
                 </tbody>
