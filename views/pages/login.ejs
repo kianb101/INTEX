@@ -1,36 +1,15 @@
 <%- include('../partials/head') %>
 <%- include('../partials/header') %>
 
-<!-- <style>
-    .container {
-        text-align: center;
-    }
-
-    .login,
-    form[action="/logout"] {
-        display: inline-block;
-        margin-top: 10px;
-    }
-
-    #login-btn {
-        margin-top: 10px;
-    }
-</style> -->
 <body>
-    <main id="main">
-        <!-- ======= Breadcrumbs ======= -->
-        <div class="breadcrumbs d-flex align-items-center" style="background-image: url('/img/breadcrumbs-bg.jpg');">
-          <div class="container position-relative d-flex flex-column align-items-center" data-aos="fade">
-            <h2>Login</h2>
-          </div>
-        </div>
-    
-        <!-- ======= Contact Section ======= -->
-        <section id="contact" class="contact">
-            <div class="container" data-aos="fade-up" data-aos-delay="100">
-    
-                <div class="col-lg-6">
+    <main id="main">    
+        <!-- ======= Login Section ======= -->
+        <section class="contact">
+            <!-- data-aos="fade-up" data-aos-delay="100" -->
+            <!-- <div class="container col-lg-6"> -->
                     <form class="login" action="/validateUser" method="post">
+                        <h2 >Login</h2>
+                        <br>
                         <div class="form-group">
                             <label for="username">Enter username:</label>
                             <input type="text" class="form-control" id="username" name="username" placeholder="username">
@@ -39,10 +18,11 @@
                             <label for="password">Enter password:</label>
                             <input type="password" class="form-control" id="password" name="password" placeholder="********">
                         </div>
-                        <button type="submit" class="btn btn-primary" id="survey-btn">Login</button>
-                    </form>
-                    <form action="/logout" method="get">
-                        <button type="submit" class="btn btn-primary" id="login-btn">Logout</button>
+                        <button type="submit" class="btn btn-primary">Login</button>
+                        <!-- TODO: test that this works!!! -->
+                        <form action="/logout" method="get" id="logout-btn">
+                            <button type="submit" class="btn btn-primary">Logout</button>
+                        </form>
                     </form>
                     <% if (msg == "error") { %>
                         <p style="margin-top: 1em; color: red">Invalid credentials. Please try again or contact administrator.</p>
@@ -53,8 +33,7 @@
                     <% if (msg == "logout") { %>
                         <p style="margin-top: 1em; color: green">You have been logged out.</p>
                     <% } %>
-                </div>
-            </div>
+                <!-- </div> -->
         </section>
     </main>
 </body>

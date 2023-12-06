@@ -72,6 +72,9 @@ section {
 .section-header {
   text-align: center;
   padding-bottom: 70px;
+  /* display: flex;
+  flex-flow: column nowrap;
+  align-items: center; */
 }
 
 .section-header h2 {
@@ -305,7 +308,7 @@ section {
     font-family: var(--font-primary);
     font-size: 14px;
     font-weight: 500;
-    color: rgba(255, 255, 255, 0.6);
+    color: darkgrey;
     text-transform: uppercase;
     white-space: nowrap;
     transition: 0.3s;
@@ -668,39 +671,6 @@ section {
   100% {
     transform: rotate(360deg);
   }
-}
-
-/*--------------------------------------------------------------
-# Constructions Section
---------------------------------------------------------------*/
-.constructions .card-item {
-  border: 1px solid rgba(82, 86, 94, 0.2);
-  background: #fff;
-  position: relative;
-  border-radius: 0;
-}
-
-.constructions .card-item .card-bg {
-  min-height: 300px;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-.constructions .card-item .card-body {
-  padding: 30px;
-}
-
-.constructions .card-item h4 {
-  font-weight: 700;
-  font-size: 20px;
-  margin-bottom: 15px;
-  color: var(--color-secondary);
-}
-
-.constructions .card-item p {
-  color: var(--color-secondary);
-  margin: 0;
 }
 
 /*--------------------------------------------------------------
@@ -1662,18 +1632,22 @@ section {
   margin-bottom: 0;
 }
 
-.contact .php-email-form {
+.contact form {
   width: 100%;
   background: #fff;
-  box-shadow: 0 0 25px rgba(0, 0, 0, 0.08);
-  padding: 30px;
+  /* box-shadow: 0 0 25px rgba(0, 0, 0, 0.08); */
+  padding: 3em;
 }
 
-.contact .php-email-form .form-group {
+.contact form #logout-btn {
+  padding: 0px;
+}
+
+.contact form .form-group {
   padding-bottom: 20px;
 }
 
-.contact .php-email-form .error-message {
+/* .contact .error-message {
   display: none;
   color: #fff;
   background: #df1529;
@@ -1682,11 +1656,11 @@ section {
   font-weight: 600;
 }
 
-.contact .php-email-form .error-message br+br {
+.contact .error-message br+br {
   margin-top: 25px;
 }
 
-.contact .php-email-form .sent-message {
+.contact .sent-message {
   display: none;
   color: #fff;
   background: #059652;
@@ -1695,14 +1669,14 @@ section {
   font-weight: 600;
 }
 
-.contact .php-email-form .loading {
+.contact .loading {
   display: none;
   background: #fff;
   text-align: center;
   padding: 15px;
 }
 
-.contact .php-email-form .loading:before {
+.contact .loading:before {
   content: "";
   display: inline-block;
   border-radius: 50%;
@@ -1711,30 +1685,30 @@ section {
   margin: 0 10px -6px 0;
   border: 3px solid #059652;
   border-top-color: #fff;
-  animation: animate-loading 1s linear infinite;
-}
+  animation: animate-loading 1s linear infinite; */
+/* } */
 
-.contact .php-email-form input,
-.contact .php-email-form textarea {
+.contact form input,
+.contact form textarea {
   border-radius: 0;
   box-shadow: none;
   font-size: 14px;
 }
 
-.contact .php-email-form input:focus,
-.contact .php-email-form textarea:focus {
+.contact form input:focus,
+.contact form textarea:focus {
   border-color: var(--color-primary);
 }
 
-.contact .php-email-form input {
+.contact form input {
   height: 44px;
 }
 
-.contact .php-email-form textarea {
+.contact form textarea {
   padding: 10px 12px;
 }
 
-.contact .php-email-form button[type=submit] {
+.contact form button[type=submit] {
   background: var(--color-primary);
   border: 0;
   padding: 10px 35px;
@@ -1743,7 +1717,7 @@ section {
   border-radius: 5px;
 }
 
-.contact .php-email-form button[type=submit]:hover {
+.contact .form button[type=submit]:hover {
   background: rgba(254, 185, 0, 0.8);
 }
 
