@@ -348,6 +348,14 @@ app.get("/editAccount/:username", (req, res) => {
     res.status(500).json({ err });
   });
 });
+app.get("/editAccountWorker/:username", (req, res) => {
+  knex.from("users").select("username", "password").where("username", req.params.username).then(user => {
+    res.render("pages/editAccountWorker", { user: user });
+  }).catch(err => {
+    console.log(err);
+    res.status(500).json({ err });
+  });
+});
 
 app.post("/editAccountUsername", async (req, res) => {
   try {
@@ -381,18 +389,23 @@ app.post("/editAccountPassword", async (req, res) => {
     res.redirect("/createAccount?success=true");
   } catch (error) {
     console.error(error);
-    res.status(500).send("Invalid Username. (Username already taken)");
+    res.status(500).send("Invalid Password.");
   }
 });
 
 
 app.post("/modifyAccount", (req, res)=> {
   // TODO: edit account here
-})
+});
 
 app.post("/deleteAccount", (req, res)=> {
-  // TODO: connect db here to delete username/password
-})
+  knex("users").where("username",req.body.username).del().then( user => {
+    res.redirect("/createAccount");
+ }).catch( err => {
+    console.log(err);
+    res.status(500).json({err});
+ });
+});
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
