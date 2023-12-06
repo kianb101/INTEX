@@ -47,23 +47,61 @@ app.get('/dashboard', (req, res) => {
   res.render('pages/dashboard');
 })
 
+// app.get('/report', async (req, res) => {
+//   try {
+//     const entries = await knex.from('survey_info').select('survey_id', 'date', 'time', 'location', 'age', 'gender', 'rel_status', 'occ_status', 'sm_user', 'avg_time', 'wop_freq', 'distract_freq', 'restless_freq', 'const_distract', 'worried_freq', 'concen_diff', 'comp_freq', 'comp_feel', 'val_freq', 'dep_freq', 'int_fluc', 'slp_issues');
+//     // Format the date in each entry to a simpler format
+//     entries.forEach(entry => {
+//       const dateObj = new Date(entry.date);
+//       entry.date = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+//     });
+    
+//     res.render('pages/surveyResults', { entries: entries });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).send('Internal Server Error');
+//   }
+// });
+
 app.get('/report', async (req, res) => {
   try {
-    const entries = await knex.from('survey_info').select('survey_id', 'date', 'time', 'location', 'age', 'gender', 'rel_status', 'occ_status', 'sm_user', 'avg_time', 'wop_freq', 'distract_freq', 'restless_freq', 'const_distract', 'worried_freq', 'concen_diff', 'comp_freq', 'comp_feel', 'val_freq', 'dep_freq', 'int_fluc', 'slp_issues');
+    const surveyInfo = await knex
+      .from('survey_info')
+      .select('survey_id', 'date', 'time', 'location', 'age', 'gender', 'rel_status', 'occ_status', 'sm_user', 'avg_time', 'wop_freq', 'distract_freq', 'restless_freq', 'const_distract', 'worried_freq', 'concen_diff', 'comp_freq', 'comp_feel', 'val_freq', 'dep_freq', 'int_fluc', 'slp_issues'); /* include other survey_info fields */
 
-    console.log(entries);
     // Format the date in each entry to a simpler format
-    entries.forEach(entry => {
+    surveyInfo.forEach(entry => {
       const dateObj = new Date(entry.date);
       entry.date = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
     });
-    
+
+    const indOrgData = await knex
+      .from('ind_org')
+      .select('survey_id', 'num_org');
+
+    const indPlatData = await knex
+      .from('ind_plat')
+      .select('survey_id', 'num_plat');
+
+    // Combine the data from different tables based on survey_id
+    const entries = surveyInfo.map(entry => {
+      const relatedIndOrg = indOrgData.filter(orgEntry => orgEntry.survey_id === entry.survey_id);
+      const relatedIndPlat = indPlatData.filter(platEntry => platEntry.survey_id === entry.survey_id);
+
+      return {
+        ...entry,
+        indOrg: relatedIndOrg,
+        indPlat: relatedIndPlat,
+      };
+    });
+
     res.render('pages/surveyResults', { entries: entries });
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
   }
 });
+
 
 app.get('/search', async(req, res) => {
   let surveyID = req.query.searchID;
