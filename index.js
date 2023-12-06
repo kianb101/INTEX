@@ -50,8 +50,6 @@ app.get('/dashboard', (req, res) => {
 app.get('/report', async (req, res) => {
   try {
     const entries = await knex.from('survey_info').select('survey_id', 'date', 'time', 'location', 'age', 'gender', 'rel_status', 'occ_status', 'sm_user', 'avg_time', 'wop_freq', 'distract_freq', 'restless_freq', 'const_distract', 'worried_freq', 'concen_diff', 'comp_freq', 'comp_feel', 'val_freq', 'dep_freq', 'int_fluc', 'slp_issues');
-
-    console.log(entries);
     // Format the date in each entry to a simpler format
     entries.forEach(entry => {
       const dateObj = new Date(entry.date);
