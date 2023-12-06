@@ -234,8 +234,14 @@ app.get("/createAccount", async (req, res) => {
   let role = req.session.role;
 
   if (role == "admin") {
-    let users = await knex.from("users").select('username', 'password', 'status');
-    res.render('pages/createAccount', { user: users, msg: "" });
+    if (req.query.msg == 'success') {
+      let users = await knex.from("users").select('username', 'password', 'status');
+      res.render('pages/createAccount', { user: users, msg: "success" });
+    }
+    else {
+      let users = await knex.from("users").select('username', 'password', 'status');
+      res.render('pages/createAccount', { user: users, msg: "" });
+    }
   }
   else if (role == "cityworker") {
     let user = await knex.from("users").select('username', 'password', 'status').where({ username: req.session.username });
@@ -266,7 +272,7 @@ app.post("/createAccount", async (req, res)=> {
       status: req.body.role
     }).then(entry => {
       // res.render('pages/createAccount', { user: users, msg: 'success' });
-      res.redirect('/createAccount');
+      res.redirect('/createAccount?msg=success');
     }).catch(error => {
       console.error(error);
     });

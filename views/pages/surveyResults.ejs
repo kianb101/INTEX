@@ -6,7 +6,10 @@
         <div class="account">
             <h1>All Survey Results</h1>
             <form action="/search" method="get">
-                <input type="text" id="searchInput" name="searchID" placeholder="Search for survey id" style="margin-bottom: 2em;">
+                <h3>Search for survey entries</h3>
+                <input type="number" id="searchInput" name="id" placeholder="Survey ID">
+                <input type="number" id="age" name="age" placeholder="Age">
+                <input type="text" id="location" name="location" placeholder="Location">
                 <button class="btn btn-secondary" id="login-btn">Search</button>
             </form>
         </div>
@@ -32,6 +35,7 @@
                         <th style="text-align: center;">Overall Distraction</th>
                         <th style="text-align: center;">Freq of Worry</th>
                         <th style="text-align: center;">Concentration</th>
+                        <th style="text-align: center;">Comparison Freq</th>
                         <th style="text-align: center;">Feelings of Comparison</th>
                         <th style="text-align: center;">Seeking Validation</th>
                         <th style="text-align: center;">Feeling Depressed</th>
