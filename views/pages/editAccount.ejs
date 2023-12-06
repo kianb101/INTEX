@@ -13,7 +13,8 @@
                     <br><br>
                     <!-- Enter new username -->
                     <label for="newUsername">New Username:</label>
-                    <input type="text" id="newUsername" name="newUsername" placeholder="Enter new username" required maxlength="20">
+                    <input type="text" id="newUsername" name="newUsername" placeholder="Enter new username" required maxlength="20" pattern="[A-Za-z0-9]+">
+                    <small id="usernameHelp" class="form-text text-muted">Only letters and numbers are allowed.</small>
                     <br><br>
                 </fieldset>
                 <button class="btn btn-primary" id="survey-btn" type="submit">Save Username</button>
