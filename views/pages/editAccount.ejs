@@ -13,7 +13,7 @@
                     <br><br>
                     <!-- Enter new username -->
                     <label for="newUsername">New Username:</label>
-                    <input type="text" id="newUsername" name="newUsername" placeholder="Enter new username" required>
+                    <input type="text" id="newUsername" name="newUsername" placeholder="Enter new username" required maxlength="20">
                     <br><br>
                 </fieldset>
                 <button class="btn btn-primary" id="survey-btn" type="submit">Save Username</button>
@@ -32,7 +32,7 @@
                     <input type="hidden" name="username" value="<%= user[0].username %>">
                     <!-- Enter new password -->
                     <label for="newPassword">New Password:</label>
-                    <input type="password" id="newPassword" name="newPassword" placeholder="Enter new password" required>
+                    <input type="password" id="newPassword" name="newPassword" placeholder="Enter new password" required maxlength="20">
                     <!-- The 'required' attribute ensures that the field cannot be left blank -->
                     <br><br>
                 </fieldset>
