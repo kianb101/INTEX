@@ -63,44 +63,116 @@ app.get('/dashboard', (req, res) => {
 //   }
 // });
 
-app.get('/report', async (req, res) => {
-  try {
-    const surveyInfo = await knex
-      .from('survey_info')
-      .select('survey_id', 'date', 'time', 'location', 'age', 'gender', 'rel_status', 'occ_status', 'sm_user', 'avg_time', 'wop_freq', 'distract_freq', 'restless_freq', 'const_distract', 'worried_freq', 'concen_diff', 'comp_freq', 'comp_feel', 'val_freq', 'dep_freq', 'int_fluc', 'slp_issues'); /* include other survey_info fields */
+// app.get('/report', async (req, res) => {
+//   try {
+//     const entries = await knex
+//       .from('survey_info')
+//       .select('survey_id', 'date', 'time', 'location', 'age', 'gender', 'rel_status', 'occ_status', 'sm_user', 'avg_time', 'wop_freq', 'distract_freq', 'restless_freq', 'const_distract', 'worried_freq', 'concen_diff', 'comp_freq', 'comp_feel', 'val_freq', 'dep_freq', 'int_fluc', 'slp_issues'); /* include other survey_info fields */
 
-    // Format the date in each entry to a simpler format
-    surveyInfo.forEach(entry => {
-      const dateObj = new Date(entry.date);
-      entry.date = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+//     // Format the date in each entry to a simpler format
+//     entries.forEach(entry => {
+//       const dateObj = new Date(entry.date);
+//       entry.date = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+//     });
+
+    app.get('/report', async (req, res) => {
+      try {
+        const entries = await knex
+          .from('survey_info')
+          .select('survey_id', 'date', 'time', 'location', 'age', 'gender', 'rel_status', 'occ_status', 'sm_user', 'avg_time', 'wop_freq', 'distract_freq', 'restless_freq', 'const_distract', 'worried_freq', 'concen_diff', 'comp_freq', 'comp_feel', 'val_freq', 'dep_freq', 'int_fluc', 'slp_issues');
+    
+        // Format the date in each entry to a simpler format
+        entries.forEach(entry => {
+          const dateObj = new Date(entry.date);
+          entry.date = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        });
+    
+        for (const entry of entries) {
+          const orgNums = await knex('ind_org')
+            .select('num_org')
+            .where('survey_id', entry.survey_id);
+    
+          const orgNumbers = orgNums.map(({ num_org }) => num_org);
+    
+          const orgNames = await knex('org_info')
+            .select('type_org')
+            .whereIn('num_org', orgNumbers)
+            .pluck('type_org');
+    
+          const platData = await knex('ind_plat')
+            .join('plat_info', 'ind_plat.num_plat', 'plat_info.num_plat')
+            .select('plat_info.platform')
+            .where('ind_plat.survey_id', entry.survey_id);
+    
+          entry.organizations = orgNames; // Attach organization data to each entry
+          entry.platforms = platData.map(data => data.platform); // Attach platform data to each entry
+        }
+    
+        res.render('pages/surveyResults', { entries: entries });
+      } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+      }
     });
+    
+    // const indOrgData = await knex
+    //   .from('ind_org')
+    //   .select('survey_id', 'num_org');
 
-    const indOrgData = await knex
-      .from('ind_org')
-      .select('survey_id', 'num_org');
+    // const indPlatData = await knex
+    //   .from('ind_plat')
+    //   .select('survey_id', 'num_plat');
 
-    const indPlatData = await knex
-      .from('ind_plat')
-      .select('survey_id', 'num_plat');
+    // // Combine the data from different tables based on survey_id
+    // const entries = entries.map(entry => {
+    //   const relatedIndOrg = indOrgData.filter(orgEntry => orgEntry.survey_id === entry.survey_id);
+    //   const relatedIndPlat = indPlatData.filter(platEntry => platEntry.survey_id === entry.survey_id);
 
-    // Combine the data from different tables based on survey_id
-    const entries = surveyInfo.map(entry => {
-      const relatedIndOrg = indOrgData.filter(orgEntry => orgEntry.survey_id === entry.survey_id);
-      const relatedIndPlat = indPlatData.filter(platEntry => platEntry.survey_id === entry.survey_id);
+    //   return {
+    //     ...entry,
+    //     indOrg: relatedIndOrg,
+    //     indPlat: relatedIndPlat,
+    //   };
+    // });
 
-      return {
-        ...entry,
-        indOrg: relatedIndOrg,
-        indPlat: relatedIndPlat,
-      };
-    });
+  // Fetch related organizations and platforms based on the survey_id
+//   for (const entry of entries) {
+//     const orgNums = await knex('ind_org')
+//       .select('num_org')
+//       .where('survey_id', entry.survey_id);
+  
+//     // Extract the type_org numbers from the query result
+//     const orgNumbers = orgNums.map(({ num_org }) => num_org);
+  
+//     // Fetch type_org names from org_info based on orgNumbers
+//     const orgNames = await knex('org_info')
+//       .select('type_org')
+//       .whereIn('num_org', orgNumbers)
+//       .pluck('type_org');
 
-    res.render('pages/surveyResults', { entries: entries });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Internal Server Error');
-  }
-});
+//       const entries = await knex('survey_info').select(/* your fields */);
+
+//       // Fetch platform names for each survey ID
+//       for (const entry of entries) {
+//         const platData = await knex('ind_plat')
+//           .join('plat_info', 'ind_plat.num_plat', 'plat_info.num_plat')
+//           .select('plat_info.platform')
+//           .where('ind_plat.survey_id', entry.survey_id);
+      
+//         entry.platforms = platData.map(data => data.platform);
+//       }
+      
+
+//      entry.organizations = orgNames; // Attach organization data to each entry
+//     // entry.platforms = platNames; // Attach platform data to each entry
+//   }
+
+//     res.render('pages/surveyResults', { entries: entries });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).send('Internal Server Error');
+//   }
+// });
 
 
 app.get('/search', async(req, res) => {

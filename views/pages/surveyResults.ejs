@@ -46,6 +46,7 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <!-- <% console.log(entries); %> -->
                     <% for (let iCount = 0; iCount < entries.length; iCount++) { %>
                        <tr>
                         <td style="text-align: center;"><%= entries[iCount].survey_id %></td>
@@ -56,9 +57,17 @@
                         <td style="text-align: center;"><%= entries[iCount].gender %></td>
                         <td style="text-align: center;"><%= entries[iCount].rel_status %></td>
                         <td style="text-align: center;"><%= entries[iCount].occ_status %></td>
-                        <td style="text-align: center;"><%= entries[iCount].organizations %></td>
+                        <td style="text-align: center;">
+                            <% for (let org of entries[iCount].organizations) { %>
+                              <%= org %><br>
+                            <% } %>
+                          </td>
                         <td style="text-align: center;"><%= entries[iCount].sm_user %></td>
-                        <td style="text-align: center;"><%= entries[iCount].platforms %></td>
+                        <td style="text-align: center;">
+                            <% for (let plat of entries[iCount].platforms) { %>
+                              <%= plat %><br>
+                            <% } %>
+                          </td>                   
                         <td style="text-align: center;"><%= entries[iCount].avg_time %></td>
                         <td style="text-align: center;"><%= entries[iCount].wop_freq %></td>
                         <td style="text-align: center;"><%= entries[iCount].distract_freq %></td>
