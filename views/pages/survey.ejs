@@ -238,8 +238,15 @@
             <label class="sliderLabel" for="question20">4</label>
             <label class="sliderLabel" for="question20">5</label>
         </div>
-        <button type="submit" class="btn btn-primary" id="survey-btn">Submit</button>
+        <button type="submit" class="btn btn-primary" id="survey-btn" onclick="clearForm()">Submit</button>
     </form>
+
+    <script>
+        function clearForm() {
+            // You can use JavaScript to reset the form by accessing the form element and calling the reset() method
+            document.getElementById("myForm").reset();
+        }
+    </script>
 </body>
 
 
