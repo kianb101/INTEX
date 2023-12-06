@@ -1,37 +1,33 @@
 <!DOCTYPE html>
-<header>
-    <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-light">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <a href="/">
-                <img src="/cityCouncilLogo.png" alt="Provo City Council Logo" id="logo">
-            </a>
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/dashboard">Dashboard</a>
-                </li>
-                <% if (loggedin) { %>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/createAccount">Manage Accounts</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/report">Report</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/logout">Logout</a>
-                    </li>
-                <% } else { %>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/login">Login</a>
-                    </li>
-                <% } %>
-            </ul>
-        </div>
-    </nav>
-</header>
+
+<header id="header" class="header d-flex align-items-center">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+
+        <a href="/" class="logo d-flex align-items-center">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <img src="/img/cityCouncilLogo.png" alt="">
+        <!-- <h1>UpConstruction<span>.</span></h1> -->
+        </a>
+
+        <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
+        <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
+        <nav id="navbar" class="navbar">
+        <ul>
+            <li>
+                <a href="/">Home</a>
+            </li>
+            <li>
+                <a href="/dashboard">Dashboard</a>
+            </li>
+            <% if (loggedin) { %>
+                <li><a href="/createAccount">Manage Accounts</a></li>
+                <li><a href="/report">Report</a></li>
+                <li><a class="nav-link" href="/logout">Logout</a></li>
+            <% } else { %>
+                <li><a href="/login">Login</a></li>
+            <% } %>
+        </ul>
+        </nav>
+
+    </div>
+    </header>

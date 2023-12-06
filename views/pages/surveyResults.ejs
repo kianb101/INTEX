@@ -34,88 +34,97 @@
             }); // key up
         });
     </script>
-    <div>
-        <div class="container d-flex align-items-center justify-content-center">
-            <div class="form-group">
-                <input type="text" class="search form-control" id="small-search" placeholder="Search...">
-                <br><br>
+    <main id="main">
+        <!-- ======= Breadcrumbs ======= -->
+        <div class="breadcrumbs d-flex align-items-center" style="background-image: url('/img/breadcrumbs-bg.jpg');">
+          <div class="container position-relative d-flex flex-column align-items-center" data-aos="fade">
+            <h2>Login</h2>
+          </div>
+        </div>
+
+        <section id="results-table">
+            <div class="container d-flex align-items-center justify-content-center">
+                <div class="form-group">
+                    <input type="text" class="search form-control" id="small-search" placeholder="Search...">
+                    <br><br>
+                </div>
             </div>
-        </div>
-        <span class="counter"></span>
-        <div class="container" id="table-container">
-            <table class="table table-hover table-bordered results" style="white-space: normal; word-wrap: break-word;">
-                <thead style="background-color: #419F42; color: white;">
-                    <tr>
-                        <th style="text-align: center;">Survey ID</th>
-                        <th style="text-align: center;">Date</th>
-                        <th style="text-align: center;">Time</th>
-                        <th style="text-align: center;">Location</th>
-                        <th style="text-align: center;">Age</th>
-                        <th style="text-align: center;">Gender</th>
-                        <th style="text-align: center;">Relationship</th>
-                        <th style="text-align: center;">Occupation</th>
-                        <th style="text-align: center;">Organizations</th>
-                        <th style="text-align: center;">Uses Social Media?</th>
-                        <th style="text-align: center;">Platforms</th>
-                        <th style="text-align: center;">Avg Time Used</th>
-                        <th style="text-align: center;">Used Without Purpose</th>
-                        <th style="text-align: center;">Freq of Distration</th>
-                        <th style="text-align: center;">Freq of Restlessness</th>
-                        <th style="text-align: center;">Overall Distraction</th>
-                        <th style="text-align: center;">Freq of Worry</th>
-                        <th style="text-align: center;">Concentration</th>
-                        <th style="text-align: center;">Comparison Freq</th>
-                        <th style="text-align: center;">Feelings of Comparison</th>
-                        <th style="text-align: center;">Seeking Validation</th>
-                        <th style="text-align: center;">Feeling Depressed</th>
-                        <th style="text-align: center;">Fluctuated Interest</th>
-                        <th style="text-align: center;">Sleep Issues</th>                        
-                    </tr>
-                    <tr class="warning no-result">
-                        <td colspan="22"><i class="fa fa-warning" ></i> No result</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% for (let iCount = 0; iCount < entries.length; iCount++) { %>
-                       <tr>
-                        <td style="text-align: center;"><%= entries[iCount].survey_id %></td>
-                        <td style="text-align: center;"><%= entries[iCount].date %></td>
-                        <td style="text-align: center;"><%= entries[iCount].time %></td>
-                        <td style="text-align: center;"><%= entries[iCount].location %></td>
-                        <td style="text-align: center;"><%= entries[iCount].age %></td>
-                        <td style="text-align: center;"><%= entries[iCount].gender %></td>
-                        <td style="text-align: center;"><%= entries[iCount].rel_status %></td>
-                        <td style="text-align: center;"><%= entries[iCount].occ_status %></td>
-                        <td style="text-align: center;">
-                            <% for (let org of entries[iCount].organizations) { %>
-                              <%= org %><br>
-                            <% } %>
-                          </td>
-                        <td style="text-align: center;"><%= entries[iCount].sm_user %></td>
-                        <td style="text-align: center;">
-                            <% for (let plat of entries[iCount].platforms) { %>
-                              <%= plat %><br>
-                            <% } %>
-                          </td>
-                        <td style="text-align: center;"><%= entries[iCount].avg_time %></td>
-                        <td style="text-align: center;"><%= entries[iCount].wop_freq %></td>
-                        <td style="text-align: center;"><%= entries[iCount].distract_freq %></td>
-                        <td style="text-align: center;"><%= entries[iCount].restless_freq %></td>
-                        <td style="text-align: center;"><%= entries[iCount].const_distract %></td>
-                        <td style="text-align: center;"><%= entries[iCount].worried_freq %></td>
-                        <td style="text-align: center;"><%= entries[iCount].concen_diff %></td>
-                        <td style="text-align: center;"><%= entries[iCount].comp_freq %></td>
-                        <td style="text-align: center;"><%= entries[iCount].comp_feel %></td>
-                        <td style="text-align: center;"><%= entries[iCount].val_freq %></td>
-                        <td style="text-align: center;"><%= entries[iCount].dep_freq %></td>
-                        <td style="text-align: center;"><%= entries[iCount].int_fluc %></td>
-                        <td style="text-align: center;"><%= entries[iCount].slp_issues %></td>
-                       </tr>
-                    <% } %>
-                </tbody>
-            </table>
-        </div>
-    </div>
+            <span class="counter"></span>
+            <div class="container" id="table-container">
+                <table class="table table-hover table-bordered results" style="white-space: normal; word-wrap: break-word;">
+                    <thead style="background-color: #419F42; color: white;">
+                        <tr>
+                            <th style="text-align: center;">Survey ID</th>
+                            <th style="text-align: center;">Date</th>
+                            <th style="text-align: center;">Time</th>
+                            <th style="text-align: center;">Location</th>
+                            <th style="text-align: center;">Age</th>
+                            <th style="text-align: center;">Gender</th>
+                            <th style="text-align: center;">Relationship</th>
+                            <th style="text-align: center;">Occupation</th>
+                            <th style="text-align: center;">Organizations</th>
+                            <th style="text-align: center;">Uses Social Media?</th>
+                            <th style="text-align: center;">Platforms</th>
+                            <th style="text-align: center;">Avg Time Used</th>
+                            <th style="text-align: center;">Used Without Purpose</th>
+                            <th style="text-align: center;">Freq of Distration</th>
+                            <th style="text-align: center;">Freq of Restlessness</th>
+                            <th style="text-align: center;">Overall Distraction</th>
+                            <th style="text-align: center;">Freq of Worry</th>
+                            <th style="text-align: center;">Concentration</th>
+                            <th style="text-align: center;">Comparison Freq</th>
+                            <th style="text-align: center;">Feelings of Comparison</th>
+                            <th style="text-align: center;">Seeking Validation</th>
+                            <th style="text-align: center;">Feeling Depressed</th>
+                            <th style="text-align: center;">Fluctuated Interest</th>
+                            <th style="text-align: center;">Sleep Issues</th>                        
+                        </tr>
+                        <tr class="warning no-result">
+                            <td colspan="22"><i class="fa fa-warning" ></i> No result</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for (let iCount = 0; iCount < entries.length; iCount++) { %>
+                        <tr>
+                            <td style="text-align: center;"><%= entries[iCount].survey_id %></td>
+                            <td style="text-align: center;"><%= entries[iCount].date %></td>
+                            <td style="text-align: center;"><%= entries[iCount].time %></td>
+                            <td style="text-align: center;"><%= entries[iCount].location %></td>
+                            <td style="text-align: center;"><%= entries[iCount].age %></td>
+                            <td style="text-align: center;"><%= entries[iCount].gender %></td>
+                            <td style="text-align: center;"><%= entries[iCount].rel_status %></td>
+                            <td style="text-align: center;"><%= entries[iCount].occ_status %></td>
+                            <td style="text-align: center;">
+                                <% for (let org of entries[iCount].organizations) { %>
+                                <%= org %><br>
+                                <% } %>
+                            </td>
+                            <td style="text-align: center;"><%= entries[iCount].sm_user %></td>
+                            <td style="text-align: center;">
+                                <% for (let plat of entries[iCount].platforms) { %>
+                                <%= plat %><br>
+                                <% } %>
+                            </td>
+                            <td style="text-align: center;"><%= entries[iCount].avg_time %></td>
+                            <td style="text-align: center;"><%= entries[iCount].wop_freq %></td>
+                            <td style="text-align: center;"><%= entries[iCount].distract_freq %></td>
+                            <td style="text-align: center;"><%= entries[iCount].restless_freq %></td>
+                            <td style="text-align: center;"><%= entries[iCount].const_distract %></td>
+                            <td style="text-align: center;"><%= entries[iCount].worried_freq %></td>
+                            <td style="text-align: center;"><%= entries[iCount].concen_diff %></td>
+                            <td style="text-align: center;"><%= entries[iCount].comp_freq %></td>
+                            <td style="text-align: center;"><%= entries[iCount].comp_feel %></td>
+                            <td style="text-align: center;"><%= entries[iCount].val_freq %></td>
+                            <td style="text-align: center;"><%= entries[iCount].dep_freq %></td>
+                            <td style="text-align: center;"><%= entries[iCount].int_fluc %></td>
+                            <td style="text-align: center;"><%= entries[iCount].slp_issues %></td>
+                        </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
 </body>
 
 <%- include('../partials/footer') %>

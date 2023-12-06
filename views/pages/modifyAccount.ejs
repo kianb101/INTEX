@@ -3,43 +3,53 @@
 
 <!-- this page is for CITY WORKERS (have login but aren't admin) -->
 <body>
-    <div class="account">
-        <h1 class="title">Modify Account</h1>
-        <div class="container">
-            <table class="table table-bordered">
-                <thead style="background-color: #419F42; color: white;">
-                    <tr>
-                        <th style="text-align: center;">Username</th>
-                        <th style="text-align: center;">Password</th>
-                        <th style="text-align: center;">Role</th>
-                        <th></th>
-                        <!-- <th></th> -->
-                    </tr>
-                </thead>
-                <tbody>
-                    <% for (let iCount = 0; iCount < user.length; iCount++) { %>
-                       <tr>
-                        <td style="text-align: center;"><%= user[iCount].username %></td>
-                        <td style="text-align: center;"><%= user[iCount].password %></td>
-                        <td style="text-align: center;"><%= user[iCount].status %></td>
-                        <td style="text-align: center;">
-                            <!-- TODO: create page to edit account?? How do i do this -->
-                            <form action="/editAccountWorker/<%= user[iCount].username %>" method="GET">
-                                <button class="btn btn-secondary" style="background-color: #A9A9A9; border-color: #A9A9A9;" type="submit">Edit</button>
-                            </form>
-                        </td>
-                        <!-- <td style="text-align: center;">
-                            TODO: have it bring them to a confirmation page if they are sure they want to delete this user 
-                            <form action="/deleteAccount/<%= user[iCount].username %>" method="POST">
-                            <button class="btn btn-secondary" id="login-btn" type="submit">Delete</button>
-                            </form>
-                        </td> -->
-                       </tr>
-                    <% } %>
-                </tbody>
-            </table>
+    <main id="main">
+        <!-- ======= Breadcrumbs ======= -->
+        <div class="breadcrumbs d-flex align-items-center" style="background-image: url('/img/breadcrumbs-bg.jpg');">
+            <div class="container position-relative d-flex flex-column align-items-center" data-aos="fade">
+              <h2>Manage Account</h2>
+            </div>
         </div>
-    </div>
+        <section id="modify" class="modify">
+            <div class="account">
+                <h1 class="title">Modify Account</h1>
+                <div class="container">
+                    <table class="table table-bordered">
+                        <thead style="background-color: #419F42; color: white;">
+                            <tr>
+                                <th style="text-align: center;">Username</th>
+                                <th style="text-align: center;">Password</th>
+                                <th style="text-align: center;">Role</th>
+                                <th></th>
+                                <!-- <th></th> -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for (let iCount = 0; iCount < user.length; iCount++) { %>
+                               <tr>
+                                <td style="text-align: center;"><%= user[iCount].username %></td>
+                                <td style="text-align: center;"><%= user[iCount].password %></td>
+                                <td style="text-align: center;"><%= user[iCount].status %></td>
+                                <td style="text-align: center;">
+                                    <!-- TODO: create page to edit account?? How do i do this -->
+                                    <form action="/editAccountWorker/<%= user[iCount].username %>" method="GET">
+                                        <button class="btn btn-secondary" style="background-color: #A9A9A9; border-color: #A9A9A9;" type="submit">Edit</button>
+                                    </form>
+                                </td>
+                                <!-- <td style="text-align: center;">
+                                    TODO: have it bring them to a confirmation page if they are sure they want to delete this user 
+                                    <form action="/deleteAccount/<%= user[iCount].username %>" method="POST">
+                                    <button class="btn btn-secondary" id="login-btn" type="submit">Delete</button>
+                                    </form>
+                                </td> -->
+                               </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>  
 </body>
 
 
