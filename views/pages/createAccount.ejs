@@ -63,15 +63,16 @@
                         <td style="text-align: center;">
                             <form action="/editAccount/<%= user[iCount].username %>" method="GET">
                                 <button class="btn btn-secondary" style="background-color: #A9A9A9; border-color: #A9A9A9;" type="submit">
-                                    <i class="bi bi-pencil"></i>Edit</button>
+                                    <i class="bi bi-pencil"></i></button>
                             </form>
                         </td>
                         <td style="text-align: center;">
-                            <!-- TODO: have it bring them to a confirmation page if they are sure they want to delete this user -->
                             <form action="/deleteAccount" method="POST" onsubmit="return confirmDelete()">
                                 <input type="hidden" name="username" value="<%= user[iCount].username %>">
-                                <button class="btn btn-secondary" id="delete-btn" type="submit">
-                                    <i class="bi bi-trash"></i>Delete</button>
+                                <% if (user[iCount].role != "admin") { %>
+                                    <button class="btn btn-secondary" id="delete-btn" type="submit">
+                                        <i class="bi bi-trash"></i></button>
+                                <% } %>
                               </form>
                         </td>
                        </tr>
