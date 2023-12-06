@@ -91,20 +91,7 @@
     padding: 2em;
 }
 
-/* .content-section {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: #f8f9fa;
-    padding: 50px 0;
-    text-align: center;
-}
 
-.form-container {
-    max-width: 300px;
-    margin: 0 15px;
-}
 
 
 fieldset {
@@ -123,8 +110,8 @@ input[type="password"] {
     width: 100%;
     padding: 8px;
     margin-bottom: 12px;
-} */
-/* 
+}
+
 button {
     background-color: #419F42;
     border-color: #419F42;
@@ -135,4 +122,4 @@ button {
 
 button:hover {
     background-color: #2b6e2b;
-} */
+}
