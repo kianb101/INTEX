@@ -2,31 +2,31 @@
 <%- include('../partials/header') %>
 
 <body>
-    <div style="float: left; margin-right: 20px;">
-        <form action="/editAccountUsername" method="POST">
-            <fieldset style="width: 200px;">
-                <legend>Edit Username:</legend>
-                <!-- Display current username -->
-                <label for="username">Current Username:</label>
-                <input type="text" id="username" name="username" value="<%= user[0].username %>" readonly>
-                <br><br>
-                <!-- Enter new username -->
-                <label for="newUsername">New Username:</label>
-                <input type="text" id="newUsername" name="newUsername" placeholder="Enter new username" required>
-                <br><br>
-            </fieldset>
-            <button type="submit">Save Username</button>
-        </form>
-    </div>
+    <div class="content-section">
+        <div class="form-container">
+            <form action="/editAccountUsername" method="POST">
+                <fieldset>
+                    <legend>Edit Username:</legend>
+                    <!-- Display current username -->
+                    <label for="username">Current Username:</label>
+                    <input type="text" id="username" name="username" value="<%= user[0].username %>" readonly>
+                    <br><br>
+                    <!-- Enter new username -->
+                    <label for="newUsername">New Username:</label>
+                    <input type="text" id="newUsername" name="newUsername" placeholder="Enter new username" required>
+                    <br><br>
+                </fieldset>
+                <button class="btn btn-primary" id="survey-btn" type="submit">Save Username</button>
+            </form>
+        </div>
 
-    <body>
-        <div style="float: left; margin-right: 20px;">
+        <div class="form-container">
             <form action="/editAccountPassword" method="POST">
-                <fieldset style="width: 200px;">
+                <fieldset>
                     <legend>Edit Password:</legend>
                     <!-- Display current password -->
                     <label for="password">Current Password:</label>
-                    <input type="password" id="password" name="password" value="<%= user[0].password %>" readonly>
+                    <input type="text" id="password" name="password" value="<%= user[0].password %>" readonly>
                     <br><br>
                     <!-- Hidden input for username -->
                     <input type="hidden" name="username" value="<%= user[0].username %>">
@@ -36,53 +36,10 @@
                     <!-- The 'required' attribute ensures that the field cannot be left blank -->
                     <br><br>
                 </fieldset>
-                <button type="submit">Save Password</button>
+                <button class="btn btn-primary" id="survey-btn" type="submit">Save Password</button>
             </form>
         </div>
-    </body>
-    
-    
+    </div>
 
-    <!-- <div style="float: left; margin-right: 20px;">
-        <form action="/editAccount" method="POST">
-            <fieldset style="width: 200px;">
-                <legend>Edit Password:</legend>
-               
-                <label for="password">Current Password:</label>
-                <input type="text" id="password" name="password" value="<%= user[0].password %>" readonly>
-                <br><br>
-         
-                <label for="newPassword">New Password:</label>
-                <input type="text" id="newPassword" name="newPassword" placeholder="Enter new password">
-                <br><br>
-            </fieldset>
-            <button type="submit">Save Password</button>
-        </form>
-    </div> -->
-
-    <!-- <div style="float: left;">
-        <form action="/editAccount" method="POST">
-            <fieldset style="width: 200px;">
-                <legend>Edit Password:</legend>
-               
-                <label for="currentPassword">Current Password:</label>
-                <input type="password" id="currentPassword" name="currentPassword" placeholder="Enter current password">
-                <br><br>
-               
-                <label for="newPassword">New Password:</label>
-                <input type="password" id="newPassword" name="newPassword" placeholder="Enter new password">
-                <br><br>
-                
-                <label for="confirmPassword">Confirm New Password:</label>
-                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm new password">
-                <br><br>
-            </fieldset>
-            <button type="submit">Save Password</button>
-        </form>
-    </div> -->
+    <%- include('../partials/footer') %>
 </body>
-
-
-
-
-<%- include('../partials/footer') %>
