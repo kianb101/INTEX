@@ -1,23 +1,54 @@
 <%- include('../partials/head') %>
-<%- include('../partials/header') %>
 
 <body>
     <!-- Banner Section -->
-    <div class="banner">
+    <!-- <div class="banner">
+    </div> -->
+    <div class="banner-container">
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <a href="/" class="navbar-brand">
+                    <img src="/logo2.png" alt="Provo City Council Logo" id="logo">
+                </a>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/" style="color: white;">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/dashboard" style="color: white;">Dashboard</a>
+                    </li>
+                    <% if (loggedin) { %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/createAccount" style="color: white;">Manage Accounts</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/report" style="color: white;">Report</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout" style="color: white;">Logout</a>
+                        </li>
+                    <% } else { %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login" style="color: white;">Login</a>
+                        </li>
+                    <% } %>
+                </ul>
+            </div>
+        </nav>
+        <div class="banner">
+            <div class="banner-text">
+                <h1>Mental Health Matters</h1>
+                <p>and it may be related to your social media use</p>
+            </div>
+            <div class="container">
+                <div class="overlay"></div>
+            </div>
+        </div>    
     </div>
 
-    <!-- Content Section with Buttons -->
-    <!-- <div class="content-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 btns">
-                    <a href="/survey" class="btn btn-primary btn-lg" id="survey-btn">Take Social Media Survey</a>
-                    <br/>
-                    <a href="/login" class="btn btn-secondary btn-lg" id="login-btn">Login with City Credentials</a>
-                </div>
-            </div>
-        </div>
-    </div> -->
     <div class="content-section">
         <div class="container">
             <div class="card mb-5" id="card-1">
@@ -27,10 +58,13 @@
                     </div>
                     <div class="col-md-8">
                     <div class="card-body">
-                        <h3 class="card-title">Mental Health Matters</h3>
-                        <p class="card-text">Help us, help you! We are collecting annonymous surveys of how our 
-                            community is doing with overal mental health. If you would like to participate, take the survey below.</p>
-                        <a href="/survey" class="btn btn-primary btn-lg" id="survey-btn">Take Social Media Survey</a>
+                        <h3 class="card-title">Help Us, Help You</h3>
+                        <p class="card-text">
+                            Embark on a journey to redefine community well-being! 
+                            Take our survey on social media usage and mental health—your insights could be the key to positive change.
+                            If you would like to participate in this annonymous survey,
+                            click here:</p>
+                        <a href="/survey" class="btn btn-primary btn-lg" id="survey-btn">Take Survey</a>
                     </div>
                     </div>
                 </div>
@@ -41,11 +75,19 @@
                 <div class="row no-gutters">
                     <div class="col-md-8">
                         <div class="card-body">
-                            <h3 class="card-title">Who We Are and Why We're Here</h3>
-                            <p class="card-text">We are the city’s part-time, municipal legislative body. We meet regularly to handle all things related to our city.
-                                We take our city motto seriously as we strive to make Provo feel like Home.
+                            <h3 class="card-title">Who We Are & Why We're Here</h3>
+                            <p class="card-text">
+                                The Provo City Council, comprised of seven dedicated councilors elected to four-year terms, 
+                                serves as the city's part-time municipal legislative body.  Guided by their motto "<span style="font-weight: bold;">Welcome Home</span>", 
+                                the Council is deeply invested in the holistic well-being of the community. 
+                                Recognizing the integral connection between mental health and overall quality of life, 
+                                the Council places a significant emphasis on initiatives that foster a supportive and 
+                                resilient community. By addressing the broader aspects of community health, the Provo 
+                                City Council exemplifies a commitment to enhancing the lives of its residents and creating a 
+                                thriving, interconnected urban environment.
                             </p>
-                            <a href="/login" class="btn btn-secondary btn-lg" id="login-btn">Part of the Team? Login Here</a>
+                            <span>Part of the team?</span>
+                            <a href="/login" style="color: #4C659D; font-weight: bold;">Login Here</a>
                         </div>
                     </div>
                     <div class="col-md-4">

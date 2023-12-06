@@ -1,8 +1,8 @@
 /* Custom styles for the banner */
-.banner {
+.banner-container {
     position: relative;
-    height: 40em; /* Adjust the height as needed */
-    background: url('provo_banner.jpg') center/cover no-repeat;
+    height: 35em;
+    background: url('banner_3.jpeg') center/cover no-repeat;
     box-shadow: 5px 10px 10px rgba(0, 0, 0, 0.3);
     color: #fff;
     text-align: center;
@@ -10,12 +10,59 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.banner-container .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3); /* Adjust the background color and opacity */
+    z-index: 1;
 }
 
 .banner h1 {
     font-size: 3em;
-    margin-bottom: 20px;
 }
+
+.banner .banner-text {
+    position: relative;
+    margin-bottom: 10em;
+    z-index: 2;
+}
+
+.banner-container .navbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    font-size: 1.5em;
+}
+
+/* .navbar {
+    font-size: 1.5em;
+} */
+
+/* .navbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+}
+
+.navbar-brand {
+    color: #fff !important;
+}
+
+.banner-text {
+    position: relative;
+    z-index: 1;
+} */
 
 /* Custom styles for the content section */
 .content-section {
@@ -41,18 +88,34 @@
 }
 
 #survey-btn {
-    background-color: #419F42;
-    border-color: #419F42;
-    margin-bottom: 2em;
+    background-color: #F7A81B;
+    border-color: #F7A81B;
 }
 
 #survey-btn:hover {
-    background-color: #2b6e2b;
+    background-color: #f7e2be;
+    border-color: #f7e2be;
 }
 
 #login-btn {
     background-color: #A9A9A9;
     border-color: #A9A9A9;
+    margin-left: 0.5em;
+}
+
+#login-btn:hover {
+    background-color: #6d6d6d;
+    border-color: #6d6d6d;
+}
+
+#log-btns {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+} 
+
+#login-form {
+    padding: 3em;
 }
 
 .subtitle {
