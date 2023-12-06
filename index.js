@@ -49,14 +49,38 @@ app.get('/dashboard', (req, res) => {
 
 app.get('/report', async (req, res) => {
   try {
-    const entries = await knex.from('survey_info').select('survey_id', 'date', 'time', 'location', 'age', 'gender', 'rel_status', 'occ_status', 'sm_user', 'avg_time', 'wop_freq', 'distract_freq', 'restless_freq', 'const_distract', 'worried_freq', 'concen_diff', 'comp_freq', 'comp_feel', 'val_freq', 'dep_freq', 'int_fluc', 'slp_issues');
+    const entries = await knex
+      .from('survey_info')
+      .select('survey_id', 'date', 'time', 'location', 'age', 'gender', 'rel_status', 'occ_status', 'sm_user', 'avg_time', 'wop_freq', 'distract_freq', 'restless_freq', 'const_distract', 'worried_freq', 'concen_diff', 'comp_freq', 'comp_feel', 'val_freq', 'dep_freq', 'int_fluc', 'slp_issues');
+
     // Format the date in each entry to a simpler format
     entries.forEach(entry => {
       const dateObj = new Date(entry.date);
       entry.date = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
     });
-    
-    res.render('pages/surveyResults', { loggedin: req.session.loggedin, entries: entries });
+
+    for (const entry of entries) {
+      const orgNums = await knex('ind_org')
+        .select('num_org')
+        .where('survey_id', entry.survey_id);
+
+      const orgNumbers = orgNums.map(({ num_org }) => num_org);
+
+      const orgNames = await knex('org_info')
+        .select('type_org')
+        .whereIn('num_org', orgNumbers)
+        .pluck('type_org');
+
+      const platData = await knex('ind_plat')
+        .join('plat_info', 'ind_plat.num_plat', 'plat_info.num_plat')
+        .select('plat_info.platform')
+        .where('ind_plat.survey_id', entry.survey_id);
+
+      entry.organizations = orgNames; // Attach organization data to each entry
+      entry.platforms = platData.map(data => data.platform); // Attach platform data to each entry
+    }
+
+    res.render('pages/surveyResults', { entries: entries });
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
