@@ -219,7 +219,240 @@ footer {
 }
 
 .footer-logo {
-    width: 4em; /* Set the width of your logo */
-    height: auto; /* Maintain aspect ratio */
-    margin-bottom: 2em; /* Adjust spacing between logo and text */
+    width: 4em;
+    height: auto;
+    margin-bottom: 2em;
 }
+
+/* survey styling */
+.form-check-inline {
+    display: inline-block;
+    margin-right: 1rem;
+  }
+.form-check-inline .form-check-input ~ .valid-feedback {
+  margin-left: 0.5em;
+}
+.form-check-inline .form-check-input ~ .invalid-feedback {
+margin-left: 0.5em;
+}
+.form-check {
+    display: block;
+    min-height: 1.5rem;
+    padding-left: 1.5em;
+    margin-bottom: 0.125rem;
+  }
+  .form-check .form-check-input {
+    float: left;
+    margin-left: -1.5em;
+  }
+  
+  .form-check-reverse {
+    padding-right: 1.5em;
+    padding-left: 0;
+    text-align: right;
+  }
+  .form-check-reverse .form-check-input {
+    float: right;
+    margin-right: -1.5em;
+    margin-left: 0;
+  }
+  
+  .form-check-input {
+    width: 1em;
+    height: 1em;
+    margin-top: 0.25em;
+    vertical-align: top;
+    background-color: #fff;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+    -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+  }
+  .form-check-input[type=checkbox] {
+    border-radius: 0.25em;
+  }
+  .form-check-input[type=radio] {
+    border-radius: 50%;
+  }
+  .form-check-input:active {
+    filter: brightness(90%);
+  }
+  .form-check-input:focus {
+    border-color: #F7A81B;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(255, 200, 0, 0.25);
+  }
+  .form-check-input:checked {
+    background-color: #F7A81B;
+    border-color: #F7A81B;
+  }
+  .radio-label {
+    display: inline-block;
+    margin-left: 12px;
+  }
+  input[type="radio"] {
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    border: 2px solid #212121;
+    background-color: white;
+    -webkit-appearance: none; /*to disable the default appearance of radio button*/
+    -moz-appearance: none;
+  }
+  input[type="radio"]:focus { /*no need, if you don't disable default appearance*/
+    outline: none; /*to remove the square border on focus*/
+  }
+  
+  input[type="radio"]:checked { /*no need, if you don't disable default appearance*/
+    background-color: #F7A81B;
+  }
+  
+  input[type="radio"]:checked ~ span:first-of-type {
+    color: white;
+  }
+  label span:first-of-type {
+    position: relative;
+    left: -24px;
+    font-size: 18px;
+    color: #212121;
+  }
+  
+  label span {
+    position: absolute;
+    top: -9px;
+  }
+  .text-light {
+    --bs-text-opacity: 1;
+    color: #F7A81B;
+  }
+  .survey-response {
+    font-size: 20px;
+    position: relative;
+    top: -9px;
+  }
+  .survey-response {
+    color: #F7A81B;
+    /* Any additional styles */
+  }
+  /* other formatting*/
+  .mb-5 {
+    margin-bottom: 3rem !important;
+  }
+  .section-heading {
+    text-transform: uppercase;
+    text-align: center;
+  }
+  .section-heading .section-heading-upper {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #212121;
+  }
+  .section-heading .section-heading-lower {
+    display: block;
+    font-size: 3rem;
+    font-weight: 100;
+    color: #212121;
+  }  
+  .background-gray {
+    padding: 10px;
+    background-color: rgba(235, 230, 230, 0.7); /* Adjust the alpha (last value) for transparency */
+    /* Other styles for positioning, padding, margins, etc. */
+}
+.banner-text {
+    color: #212121;
+}
+@keyframes progress-bar-stripes {
+    0% {
+      background-position-x: 1rem;
+    }
+  }
+  .progress {
+    --bs-progress-height: 1rem;
+    --bs-progress-font-size: 0.75rem;
+    --bs-progress-bg: #e9ecef;
+    --bs-progress-border-radius: 0.375rem;
+    --bs-progress-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.075);
+    --bs-progress-bar-color: #fff;
+    --bs-progress-bar-bg: #212121;
+    --bs-progress-bar-transition: width 0.6s ease;
+    display: flex;
+    height: var(--bs-progress-height);
+    overflow: hidden;
+    font-size: var(--bs-progress-font-size);
+    background-color: var(--bs-progress-bg);
+    border-radius: var(--bs-progress-border-radius);
+  }
+  
+  .progress-bar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    color: var(--bs-progress-bar-color);
+    text-align: center;
+    white-space: nowrap;
+    background-color: var(--bs-progress-bar-bg);
+    transition: var(--bs-progress-bar-transition);
+    height: 100%;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .progress-bar {
+      transition: none;
+    }
+  }
+  
+  .progress-bar-striped {
+    background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+    background-size: var(--bs-progress-height) var(--bs-progress-height);
+  }
+  .mx-auto {
+    margin-right: auto !important;
+    margin-left: auto !important;
+  }
+  .col-xl-9 {
+    flex: 0 0 auto;
+    width: 75%;
+  }
+  row {
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 0;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: calc(-1 * var(--bs-gutter-y));
+    margin-right: calc(-0.5 * var(--bs-gutter-x));
+    margin-left: calc(-0.5 * var(--bs-gutter-x));
+  }
+  .row > * {
+    flex-shrink: 0;
+    width: 100%;
+    max-width: 100%;
+    padding-right: calc(var(--bs-gutter-x) * 0.5);
+    padding-left: calc(var(--bs-gutter-x) * 0.5);
+    margin-top: var(--bs-gutter-y);
+  }
+  
+  #progress-bar-container {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  
+  #progress-bar {
+    height: 20px;
+    border-radius: 10px;
+    background-color: #ddd;
+    overflow: hidden;
+  }
+  
+  #progress-bar-fill {
+    height: 100%;
+    width: 0;
+    background-color: #212121;
+    transition: width 0.3s ease-in-out;
+    border-radius: 10px;
+  }
