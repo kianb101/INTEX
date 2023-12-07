@@ -155,7 +155,7 @@ input[type="password"] {
     margin-bottom: 12px;
 }
 
-button {
+/* button {
     background-color: #419F42;
     border-color: #419F42;
     color: #fff;
@@ -165,7 +165,7 @@ button {
 
 button:hover {
     background-color: #2b6e2b;
-}
+} */
 
 /* for table search feature */
 .results tr[visible='false'],
@@ -207,4 +207,16 @@ table {
     padding: 20px; 
     border-radius: 8px;
     
+}
+
+/* Custom styles for the footer */
+footer {
+    padding: 3em 0;
+    text-align: center;
+}
+
+.footer-logo {
+    width: 4em; /* Set the width of your logo */
+    height: auto; /* Maintain aspect ratio */
+    margin-bottom: 2em; /* Adjust spacing between logo and text */
 }
