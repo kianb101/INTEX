@@ -24,7 +24,7 @@
                 });
 
                 var jobCount = $('.results tbody tr[visible="true"]').length;
-                $('.counter').text(jobCount + ' item');
+                $('.counter').text(jobCount + ' item(s)');
 
                 if (jobCount == '0') {
                     $('.no-result').show();
@@ -35,6 +35,7 @@
         });
     </script>
     <div>
+        <h1>All Survey Results</h1>
         <div class="container d-flex align-items-center justify-content-center">
             <div class="form-group">
                 <span class="counter"></span>
@@ -44,7 +45,7 @@
         </div>
         <div class="container" id="table-container">
             <table class="table table-hover table-bordered results" style="white-space: normal; word-wrap: break-word;">
-                <thead style="background-color: #A9A9A9; color: black;">
+                <thead style="background-color: #A9A9A9; color: white;">
                     <tr>
                         <th style="text-align: center;">Survey ID</th>
                         <th style="text-align: center;">Date</th>
@@ -58,7 +59,7 @@
                         <th style="text-align: center;">Uses Social Media?</th>
                         <th style="text-align: center;">Platforms</th>
                         <th style="text-align: center;">Avg Time Used</th>
-                        <th style="text-align: center;">Used Without Purpose</th>
+                        <th style="text-align: center;">Freq Used W/o Purpose</th>
                         <th style="text-align: center;">Freq of Distration</th>
                         <th style="text-align: center;">Freq of Restlessness</th>
                         <th style="text-align: center;">Overall Distraction</th>
