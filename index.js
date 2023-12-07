@@ -235,14 +235,14 @@ app.post("/addSurvey", async (req, res) => {
           // Commit the transaction
           await trx.commit();
         });
-    
-        res.status(200).send('Survey added successfully!');
+
+        res.redirect("/thankyou");
+        // res.status(200).send('Survey added successfully!');
       } catch (error) {
         console.error('Error adding survey:', error);
         res.status(500).send('Error adding survey');
+        res.redirect("/thankyou");
       }
-
-    res.redirect("/thankyou");
 });
 
 app.get("/createAccount", async (req, res) => {
