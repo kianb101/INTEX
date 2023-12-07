@@ -11,7 +11,7 @@ const knex = require("knex") ({
     host: process.env.RDS_HOSTNAME || 'localhost', // name of host, on AWS use the one they give 
     user:  process.env.RDS_USERNAME || 'postgres', // name of user w/ permissions on database 
     password: process.env.RDS_PASSWORD || 'admin',
-    database:  process.env.RDS_DB_NAME || 'ebdb', // name of database on postgres
+    database:  process.env.RDS_DB_NAME || 'INTEXtest', // name of database on postgres
     port:  process.env.RDS_PORT || 5432, // port number for postgres (postgres > properties > connection > port)
     ssl: process.env.DB_SSL_INTEX ? {rejectUnauthorized: false} : false
   }
@@ -41,6 +41,10 @@ app.get('/', (req, res) => {
 
 app.get('/survey', (req, res) => {
     res.render('pages/survey', { loggedin: req.session.loggedin });
+})
+
+app.get('/surveytest', (req, res) => {
+    res.render('pages/surveytest', { loggedin: req.session.loggedIn });
 })
 
 app.get('/dashboard', (req, res) => {
@@ -242,7 +246,7 @@ app.post("/addSurvey", async (req, res) => {
           await trx.commit();
         });
     
-        res.status(200).send('Survey added successfully!');
+        res.redirect('/');
       } catch (error) {
         console.error('Error adding survey:', error);
         res.status(500).send('Error adding survey');

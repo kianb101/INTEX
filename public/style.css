@@ -152,3 +152,122 @@ table {
     width: 100%; 
     border-collapse: collapse; 
 }
+
+/* trying to css radio buttons*/
+
+
+.form-check-inline {
+    display: inline-block;
+    margin-right: 1rem;
+  }
+.form-check-inline .form-check-input ~ .valid-feedback {
+  margin-left: 0.5em;
+}
+.form-check-inline .form-check-input ~ .invalid-feedback {
+margin-left: 0.5em;
+}
+.form-check {
+    display: block;
+    min-height: 1.5rem;
+    padding-left: 1.5em;
+    margin-bottom: 0.125rem;
+  }
+  .form-check .form-check-input {
+    float: left;
+    margin-left: -1.5em;
+  }
+  
+  .form-check-reverse {
+    padding-right: 1.5em;
+    padding-left: 0;
+    text-align: right;
+  }
+  .form-check-reverse .form-check-input {
+    float: right;
+    margin-right: -1.5em;
+    margin-left: 0;
+  }
+  
+  .form-check-input {
+    width: 1em;
+    height: 1em;
+    margin-top: 0.25em;
+    vertical-align: top;
+    background-color: #fff;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+    -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+  }
+  .form-check-input[type=checkbox] {
+    border-radius: 0.25em;
+  }
+  .form-check-input[type=radio] {
+    border-radius: 50%;
+  }
+  .form-check-input:active {
+    filter: brightness(90%);
+  }
+  .form-check-input:focus {
+    border-color: #F7A81B;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(255, 200, 0, 0.25);
+  }
+  .form-check-input:checked {
+    background-color: #F7A81B;
+    border-color: #F7A81B;
+  }
+  .radio-label {
+    display: inline-block;
+    margin-left: 12px;
+  }
+  input[type="radio"] {
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    border: 2px solid #F7A81B;
+    background-color: white;
+    -webkit-appearance: none; /*to disable the default appearance of radio button*/
+    -moz-appearance: none;
+  }
+  input[type="radio"]:focus { /*no need, if you don't disable default appearance*/
+    outline: none; /*to remove the square border on focus*/
+  }
+  
+  input[type="radio"]:checked { /*no need, if you don't disable default appearance*/
+    background-color: #F7A81B;
+  }
+  
+  input[type="radio"]:checked ~ span:first-of-type {
+    color: white;
+  }
+  label span:first-of-type {
+    position: relative;
+    left: -24px;
+    font-size: 18px;
+    color: #000;
+  }
+  
+  label span {
+    position: absolute;
+    top: -9px;
+  }
+  .text-light {
+    --bs-text-opacity: 1;
+    color: #F7A81B;
+  }
+  .survey-response {
+    font-size: 20px;
+    position: relative;
+    top: -9px;
+  }
+  .survey-response {
+    color: #F7A81B;
+    /* Any additional styles */
+  }
+  
