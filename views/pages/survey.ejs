@@ -2,254 +2,796 @@
 <%- include('../partials/header') %>
 
 <body>
-    <div class="account">
-        <h1>Social Media Survey</h1>
-        <p class="subtitle"> This is a voluntary survey asking questions regarding some demographic information and social media use.</p>
+    <div class="banner-container">
+        <div class="banner" style="height: 200px;">
+            <div class="background-gray">
+                <div class="banner-text">
+                    <h1>Social Media Survey</h1>
+                    <p>This is a voluntary survey asking questions regarding some demographic information and
+                        social media use</p>
+                </div>
+            </div>
+            <div class="container">
+                <div class="overlay"></div>
+            </div>
+        </div>    
     </div>
-    <div class="container account border rounded" id="login-form">
-        <form action="/addSurvey" method="post">
-            <!-- Q1: age -->
-            <div class="form-group">
-                <label for="age">1. Enter your age:</label><br/>
-                <input type="number" class="form-control" name="age" placeholder="00" required min="1" max="100">
-            </div>
-            <!-- Q2: Gender -->
-            <div class="form-group">
-                <label>2. Select your gender:</label><br/>
-                <input type="radio" id="male" name="gender" value="Male" required>
-                <label for="male">Male</label>
-                <input type="radio" id="female" name="gender" value="Female" required>
-                <label for="female">Female</label>
-                <input type="radio" id="other" name="gender" value="Other" required>
-                <label for="other">Other</label>
-                <input type="radio" id="preferNot" name="gender" value="PreferNot">
-                <label for="preferNot">Prefer not to say</label>
-            </div>
-            <!-- Q3: Relationship status -->
-            <div class="form-group">
-                <label for="relationship">3. Select your relationship status:</label><br/>
-                <select id="relationship" name="relationship" required>
-                    <option value="" disabled selected hidden>Select an option</option>
-                    <option value="Single">Single</option>
-                    <option value="In a relationship">In a relationship</option>
-                    <option value="Married">Married</option>
-                    <option value="Divorced">Divorced</option>
-                </select>
-            </div>
-            <!-- Q4: Occupation status -->
-            <div class="form-group">
-                <label for="work">4. Select your occupation status:</label><br/>
-                <select id="work" name="work" required>
-                    <option value="" disabled selected hidden>Select an option</option>
-                    <option value="School Student">School Student (no college)</option>
-                    <option value="University Student">University Student (some college)</option>
-                    <option value="Salaried Worker">Salaried Worker</option>
-                    <option value="Retired">Retired</option>
-                    <option value="Other">None of the above</option>
-                </select>
-            </div>
-            <!-- Q5: Organization -->
-            <div class="form-group">
-                <label>5. Select affiliated organization:</label><br/>
-                <input type="checkbox" id="org1" name="organization[]" value="Company">
-                <label for="org1">Company</label><br/>
-                <input type="checkbox" id="org2" name="organization[]" value="Government">
-                <label for="org2">Government</label><br/>
-                <input type="checkbox" id="org3" name="organization[]" value="Private">
-                <label for="org3">Private</label><br/>
-                <input type="checkbox" id="org4" name="organization[]" value="School">
-                <label for="org4">School</label><br/>
-                <input type="checkbox" id="org5" name="organization[]" value="University">
-                <label for="org5">University</label>
-                <input type="checkbox" id="org6" name="organization[]" value="N/A">
-                <label for="org6">N/A</label>
-            </div>
-            <!-- Q6: Use social media or no-->
-            <div class="form-group">
-                <label>6. Do you use social media?</label><br/>
-                <input type="radio" id="yes" name="mediaUse" value="Yes" checked required>
-                <label for="yes">Yes</label>
-                <input type="radio" id="no" name="mediaUse" value="No" required>
-                <label for="no">No</label>
-            </div>
-            <!-- Q7: Social media platform types -->
-            <div class="form-group">
-                <label>7. Select the social media platforms you use (if applicable)</label><br/>
-                <input type="checkbox" id="social1" name="platform[]" value="Facebook">
-                <label for="social1">Facebook</label>
-                <input type="checkbox" id="social2" name="platform[]" value="Twitter">
-                <label for="social2">Twitter (X)</label><br/>
-                <input type="checkbox" id="social3" name="platform[]" value="Instagram">
-                <label for="social3">Instagram</label>
-                <input type="checkbox" id="social4" name="platform[]" value="YouTube">
-                <label for="social4">YouTube</label><br/>
-                <input type="checkbox" id="social5" name="platform[]" value="Snapchat">
-                <label for="social5">Snapchat</label>
-                <input type="checkbox" id="social6" name="platform[]" value="Discord">
-                <label for="social6">Discord</label><br/>
-                <input type="checkbox" id="social7" name="platform[]" value="Reddit">
-                <label for="social7">Reddit</label>
-                <input type="checkbox" id="social8" name="platform[]" value="Pinterest">
-                <label for="social8">Pinterest</label><br/>
-                <input type="checkbox" id="social9" name="platform[]" value="TikTok">
-                <label for="social9">TikTok</label>
-            </div>
-            <!-- Q8: Avg time spent on social media -->
-            <div class="form-group">
-                <label for="time">8. On average, how much time do you spend on social media each day?</label><br/>
-                <select id="time" name="time" required>
-                    <option value="" disabled selected hidden>Select an option</option>
-                    <option value="Less than 1 hour">Less than 1 hour</option>
-                    <option value="Between 1 and 2 hours">Between 1 and 2 hours</option>
-                    <option value="Between 2 and 3 hours">Between 2 and 3 hours</option>
-                    <option value="Between 4 and 5 hours">Between 4 and 5 hours</option>
-                    <option value="More than 5 hours">More than 5 hours</option>
-                </select>
-            </div>
-            <h6>Questions 9-20 will be answered based on a scale of 1 (not very often) to 5 (very often)</h6>
-            <!-- Q9: finding purpose on social media-->
-            <div class="form-group">
-                <label for="question9">9. How often do you find yourself using social media without a specific purpose?</label><br/>
-                <input type="range" id="question9" name="woPurpose" min="1" max="5" value="0" step="1"><br />
+    <br><br><br>
     
-                <label class="sliderLabel" for="question9">1</label>
-                <label class="sliderLabel" for="question9">2</label>
-                <label class="sliderLabel" for="question9">3</label>
-                <label class="sliderLabel" for="question9">4</label>
-                <label class="sliderLabel" for="question9">5</label>
-            </div>
-            <!-- Q10: distracted -->
-            <div class="form-group">
-                <label for="question10">10. How often do you get distracted by social media when you are busy doing something?</label><br/>
-                <input type="range" id="question10" name="distracted" min="1" max="5" value="0" step="1"><br />
-    
-                <label class="sliderLabel" for="question10">1</label>
-                <label class="sliderLabel" for="question10">2</label>
-                <label class="sliderLabel" for="question10">3</label>
-                <label class="sliderLabel" for="question10">4</label>
-                <label class="sliderLabel" for="question10">5</label>
-            </div>
-            <!-- Q11: restless -->
-            <div class="form-group">
-                <label for="question11">11. Do you feel restless if you haven’t used social media in a while?</label><br/>
-                <input type="range" id="question11" name="restless" min="1" max="5" value="0" step="1"><br />
-    
-                <label class="sliderLabel" for="question11">1</label>
-                <label class="sliderLabel" for="question11">2</label>
-                <label class="sliderLabel" for="question11">3</label>
-                <label class="sliderLabel" for="question11">4</label>
-                <label class="sliderLabel" for="question11">5</label>
-            </div>
-            <!-- Q12: distracted -->
-            <div class="form-group">
-                <label for="question12">12. How easily distracted are you?</label><br/>
-                <input type="range" id="question12" name="naturalDistraction" min="1" max="5" value="0" step="1"><br />
-    
-                <label class="sliderLabel" for="question12">1</label>
-                <label class="sliderLabel" for="question12">2</label>
-                <label class="sliderLabel" for="question12">3</label>
-                <label class="sliderLabel" for="question12">4</label>
-                <label class="sliderLabel" for="question12">5</label>
-            </div>
-            <!-- Q13: worries -->
-            <div class="form-group">
-                <label for="question13">13. How much are you bothered by worries?</label><br/>
-                <input type="range" id="question13" name="worries" min="1" max="5" value="0" step="1"><br />
-    
-                <label class="sliderLabel" for="question13">1</label>
-                <label class="sliderLabel" for="question13">2</label>
-                <label class="sliderLabel" for="question13">3</label>
-                <label class="sliderLabel" for="question13">4</label>
-                <label class="sliderLabel" for="question13">5</label>
-            </div>
-            <!-- Q14: concentration -->
-            <div class="form-group">
-                <label for="question14">14. Do you find it difficult to concentrate on things?</label><br/>
-                <input type="range" id="question14" name="concentration" min="1" max="5" value="0" step="1"><br />
-    
-                <label class="sliderLabel" for="question14">1</label>
-                <label class="sliderLabel" for="question14">2</label>
-                <label class="sliderLabel" for="question14">3</label>
-                <label class="sliderLabel" for="question14">4</label>
-                <label class="sliderLabel" for="question14">5</label>
-            </div>
-            <!-- Q15: comparison -->
-            <div class="form-group">
-                <label for="question15">15. How often do you compare yourself to other successful people through the use of social media?</label><br/>
-                <input type="range" id="question15" name="comparison" min="1" max="5" value="0" step="1"><br />
-    
-                <label class="sliderLabel" for="question15">1</label>
-                <label class="sliderLabel" for="question15">2</label>
-                <label class="sliderLabel" for="question15">3</label>
-                <label class="sliderLabel" for="question15">4</label>
-                <label class="sliderLabel" for="question15">5</label>
-            </div>
-            <!-- Q16: comparison -->
-            <div class="form-group">
-                <label for="question16">16. Following the previous question, how do you feel about these comparisons, generally speaking?</label><br/>
-                <input type="range" id="question16" name="comparisonsGeneral" min="1" max="5" value="0" step="1"><br />
-    
-                <label class="sliderLabel" for="question16">1</label>
-                <label class="sliderLabel" for="question16">2</label>
-                <label class="sliderLabel" for="question16">3</label>
-                <label class="sliderLabel" for="question16">4</label>
-                <label class="sliderLabel" for="question16">5</label>
-            </div>
-            <!-- Q17: vaildation -->
-            <div class="form-group">
-                <label for="question17">17. How often do you look to seek validation from features of social media?</label><br/>
-                <input type="range" id="question17" name="validation" min="1" max="5" value="0" step="1"><br />
-    
-                <label class="sliderLabel" for="question17">1</label>
-                <label class="sliderLabel" for="question17">2</label>
-                <label class="sliderLabel" for="question17">3</label>
-                <label class="sliderLabel" for="question17">4</label>
-                <label class="sliderLabel" for="question17">5</label>
-            </div>
-            <!-- Q18: depressed -->
-            <div class="form-group">
-                <label for="question18">18: How often do you feel depressed or down?</label><br/>
-                <input type="range" id="question18" name="depressed" min="1" max="5" value="0" step="1"><br />
-    
-                <label class="sliderLabel" for="question18">1</label>
-                <label class="sliderLabel" for="question18">2</label>
-                <label class="sliderLabel" for="question18">3</label>
-                <label class="sliderLabel" for="question18">4</label>
-                <label class="sliderLabel" for="question18">5</label>
-            </div>
-            <!-- Q19: daily activities -->
-            <div class="form-group">
-                <label for="question19">19. How frequently does your interested in daily activities fluctuate?</label><br/>
-                <input type="range" id="question19" name="dailyActivity" min="1" max="5" value="0" step="1"><br />
-    
-                <label class="sliderLabel" for="question19">1</label>
-                <label class="sliderLabel" for="question19">2</label>
-                <label class="sliderLabel" for="question19">3</label>
-                <label class="sliderLabel" for="question19">4</label>
-                <label class="sliderLabel" for="question19">5</label>
-            </div>
-    
-            <!-- Q20: sleep-->
-            <div class="form-group">
-                <label for="question20">20. How often do you face issues regarding sleep?</label><br/>
-                <input type="range" id="question20" name="sleep" min="1" max="5" value="0" step="1"><br />
-    
-                <label class="sliderLabel" for="question20">1</label>
-                <label class="sliderLabel" for="question20">2</label>
-                <label class="sliderLabel" for="question20">3</label>
-                <label class="sliderLabel" for="question20">4</label>
-                <label class="sliderLabel" for="question20">5</label>
-            </div>
-            <button type="submit" class="btn btn-primary" id="survey-btn" onclick="clearForm()">Submit</button>
-        </form>
-    </div>
+    <!--Author: Reed Stewart, Cassidy Hardisty, Kian Bangerter, Sky Song-->
+    <form action="/addSurvey" method="POST">
+        <section class="page-section cta">
+            <div class="container">
+                <div class="row">
+                    <div id="progress-bar-container">
+                        <div id="progress-bar">
+                            <div id="progress-bar-fill" style="width: 0%;"></div>
+                        </div>
+                    </div>
+                    <div class="col-xl-9 mx-auto">
+                        <div class="cta-inner bg-faded text-center rounded">
+                            <div class=" form-check form-check-inline question-container" id="question1">
+                                <legend>Personal Information</legend>
+                                <div class="form-group">
+                                    <label for="age">Enter your age:</label><br />
+                                    <input type="number" class="form-control" name="age" placeholder="00"
+                                        required min="1">
+                                    <p id="errortag1" style="color: red;"></p>
+                                </div>
+                                <br><br>
+                                <button type="button" class="btn btn-primary btn-xl"
+                                    onclick="nextQuestion()">Next Question</button>
+                            </div>
+                            <div class="question-container" id="question2">
+                                <legend>Personal Information</legend>
+                                <label class="section-heading-upper" for="gender">Gender:</label>
+                                <br>
+                                <select id="gender" name="gender">
+                                    <option value="" selected disabled>Select an option</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Non-binary">Non-binary</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                                <p id="errortag2" style="color: red;"></p><br><br>
+                                <button type="button" class="btn btn-primary btn-xl"
+                                    onclick="nextQuestion()">Next Question</button>
+                            </div>
+                            <div class="question-container" id="question3">
+                                <legend>Personal Information</legend>
+                                <label for="relationship">Relationship Status:</label>
+                                <br>
+                                <select id="relationship" name="relationship">
+                                    <option value="" selected disabled>Select an option</option>
+                                    <option value="Single">Single</option>
+                                    <option value="In a relationship">In a relationship</option>
+                                    <option value="Married">Married</option>
+                                    <option value="Divorced">Divorced</option>
+                                </select>
+                                <p id="errortag3" style="color: red;"></p><br><br>
+                                <button type="button" class="btn btn-primary btn-xl"
+                                    onclick="nextQuestion()">Next Question</button>
+                            </div>
+                            <div class="question-container" id="question4">
+                                <legend>Personal Information</legend>
+                                <label for="occupation">Occupation Status:</label>
+                                <br>
+                                <select id="occupation" name="occupation">
+                                    <option value="" selected disabled>Select an option</option>
+                                    <option value="Kindergarten-12">Kindergarten-12</option>
+                                    <option value="College Student">College Student</option>
+                                    <option value="Salaried Worker">Salaried Worker</option>
+                                    <option value="Retired">Retired</option>
+                                </select>
+                                <p id="errortag4" style="color: red;"></p>
+                                </p><br><br>
+                                <button type="button" class="btn btn-primary btn-xl"
+                                    onclick="nextQuestion()">Next Question</button>
+                            </div>
+                            <div class="question-container" id="question5">
+                                <legend>Personal Information</legend>
+                                <label>Select affiliated organization:</label><br />
+                                <input type="checkbox" id="org1" name="organization[]" value="Company">
+                                <label for="org1">Company</label><br />
+                                <input type="checkbox" id="org2" name="organization[]" value="Government">
+                                <label for="org2">Government</label><br />
+                                <input type="checkbox" id="org3" name="organization[]" value="Private">
+                                <label for="org3">Private</label><br />
+                                <input type="checkbox" id="org4" name="organization[]" value="School">
+                                <label for="org4">School</label><br />
+                                <input type="checkbox" id="org5" name="organization[]" value="University">
+                                <label for="org5">University</label><br>
+                                <input type="checkbox" id="org6" name="organization[]" value="N/A">
+                                <label for="org6">N/A</label>
+                                <p id="errortag5" style="color: red;"></p>
+                                <br>
+                                <button type="button" class="btn btn-primary btn-xl"
+                                    onclick="nextQuestion()">Next Question</button>
+                            </div>
+                            <div class="question-container" id="question6">
+                                <legend>Personal Information</legend>
+                                <label>Do you use social media?</label><br />
+                                <input type="radio" id="yes" name="mediaUse" value="Yes" checked required>
+                                <label for="yes">Yes</label>
+                                <input type="radio" id="no" name="mediaUse" value="No" required>
+                                <label for="no">No</label>
+                                <p id="errortag6" style="color: red;"></p><br><br>
+                                <button type="button" class="btn btn-primary btn-xl"
+                                    onclick="nextQuestion()">Next Question</button>
+                            </div>
+                            <div class="question-container" id="question7">
+                                <legend>Social Media Questions</legend>
+                                <label>What social media platforms do you commonly use?</label>
+                                <br>
+                                <input type="checkbox" id="social1" name="platform[]" value="Facebook">
+                                <label for="social1">Facebook</label>
+                                <input type="checkbox" id="social2" name="platform[]" value="Twitter">
+                                <label for="social2">Twitter (X)</label><br />
+                                <input type="checkbox" id="social3" name="platform[]" value="Instagram">
+                                <label for="social3">Instagram</label>
+                                <input type="checkbox" id="social4" name="platform[]" value="YouTube">
+                                <label for="social4">YouTube</label><br />
+                                <input type="checkbox" id="social5" name="platform[]" value="Snapchat">
+                                <label for="social5">Snapchat</label>
+                                <input type="checkbox" id="social6" name="platform[]" value="Discord">
+                                <label for="social6">Discord</label><br />
+                                <input type="checkbox" id="social7" name="platform[]" value="Reddit">
+                                <label for="social7">Reddit</label>
+                                <input type="checkbox" id="social8" name="platform[]" value="Pinterest">
+                                <label for="social8">Pinterest</label><br />
+                                <input type="checkbox" id="social9" name="platform[]" value="TikTok">
+                                <label for="social9">TikTok</label>
+                                <p id="errortag6" style="color: red;"></p>
+                                <br><br>
+                                <button type="button" class="btn btn-primary btn-xl"
+                                    onclick="nextQuestion()">Next Question</button>
+                            </div>
+                            <div class="question-container" id="question8">
+                                <legend>Social Media Questions</legend>
+                                <label for="time">On average, how much time do you spend on social media each
+                                    day?</label>
+                                <br><br>
+                                <select id="time" name="time" required>
+                                    <option value="" disabled selected hidden>Select an option</option>
+                                    <option value="Less than 1 hour">Less than 1 hour</option>
+                                    <option value="Between 1 and 2 hours">Between 1 and 2 hours</option>
+                                    <option value="Between 2 and 3 hours">Between 2 and 3 hours</option>
+                                    <option value="Between 4 and 5 hours">Between 4 and 5 hours</option>
+                                    <option value="More than 5 hours">More than 5 hours</option>
+                                </select>
+                                <p id="errortag8" style="color: red;"></p>
+                                <br><br>
+                                <button type="button" class="btn btn-primary btn-xl"
+                                    onclick="nextQuestion()">Next Question</button>
+                            </div>
+                            <div class="question-container" id="question9">
+                                <legend>Social Media Questions</legend>
+                                <label>How often do you find yourself using social media without a specific
+                                    purpose?</label>
+                                <br><br>
+                                <span class="survey-response">Rarely</span>
+                                        <label class="radio-label">
+                                            <input type="radio" id="question9" name="woPurpose" value="1">
+                                            <span>1</span>
+                                            </label>
+                                            <label class="radio-label">
+                                            <input type="radio" id="question9" name="woPurpose" value="2">
+                                            <span>2</span>
+                                            </label>
+                                            <label class="radio-label">
+                                            <input type="radio" id="question9" name="woPurpose" value="3">
+                                            <span>3</span>
+                                            </label>
+                                            <label class="radio-label">
+                                            <input type="radio" id="question9" name="woPurpose" value="4">
+                                            <span>4</span>
+                                            </label>
+                                            <label class="radio-label">
+                                            <input type="radio" id="question9" name="woPurpose" value="5">
+                                            <span>5</span>
+                                            </label>
+                                            <span class="survey-response">Often</span><br>
+                                            <p id="errortag9" style="color: red;"></p><br>
+                                <button type="button" class="btn btn-primary btn-xl"
+                                    onclick="nextQuestion()">Next Question</button>
+                            </div>
+                            <div class="question-container" id="question10">
+                                <legend>Social Media Questions</legend>
+                                <label>How often do you get distracted by social media when you are busy doing
+                                    something?</label>
+                                <br><br>
+                                <span class="survey-response">Rarely</span>
+                                        <label class="radio-label">
+                                            <input type="radio" id="question10" name="distracted" value="1">
+                                            <span>1</span>
+                                            </label>
+                                            <label class="radio-label">
+                                            <input type="radio" id="question10" name="distracted" value="2">
+                                            <span>2</span>
+                                            </label>
+                                            <label class="radio-label">
+                                            <input type="radio" id="question10" name="distracted" value="3">
+                                            <span>3</span>
+                                            </label>
+                                            <label class="radio-label">
+                                            <input type="radio" id="question10" name="distracted" value="4">
+                                            <span>4</span>
+                                            </label>
+                                            <label class="radio-label">
+                                            <input type="radio" id="question10" name="distracted" value="5">
+                                            <span>5</span>
+                                            </label>
+                                            <span class="survey-response">Often</span><br>
+                                            <p id="errortag10" style="color: red;"></p><br>
+                                <button type="button" class="btn btn-primary btn-xl"
+                                    onclick="nextQuestion()">Next Question</button>
+                            </div>
+                            <div class="question-container" id="question11">
+                                <legend>Social Media Questions</legend>
+                                <label>How often do you get distracted by social media when you are busy doing
+                                    something?</label>
+                                <br><br>
+                                <span class="survey-response">Rarely</span>
+                                        <label class="radio-label">
+                                            <input type="radio" id="question11" name="restless" value="1">
+                                            <span>1</span>
+                                            </label>
+                                            <label class="radio-label">
+                                            <input type="radio" id="question11" name="restless" value="2">
+                                            <span>2</span>
+                                            </label>
+                                            <label class="radio-label">
+                                            <input type="radio" id="question11" name="restless" value="3">
+                                            <span>3</span>
+                                            </label>
+                                            <label class="radio-label">
+                                            <input type="radio" id="question11" name="restless" value="4">
+                                            <span>4</span>
+                                            </label>
+                                            <label class="radio-label">
+                                            <input type="radio" id="question11" name="restless" value="5">
+                                            <span>5</span>
+                                            </label>
+                                            <span class="survey-response">Often</span><br>
+                                            <p id="errortag11" style="color: red;"></p><br>
+                                <button type="button" class="btn btn-primary btn-xl"
+                                    onclick="nextQuestion()">Next Question</button>
+                            </div>
+                            <div class="question-container" id="question12">
+                                <legend>Social Media Questions</legend>
+                                <label>How easily distracted are you?</label>
+                                <br><br>
+                                <span class="survey-response">Easily</span>
+                                        <label class="radio-label">
+                                            <input type="radio" id="question12" name="naturalDistraction" value="1">
+                                            <span>1</span>
+                                            </label>
+                                            <label class="radio-label">
+                                            <input type="radio" id="question12" name="naturalDistraction" value="2">
+                                            <span>2</span>
+                                            </label>
+                                            <label class="radio-label">
+                                            <input type="radio" id="question12" name="naturalDistraction" value="3">
+                                            <span>3</span>
+                                            </label>
+                                            <label class="radio-label">
+                                            <input type="radio" id="question12" name="naturalDistraction" value="4">
+                                            <span>4</span>
+                                            </label>
+                                            <label class="radio-label">
+                                            <input type="radio" id="question12" name="naturalDistraction" value="5">
+                                            <span>5</span>
+                                            </label>
+                                            <span class="survey-response">Not easily</span><br>
+                                            <p id="errortag12" style="color: red;"></p><br>
+                                <button type="button" class="btn btn-primary btn-xl"
+                                    onclick="nextQuestion()">Next Question</button>
+                            </div>
+                            <div class="question-container" id="question13">
+                                <legend>Social Media Questions</legend>
+                                <label>How often are you bothered by worries?</label>
+                                <br><br>
+                                <span class="survey-response">Rarely</span>
+                                        <label class="radio-label">
+                                            <input type="radio" id="question13" name="worries" value="1">
+                                            <span>1</span>
+                                            </label>
+                                            <label class="radio-label">
+                                            <input type="radio" id="question13" name="worries" value="2">
+                                            <span>2</span>
+                                            </label>
+                                            <label class="radio-label">
+                                            <input type="radio" id="question13" name="worries" value="3">
+                                            <span>3</span>
+                                            </label>
+                                            <label class="radio-label">
+                                            <input type="radio" id="question13" name="worries" value="4">
+                                            <span>4</span>
+                                            </label>
+                                            <label class="radio-label">
+                                            <input type="radio" id="question13" name="worries" value="5">
+                                            <span>5</span>
+                                            </label>
+                                            <span class="survey-response">Often</span><br>
+                                            <p id="errortag13" style="color: red;"></p><br>
+                                <button type="button" class="btn btn-primary btn-xl"
+                                    onclick="nextQuestion()">Next Question</button>
+                            </div>
+                            <div class="question-container" id="question14">
+                                <legend>Social Media Questions</legend>
+                                <label>Do you find it difficult to concentrate on things?</label>
+                                <br><br>
+                                <span class="survey-response">Rarely</span>
+                                        <label class="radio-label">
+                                            <input type="radio" id="question14" name="concentration" value="1">
+                                            <span>1</span>
+                                            </label>
+                                            <label class="radio-label">
+                                            <input type="radio" id="question14" name="concentration" value="2">
+                                            <span>2</span>
+                                            </label>
+                                            <label class="radio-label">
+                                            <input type="radio" id="question14" name="concentration" value="3">
+                                            <span>3</span>
+                                            </label>
+                                            <label class="radio-label">
+                                            <input type="radio" id="question14" name="concentration" value="4">
+                                            <span>4</span>
+                                            </label>
+                                            <label class="radio-label">
+                                            <input type="radio" id="question14" name="concentration" value="5">
+                                            <span>5</span>
+                                            </label>
+                                            <span class="survey-response">Often</span><br>
+                                            <p id="errortag14" style="color: red;"></p><br>
+                                <button type="button" class="btn btn-primary btn-xl"
+                                    onclick="nextQuestion()">Next Question</button>
+                            </div>
+                            <div class="question-container" id="question15">
+                                <legend>Social Media Questions</legend>
+                                <label>How often do you compare yourself to other successful people through the
+                                    use of social media?</label>
+                                <br><br>
+                                <span class="survey-response">Rarely</span>
+                                        <label class="radio-label">
+                                            <input type="radio" id="question15" name="comparison" value="1">
+                                            <span>1</span>
+                                            </label>
+                                            <label class="radio-label">
+                                            <input type="radio" id="question15" name="comparison" value="2">
+                                            <span>2</span>
+                                            </label>
+                                            <label class="radio-label">
+                                            <input type="radio" id="question15" name="comparison" value="3">
+                                            <span>3</span>
+                                            </label>
+                                            <label class="radio-label">
+                                            <input type="radio" id="question15" name="comparison" value="4">
+                                            <span>4</span>
+                                            </label>
+                                            <label class="radio-label">
+                                            <input type="radio" id="question15" name="comparison" value="5">
+                                            <span>5</span>
+                                            </label>
+                                            <span class="survey-response">Often</span><br>
+                                            <p id="errortag15" style="color: red;"></p><br>
+                                <button type="button" class="btn btn-primary btn-xl"
+                                    onclick="nextQuestion()">Next Question</button>
+                            </div>
+                            <div class="question-container" id="question16">
+                                <legend>Social Media Questions</legend>
+                                <label>Following the previous question, how do you feel about these comparisons,
+                                    generally speaking?</label>
+                                <br><br>
+                                <span class="survey-response">Poor</span>
+                                        <label class="radio-label">
+                                            <input type="radio" id="question16" name="comparisonsGeneral" value="1">
+                                            <span>1</span>
+                                            </label>
+                                            <label class="radio-label">
+                                            <input type="radio" id="question16" name="comparisonsGeneral" value="2">
+                                            <span>2</span>
+                                            </label>
+                                            <label class="radio-label">
+                                            <input type="radio" id="question16" name="comparisonsGeneral" value="3">
+                                            <span>3</span>
+                                            </label>
+                                            <label class="radio-label">
+                                            <input type="radio" id="question16" name="comparisonsGeneral" value="4">
+                                            <span>4</span>
+                                            </label>
+                                            <label class="radio-label">
+                                            <input type="radio" id="question16" name="comparisonsGeneral" value="5">
+                                            <span>5</span>
+                                            </label>
+                                            <span class="survey-response">Great</span><br>
+                                            <p id="errortag16" style="color: red;"></p><br>
+                                <button type="button" class="btn btn-primary btn-xl"
+                                    onclick="nextQuestion()">Next Question</button>
+                            </div>
+                            <div class="question-container" id="question17">
+                                <legend>Social Media Questions</legend>
+                                <label>How often do you look to seek validation from features of social
+                                    media?</label>
+                                <br><br>
+                                <span class="survey-response">Rarely</span>
+                                        <label class="radio-label">
+                                            <input type="radio" id="question17" name="validation" value="1">
+                                            <span>1</span>
+                                            </label>
+                                            <label class="radio-label">
+                                            <input type="radio" id="question17" name="validation" value="2">
+                                            <span>2</span>
+                                            </label>
+                                            <label class="radio-label">
+                                            <input type="radio" id="question17" name="validation" value="3">
+                                            <span>3</span>
+                                            </label>
+                                            <label class="radio-label">
+                                            <input type="radio" id="question17" name="validation" value="4">
+                                            <span>4</span>
+                                            </label>
+                                            <label class="radio-label">
+                                            <input type="radio" id="question17" name="validation" value="5">
+                                            <span>5</span>
+                                            </label>
+                                            <span class="survey-response">Often</span><br>
+                                            <p id="errortag17" style="color: red;"></p><br>
+                                <button type="button" class="btn btn-primary btn-xl"
+                                    onclick="nextQuestion()">Next Question</button>
+                            </div>
 
-    <script>
-        function clearForm() {
-            // You can use JavaScript to reset the form by accessing the form element and calling the reset() method
-            document.getElementById("myForm").reset();
-        }
-    </script>
+                            <div class="question-container" id="question18">
+                                <legend>Social Media Questions</legend>
+                                <label>How often do you feel depressed or down?</label>
+                                <br><br>
+                                <span class="survey-response">Rarely</span>
+                                        <label class="radio-label">
+                                            <input type="radio" id="question18" name="depressed" value="1">
+                                            <span>1</span>
+                                            </label>
+                                            <label class="radio-label">
+                                            <input type="radio" id="question18" name="depressed" value="2">
+                                            <span>2</span>
+                                            </label>
+                                            <label class="radio-label">
+                                            <input type="radio" id="question18" name="depressed" value="3">
+                                            <span>3</span>
+                                            </label>
+                                            <label class="radio-label">
+                                            <input type="radio" id="question18" name="depressed" value="4">
+                                            <span>4</span>
+                                            </label>
+                                            <label class="radio-label">
+                                            <input type="radio" id="question18" name="depressed" value="5">
+                                            <span>5</span>
+                                            </label>
+                                            <span class="survey-response">Often</span><br>
+                                            <p id="errortag18" style="color: red;"></p><br>
+                                <button type="button" class="btn btn-primary btn-xl"
+                                    onclick="nextQuestion()">Next Question</button>
+                            </div>
+
+                            <div class="question-container" id="question19">
+                                <legend>Social Media Questions</legend>
+                                <label>How frequently does your interested in daily activities
+                                    fluctuate?</label>
+                                <br><br>
+                                <span class="survey-response">Rarely</span>
+                                        <label class="radio-label">
+                                            <input type="radio" id="question19" name="dailyActivity" value="1">
+                                            <span>1</span>
+                                            </label>
+                                            <label class="radio-label">
+                                            <input type="radio" id="question19" name="dailyActivity" value="2">
+                                            <span>2</span>
+                                            </label>
+                                            <label class="radio-label">
+                                            <input type="radio" id="question19" name="dailyActivity" value="3">
+                                            <span>3</span>
+                                            </label>
+                                            <label class="radio-label">
+                                            <input type="radio" id="question19" name="dailyActivity" value="4">
+                                            <span>4</span>
+                                            </label>
+                                            <label class="radio-label">
+                                            <input type="radio" id="question19" name="dailyActivity" value="5">
+                                            <span>5</span>
+                                            </label>
+                                            <span class="survey-response">Often</span><br>
+                                            <p id="errortag19" style="color: red;"></p><br>
+                                <button type="button" class="btn btn-primary btn-xl"
+                                    onclick="nextQuestion()">Next Question</button>
+                            </div>
+
+                            <div class="question-container" id="question20">
+                                <legend>Social Media Questions</legend>
+                                <label>How often do you face issues regarding sleep?</label>
+                                <br><br>
+                                <span class="survey-response">Rarely</span>
+                                        <label class="radio-label">
+                                            <input type="radio" id="question20" name="sleep" value="1">
+                                            <span>1</span>
+                                            </label>
+                                            <label class="radio-label">
+                                            <input type="radio" id="question20" name="sleep" value="2">
+                                            <span>2</span>
+                                            </label>
+                                            <label class="radio-label">
+                                            <input type="radio" id="question20" name="sleep" value="3">
+                                            <span>3</span>
+                                            </label>
+                                            <label class="radio-label">
+                                            <input type="radio" id="question20" name="sleep" value="4">
+                                            <span>4</span>
+                                            </label>
+                                            <label class="radio-label">
+                                            <input type="radio" id="question20" name="sleep" value="5">
+                                            <span>5</span>
+                                            </label>
+                                            <span class="survey-response">Often</span><br>
+                                            <p id="errortag20" style="color: red;"></p><br>
+                                <button type="submit" class="btn btn-primary btn-xl" id="survey-btn">Submit</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="question-container" id="thankYou" style="display: none;">
+            <p>Thank you for completing the survey!</p>
+        </div>
+    </form>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            let currentQuestion = 1;
+
+            function showQuestion(questionNumber) {
+                const questionContainers = document.querySelectorAll('.question-container');
+
+                questionContainers.forEach(container => {
+                    container.style.display = 'none';
+                });
+
+                const currentQuestionContainer = document.getElementById(`question${questionNumber}`);
+
+                if (currentQuestionContainer) {
+                    currentQuestionContainer.style.display = 'block';
+                }
+
+                // Update progress bar
+                const progressBarFill = document.getElementById('progress-bar-fill');
+                const progressPercentage = (questionNumber - 1) / questionContainers.length * 100;
+                progressBarFill.style.width = `${progressPercentage}%`;
+            }
+
+            function nextQuestion() {
+                const ageInput = document.querySelector('input[name="age"]');
+                const genderSelect = document.getElementById('gender');
+                const relationshipSelect = document.getElementById('relationship');
+                const occupationSelect = document.getElementById('occupation');
+                const org1 = document.getElementById('org1');
+                const org2 = document.getElementById('org2');
+                const org3 = document.getElementById('org3');
+                const org4 = document.getElementById('org4');
+                const org5 = document.getElementById('org5');
+                const org6 = document.getElementById('org6');
+                const timeSelect = document.getElementById('time');
+
+
+                switch (currentQuestion) {
+                    case 1:
+                        if (ageInput.value === '') {
+                            showError('errortag1', 'Please give a valid age');
+                            return;
+                        }
+                        clearError('errortag1');
+                        break;
+                    case 2:
+                        if (genderSelect.value === '') {
+                            showError('errortag2', 'Please select a gender option');
+                            return;
+                        }
+                        clearError('errortag2');
+                        break;
+                    case 3:
+                        if (relationshipSelect.value === '') {
+                            showError('errortag3', 'Please select a relationship status');
+                            return;
+                        }
+                        clearError('errortag3');
+                        break;
+                    case 4:
+                        if (occupationSelect.value === '') {
+                            showError('errortag4', 'Please give an occupation');
+                            return;
+                        }
+                        clearError('errortag4');
+                        break;
+                    case 5:
+                        // Validate checkboxes for question 5
+                        const checkboxesQ5 = [org1, org2, org3, org4, org5, org6];
+                        const checkedCheckboxesQ5 = checkboxesQ5.filter(checkbox => checkbox.checked);
+                        if (checkedCheckboxesQ5.length === 0) {
+                            showError('errortag5', 'Please select at least one organization');
+                            return;
+                        }
+                        clearError('errortag5');
+                        break;
+                    case 6:
+                        // Validate radio buttons for question 6
+                        const mediaUseYes = document.getElementById('yes');
+                        const mediaUseNo = document.getElementById('no');
+                        if (!mediaUseYes.checked && !mediaUseNo.checked) {
+                            showError('errortag6', 'Please select an option');
+                            return;
+                        }
+                        clearError('errortag6');
+                        break;
+                    case 7:
+                        // Validate checkboxes for question 7
+                        // const social1 = document.getElementById('social1');
+                        // const social2 = document.getElementById('social2');
+                        // const social3 = document.getElementById('social3');
+                        // const social4 = document.getElementById('social4');
+                        // const social5 = document.getElementById('social5');
+                        // const social6 = document.getElementById('social6');
+                        // const social7 = document.getElementById('social7');
+                        // const social8 = document.getElementById('social8');
+                        // const social9 = document.getElementById('social9');
+
+                        // const socialCheckboxes = [social1, social2, social3, social4, social5, social6, social7, social8, social9];
+                        // const checkedSocialCheckboxes = socialCheckboxes.filter(checkbox => checkbox.checked);
+
+                        // if (checkedSocialCheckboxes.length === 0) {
+                        //     showError('errortag7', 'Please select at least one platform.');
+                        //     return;
+                        // }
+                        // clearError('errortag7');
+                        // Move to the next question
+                        showQuestion(currentQuestion);
+                        break;
+                    case 8:
+                        // Validate select for question 8
+                        if (!timeSelect.value) {
+                            showError('errortag8', 'Please select an time estimate');
+                            return;
+                        }
+                        clearError('errortag8');
+                        break;
+                    case 9:
+                        const woPurpose = document.querySelectorAll('input[name="woPurpose"]:checked');
+                            if (woPurpose.length === 0) {
+                            showError('errortag9', 'Please select an option');
+                            return;
+                        }
+                        clearError('errortag9');
+                        break;
+                    case 10:
+                        const distracted = document.querySelectorAll('input[name="distracted"]:checked');
+                            if (distracted.length === 0) {
+                                showError('errortag10', 'Please select an option');
+                            return;
+                        }
+                        clearError('errortag10');
+                        break;
+                    case 11:
+                        const restless = document.querySelectorAll('input[name="restless"]:checked');
+                            if (restless.length === 0) {
+                                showError('errortag11', 'Please select an option');
+                            return;
+                        }
+                        clearError('errortag11');
+                        break;
+                    case 12:
+                        const naturalDistraction = document.querySelectorAll('input[name="naturalDistraction"]:checked');
+                            if (naturalDistraction.length === 0) {
+                                showError('errortag12', 'Please select an option');
+                            return;
+                        }
+                        clearError('errortag12');
+                        break;
+                    case 13:
+                        const worries = document.querySelectorAll('input[name="worries"]:checked');
+                            if (worries.length === 0) {
+                                showError('errortag13', 'Please select an option');
+                            return;
+                        }
+                        clearError('errortag13');
+                        break;
+                    case 14:
+                        const concentration = document.querySelectorAll('input[name="concentration"]:checked');
+                            if (concentration.length === 0) {
+                                showError('errortag14', 'Please select an option');
+                            return;
+                        }
+                        clearError('errortag14');
+                        break;
+                    case 15:
+                        const comparison = document.querySelectorAll('input[name="comparison"]:checked');
+                            if (comparison.length === 0) {
+                                showError('errortag15', 'Please select an option');
+                            return;
+                        }
+                        clearError('errortag15');
+                        break;
+                    case 16:
+                        const comparisonsGeneral = document.querySelectorAll('input[name="comparisonsGeneral"]:checked');
+                            if (comparisonsGeneral.length === 0) {
+                                showError('errortag16', 'Please select an option');
+                            return;
+                        }
+                        clearError('errortag16');
+                        break;
+                    case 17:
+                        const validation = document.querySelectorAll('input[name="validation"]:checked');
+                            if (validation.length === 0) {
+                                showError('errortag17', 'Please select an option');
+                            return;
+                        }
+                        clearError('errortag17');
+                        break;
+                    case 18:
+                        const depressed = document.querySelectorAll('input[name="depressed"]:checked');
+                            if (depressed.length === 0) {
+                                showError('errortag18', 'Please select an option');
+                            return;
+                        }
+                        clearError('errortag18');
+                        break;
+                    case 19:
+                        const dailyActivity = document.querySelectorAll('input[name="dailyActivity"]:checked');
+                        if (dailyActivity.length === 0) {
+                            showError('errortag19', 'Please select an option');
+                            return;
+                        }
+                        clearError('errortag19');
+                        break;
+                    case 20:
+                        const sleep = currentContainer.querySelectorAll('input[name="sleep"]:checked');
+                        if (sleep.length === 0) {
+                            showError('errortag20', 'Please select an option');
+                            return;
+                        }
+                        clearError('errortag20');
+                        break;
+                    default:
+                        break;
+                    }
+
+                        // Calculate total number of questions
+                        const totalQuestions = 20; // Set this to the total number of questions in your survey
+
+                        // Calculate progress percentage
+                        const progressPercentage = (currentQuestion / totalQuestions) * 100;
+                        const progressBarFill = document.getElementById('progress-bar-fill');
+                        progressBarFill.style.width = `${progressPercentage}%`;
+                        // Move to the next question
+                        currentQuestion++;
+                        showQuestion(currentQuestion);
+                
+            }
+
+            function showError(errorTagId, message) {
+                const errorTag = document.getElementById(errorTagId);
+                if (errorTag) {
+                    errorTag.textContent = message;
+                    errorTag.style.color = 'red';
+                }
+            }
+
+            function clearError(errorTagId) {
+                const errorTag = document.getElementById(errorTagId);
+                if (errorTag) {
+                    errorTag.textContent = '';
+                }
+            }
+
+            // Show the first question when the page loads
+            showQuestion(currentQuestion);
+        </script>
+    </form>
 </body>
 
 
