@@ -1,10 +1,5 @@
 # INTEX: SMU HU Committee Website
 
-## Table of Contents
-
-- [Introduction](#introduction)
-- [Usage](#usage)
-
 ## Introduction
 
 This is a website for the SMU MH Committee to receive survey responses, display city data, and allow admin and workers to log in and see all survey results. 
