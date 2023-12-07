@@ -79,7 +79,7 @@
                         <td style="text-align: center;">
                             <form action="/deleteAccount" method="POST" onsubmit="return confirmDelete()">
                                 <input type="hidden" name="username" value="<%= user[iCount].username %>">
-                                <% if (user[iCount].status != "admin") { %>
+                                <% if (user[iCount].username != "adminuser") { %>
                                     <button class="btn btn-secondary" id="delete-btn" type="submit">
                                         <!-- trash button -->
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
