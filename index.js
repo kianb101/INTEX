@@ -125,7 +125,6 @@ app.post('/validateUser', async (req, res) => {
   try {
     if (usernameToCheck && passwordToCheck) {
       const user = await knex.from('users').select('username', 'status').where({ username: usernameToCheck, password: passwordToCheck }).first();
-      console.log(user);
 
       if (user) {
         req.session.loggedin = true;
@@ -154,7 +153,7 @@ app.post("/addSurvey", async (req, res) => {
       age: req.body.age,
       gender: req.body.gender,
       rel_status: req.body.relationship,
-      occ_status: req.body.work,
+      occ_status: req.body.occupation,
       sm_user: req.body.mediaUse,
       avg_time: req.body.time,
       wop_freq: req.body.woPurpose,
@@ -208,7 +207,6 @@ app.post("/addSurvey", async (req, res) => {
           let surveynum = 0;
           // goes through the json object returned from postgres and isolates the survey_id value, returning it to surveynum
           entries.forEach(([key, value]) => {
-            console.log(`${key}: ${value}`);
             surveynum = value;
           });
 
