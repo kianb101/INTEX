@@ -253,8 +253,7 @@ app.get("/createAccount", async (req, res) => {
 
   if (role == "admin") {
     if (req.query.msg == 'success') {
-      // let users = await knex.from("users").select('username', 'password', 'status');
-      let users = req.session
+      let users = await knex.from("users").select('username', 'password', 'status');
       res.render('pages/createAccount', { user: users, msg: "success", loggedin: req.session.loggedin });
     }
     else {
