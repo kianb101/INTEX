@@ -4,11 +4,6 @@
 
 - [Introduction](#introduction)
 - [Usage](#usage)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Configuration](#configuration)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Introduction
 
