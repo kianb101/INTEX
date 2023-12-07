@@ -573,255 +573,234 @@
             <p>Thank you for completing the survey!</p>
         </div>
     </form>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-        <script>
-            let currentQuestion = 1;
+    <script>
+        let currentQuestion = 1;
 
-            function showQuestion(questionNumber) {
-                const questionContainers = document.querySelectorAll('.question-container');
+        function showQuestion(questionNumber) {
+            const questionContainers = document.querySelectorAll('.question-container');
 
-                questionContainers.forEach(container => {
-                    container.style.display = 'none';
-                });
+            questionContainers.forEach(container => {
+                container.style.display = 'none';
+            });
 
-                const currentQuestionContainer = document.getElementById(`question${questionNumber}`);
+            const currentQuestionContainer = document.getElementById(`question${questionNumber}`);
 
-                if (currentQuestionContainer) {
-                    currentQuestionContainer.style.display = 'block';
-                }
+            if (currentQuestionContainer) {
+                currentQuestionContainer.style.display = 'block';
+            };
 
-                // Update progress bar
-                const progressBarFill = document.getElementById('progress-bar-fill');
-                const progressPercentage = (questionNumber - 1) / questionContainers.length * 100;
-                progressBarFill.style.width = `${progressPercentage}%`;
-            }
+            // Update progress bar
+            const progressBarFill = document.getElementById('progress-bar-fill');
+            const progressPercentage = (questionNumber - 1) / questionContainers.length * 100;
+            progressBarFill.style.width = `${progressPercentage}%`;
+        };
 
-            function nextQuestion() {
-                const ageInput = document.querySelector('input[name="age"]');
-                const genderSelect = document.getElementById('gender');
-                const relationshipSelect = document.getElementById('relationship');
-                const occupationSelect = document.getElementById('occupation');
-                const org1 = document.getElementById('org1');
-                const org2 = document.getElementById('org2');
-                const org3 = document.getElementById('org3');
-                const org4 = document.getElementById('org4');
-                const org5 = document.getElementById('org5');
-                const org6 = document.getElementById('org6');
-                const timeSelect = document.getElementById('time');
+        function nextQuestion() {
+            const ageInput = document.querySelector('input[name="age"]');
+            const genderSelect = document.getElementById('gender');
+            const relationshipSelect = document.getElementById('relationship');
+            const occupationSelect = document.getElementById('occupation');
+            const org1 = document.getElementById('org1');
+            const org2 = document.getElementById('org2');
+            const org3 = document.getElementById('org3');
+            const org4 = document.getElementById('org4');
+            const org5 = document.getElementById('org5');
+            const org6 = document.getElementById('org6');
+            const timeSelect = document.getElementById('time');
 
 
-                switch (currentQuestion) {
-                    case 1:
-                        if (ageInput.value === '') {
-                            showError('errortag1', 'Please give a valid age');
-                            return;
-                        }
-                        clearError('errortag1');
-                        break;
-                    case 2:
-                        if (genderSelect.value === '') {
-                            showError('errortag2', 'Please select a gender option');
-                            return;
-                        }
-                        clearError('errortag2');
-                        break;
-                    case 3:
-                        if (relationshipSelect.value === '') {
-                            showError('errortag3', 'Please select a relationship status');
-                            return;
-                        }
-                        clearError('errortag3');
-                        break;
-                    case 4:
-                        if (occupationSelect.value === '') {
-                            showError('errortag4', 'Please give an occupation');
-                            return;
-                        }
-                        clearError('errortag4');
-                        break;
-                    case 5:
-                        // Validate checkboxes for question 5
-                        const checkboxesQ5 = [org1, org2, org3, org4, org5, org6];
-                        const checkedCheckboxesQ5 = checkboxesQ5.filter(checkbox => checkbox.checked);
-                        if (checkedCheckboxesQ5.length === 0) {
-                            showError('errortag5', 'Please select at least one organization');
-                            return;
-                        }
-                        clearError('errortag5');
-                        break;
-                    case 6:
-                        // Validate radio buttons for question 6
-                        const mediaUseYes = document.getElementById('yes');
-                        const mediaUseNo = document.getElementById('no');
-                        if (!mediaUseYes.checked && !mediaUseNo.checked) {
-                            showError('errortag6', 'Please select an option');
-                            return;
-                        }
-                        clearError('errortag6');
-                        break;
-                    case 7:
-                        // Validate checkboxes for question 7
-                        // const social1 = document.getElementById('social1');
-                        // const social2 = document.getElementById('social2');
-                        // const social3 = document.getElementById('social3');
-                        // const social4 = document.getElementById('social4');
-                        // const social5 = document.getElementById('social5');
-                        // const social6 = document.getElementById('social6');
-                        // const social7 = document.getElementById('social7');
-                        // const social8 = document.getElementById('social8');
-                        // const social9 = document.getElementById('social9');
+            switch (currentQuestion) {
+                case 1:
+                    if (ageInput.value === '') {
+                        showError('errortag1', 'Please give a valid age');
+                        return;
+                    };
+                    clearError('errortag1');
+                    break;
+                case 2:
+                    if (genderSelect.value === '') {
+                        showError('errortag2', 'Please select a gender option');
+                        return;
+                    };
+                    clearError('errortag2');
+                    break;
+                case 3:
+                    if (relationshipSelect.value === '') {
+                        showError('errortag3', 'Please select a relationship status');
+                        return;
+                    };
+                    clearError('errortag3');
+                    break;
+                case 4:
+                    if (occupationSelect.value === '') {
+                        showError('errortag4', 'Please give an occupation');
+                        return;
+                    };
+                    clearError('errortag4');
+                    break;
+                case 5:
+                    // Validate checkboxes for question 5
+                    const checkboxesQ5 = [org1, org2, org3, org4, org5, org6];
+                    const checkedCheckboxesQ5 = checkboxesQ5.filter(checkbox => checkbox.checked);
+                    if (checkedCheckboxesQ5.length === 0) {
+                        showError('errortag5', 'Please select at least one organization');
+                        return;
+                    };
+                    clearError('errortag5');
+                    break;
+                case 6:
+                    // Validate radio buttons for question 6
+                    const mediaUseYes = document.getElementById('yes');
+                    const mediaUseNo = document.getElementById('no');
+                    if (!mediaUseYes.checked && !mediaUseNo.checked) {
+                        showError('errortag6', 'Please select an option');
+                        return;
+                    };
+                    clearError('errortag6');
+                    break;
+                case 7:
+                    // Move to the next question
+                    showQuestion(currentQuestion);
+                    break;
+                case 8:
+                    // Validate select for question 8
+                    if (!timeSelect.value) {
+                        showError('errortag8', 'Please select an time estimate');
+                        return;
+                    };
+                    clearError('errortag8');
+                    break;
+                case 9:
+                    const woPurpose = document.querySelectorAll('input[name="woPurpose"]:checked');
+                        if (woPurpose.length === 0) {
+                        showError('errortag9', 'Please select an option');
+                        return;
+                    };
+                    clearError('errortag9');
+                    break;
+                case 10:
+                    const distracted = document.querySelectorAll('input[name="distracted"]:checked');
+                        if (distracted.length === 0) {
+                            showError('errortag10', 'Please select an option');
+                        return;
+                    };
+                    clearError('errortag10');
+                    break;
+                case 11:
+                    const restless = document.querySelectorAll('input[name="restless"]:checked');
+                        if (restless.length === 0) {
+                            showError('errortag11', 'Please select an option');
+                        return;
+                    };
+                    clearError('errortag11');
+                    break;
+                case 12:
+                    const naturalDistraction = document.querySelectorAll('input[name="naturalDistraction"]:checked');
+                        if (naturalDistraction.length === 0) {
+                            showError('errortag12', 'Please select an option');
+                        return;
+                    };
+                    clearError('errortag12');
+                    break;
+                case 13:
+                    const worries = document.querySelectorAll('input[name="worries"]:checked');
+                        if (worries.length === 0) {
+                            showError('errortag13', 'Please select an option');
+                        return;
+                    };
+                    clearError('errortag13');
+                    break;
+                case 14:
+                    const concentration = document.querySelectorAll('input[name="concentration"]:checked');
+                        if (concentration.length === 0) {
+                            showError('errortag14', 'Please select an option');
+                        return;
+                    };
+                    clearError('errortag14');
+                    break;
+                case 15:
+                    const comparison = document.querySelectorAll('input[name="comparison"]:checked');
+                        if (comparison.length === 0) {
+                            showError('errortag15', 'Please select an option');
+                        return;
+                    };
+                    clearError('errortag15');
+                    break;
+                case 16:
+                    const comparisonsGeneral = document.querySelectorAll('input[name="comparisonsGeneral"]:checked');
+                        if (comparisonsGeneral.length === 0) {
+                            showError('errortag16', 'Please select an option');
+                        return;
+                    };
+                    clearError('errortag16');
+                    break;
+                case 17:
+                    const validation = document.querySelectorAll('input[name="validation"]:checked');
+                        if (validation.length === 0) {
+                            showError('errortag17', 'Please select an option');
+                        return;
+                    };
+                    clearError('errortag17');
+                    break;
+                case 18:
+                    const depressed = document.querySelectorAll('input[name="depressed"]:checked');
+                        if (depressed.length === 0) {
+                            showError('errortag18', 'Please select an option');
+                        return;
+                    };
+                    clearError('errortag18');
+                    break;
+                case 19:
+                    const dailyActivity = document.querySelectorAll('input[name="dailyActivity"]:checked');
+                    if (dailyActivity.length === 0) {
+                        showError('errortag19', 'Please select an option');
+                        return;
+                    };
+                    clearError('errortag19');
+                    break;
+                case 20:
+                    const sleep = currentContainer.querySelectorAll('input[name="sleep"]:checked');
+                    if (sleep.length === 0) {
+                        showError('errortag20', 'Please select an option');
+                        return;
+                    };
+                    clearError('errortag20');
+                    break;
+                default:
+                    break;
+            };
 
-                        // const socialCheckboxes = [social1, social2, social3, social4, social5, social6, social7, social8, social9];
-                        // const checkedSocialCheckboxes = socialCheckboxes.filter(checkbox => checkbox.checked);
+            // Calculate total number of questions
+            const totalQuestions = 20; // Set this to the total number of questions in your survey
 
-                        // if (checkedSocialCheckboxes.length === 0) {
-                        //     showError('errortag7', 'Please select at least one platform.');
-                        //     return;
-                        // }
-                        // clearError('errortag7');
-                        // Move to the next question
-                        showQuestion(currentQuestion);
-                        break;
-                    case 8:
-                        // Validate select for question 8
-                        if (!timeSelect.value) {
-                            showError('errortag8', 'Please select an time estimate');
-                            return;
-                        }
-                        clearError('errortag8');
-                        break;
-                    case 9:
-                        const woPurpose = document.querySelectorAll('input[name="woPurpose"]:checked');
-                            if (woPurpose.length === 0) {
-                            showError('errortag9', 'Please select an option');
-                            return;
-                        }
-                        clearError('errortag9');
-                        break;
-                    case 10:
-                        const distracted = document.querySelectorAll('input[name="distracted"]:checked');
-                            if (distracted.length === 0) {
-                                showError('errortag10', 'Please select an option');
-                            return;
-                        }
-                        clearError('errortag10');
-                        break;
-                    case 11:
-                        const restless = document.querySelectorAll('input[name="restless"]:checked');
-                            if (restless.length === 0) {
-                                showError('errortag11', 'Please select an option');
-                            return;
-                        }
-                        clearError('errortag11');
-                        break;
-                    case 12:
-                        const naturalDistraction = document.querySelectorAll('input[name="naturalDistraction"]:checked');
-                            if (naturalDistraction.length === 0) {
-                                showError('errortag12', 'Please select an option');
-                            return;
-                        }
-                        clearError('errortag12');
-                        break;
-                    case 13:
-                        const worries = document.querySelectorAll('input[name="worries"]:checked');
-                            if (worries.length === 0) {
-                                showError('errortag13', 'Please select an option');
-                            return;
-                        }
-                        clearError('errortag13');
-                        break;
-                    case 14:
-                        const concentration = document.querySelectorAll('input[name="concentration"]:checked');
-                            if (concentration.length === 0) {
-                                showError('errortag14', 'Please select an option');
-                            return;
-                        }
-                        clearError('errortag14');
-                        break;
-                    case 15:
-                        const comparison = document.querySelectorAll('input[name="comparison"]:checked');
-                            if (comparison.length === 0) {
-                                showError('errortag15', 'Please select an option');
-                            return;
-                        }
-                        clearError('errortag15');
-                        break;
-                    case 16:
-                        const comparisonsGeneral = document.querySelectorAll('input[name="comparisonsGeneral"]:checked');
-                            if (comparisonsGeneral.length === 0) {
-                                showError('errortag16', 'Please select an option');
-                            return;
-                        }
-                        clearError('errortag16');
-                        break;
-                    case 17:
-                        const validation = document.querySelectorAll('input[name="validation"]:checked');
-                            if (validation.length === 0) {
-                                showError('errortag17', 'Please select an option');
-                            return;
-                        }
-                        clearError('errortag17');
-                        break;
-                    case 18:
-                        const depressed = document.querySelectorAll('input[name="depressed"]:checked');
-                            if (depressed.length === 0) {
-                                showError('errortag18', 'Please select an option');
-                            return;
-                        }
-                        clearError('errortag18');
-                        break;
-                    case 19:
-                        const dailyActivity = document.querySelectorAll('input[name="dailyActivity"]:checked');
-                        if (dailyActivity.length === 0) {
-                            showError('errortag19', 'Please select an option');
-                            return;
-                        }
-                        clearError('errortag19');
-                        break;
-                    case 20:
-                        const sleep = currentContainer.querySelectorAll('input[name="sleep"]:checked');
-                        if (sleep.length === 0) {
-                            showError('errortag20', 'Please select an option');
-                            return;
-                        }
-                        clearError('errortag20');
-                        break;
-                    default:
-                        break;
-                    }
-
-                        // Calculate total number of questions
-                        const totalQuestions = 20; // Set this to the total number of questions in your survey
-
-                        // Calculate progress percentage
-                        const progressPercentage = (currentQuestion / totalQuestions) * 100;
-                        const progressBarFill = document.getElementById('progress-bar-fill');
-                        progressBarFill.style.width = `${progressPercentage}%`;
-                        // Move to the next question
-                        currentQuestion++;
-                        showQuestion(currentQuestion);
-                
-            }
-
-            function showError(errorTagId, message) {
-                const errorTag = document.getElementById(errorTagId);
-                if (errorTag) {
-                    errorTag.textContent = message;
-                    errorTag.style.color = 'red';
-                }
-            }
-
-            function clearError(errorTagId) {
-                const errorTag = document.getElementById(errorTagId);
-                if (errorTag) {
-                    errorTag.textContent = '';
-                }
-            }
-
-            // Show the first question when the page loads
+            // Calculate progress percentage
+            const progressPercentage = (currentQuestion / totalQuestions) * 100;
+            const progressBarFill = document.getElementById('progress-bar-fill');
+            progressBarFill.style.width = `${progressPercentage}%`;
+            // Move to the next question
+            currentQuestion++;
             showQuestion(currentQuestion);
-        </script>
-    </form>
+            
+        };
+
+        function showError(errorTagId, message) {
+            const errorTag = document.getElementById(errorTagId);
+            if (errorTag) {
+                errorTag.textContent = message;
+                errorTag.style.color = 'red';
+            };
+        };
+
+        function clearError(errorTagId) {
+            const errorTag = document.getElementById(errorTagId);
+            if (errorTag) {
+                errorTag.textContent = '';
+            };
+        };
+
+        // Show the first question when the page loads
+        showQuestion(currentQuestion);
+    </script>
 </body>
 
 

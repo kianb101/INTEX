@@ -40,19 +40,19 @@ app.use(session({
 // ------- ROUTES --------
 app.get('/', (req, res) => {
   res.render('pages/index', { loggedin: req.session.loggedin });
-})
+});
 
 app.get('/survey', (req, res) => {
     res.render('pages/survey', { loggedin: req.session.loggedin });
-})
+});
 
 app.get('/dashboard', (req, res) => {
   res.render('pages/dashboard', { loggedin: req.session.loggedin });
-})
+});
 
 app.get('/thankyou', (req, res) => {
   res.render('pages/thankYou', { loggedin: req.session.loggedin });
-})
+});
 
 app.get('/report', async (req, res) => {
   try {
@@ -85,13 +85,13 @@ app.get('/report', async (req, res) => {
 
       entry.organizations = orgNames; // Attach organization data to each entry
       entry.platforms = platData.map(data => data.platform); // Attach platform data to each entry
-    }
+    };
 
     res.render('pages/surveyResults', { loggedin: req.session.loggedin, entries: entries });
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
-  }
+  };
 });
 
 app.get('/search', async(req, res) => {
@@ -107,8 +107,8 @@ app.get('/login', (req, res) => {
   }
   else {
     res.render('pages/login', { msg: "", loggedin: req.session.loggedin });
-  }  
-})
+  }; 
+});
 
 app.get('/logout', (req, res) => {
   delete req.session.username;
@@ -116,7 +116,7 @@ app.get('/logout', (req, res) => {
   delete req.session.status;
   delete req.session.loggedin;
   res.render('pages/login', { msg: "logout", loggedin: req.session.loggedin });
-})
+});
 
 // ------- DATABASE CALLS --------
 app.post('/validateUser', async (req, res) => {
@@ -134,8 +134,8 @@ app.post('/validateUser', async (req, res) => {
         res.redirect('/createAccount');
       } else {
         res.render('pages/login', { msg: "error", loggedin: req.session.loggedin });
-      }
-    }
+      };
+    };
   } catch (error) {
     console.error('Error validating user:', error);
     res.status(500).send('Internal Server Error');
@@ -173,7 +173,6 @@ app.post("/addSurvey", async (req, res) => {
     };
         const organizationValues = req.body.organization || [];
         const platformValues = req.body.platform || [];
-        console.log("request: ", req.body)
         // Array to store organization IDs
         const orgIds = [];
     
@@ -185,8 +184,8 @@ app.post("/addSurvey", async (req, res) => {
     
           if (num_org) {
             orgIds.push(num_org);
-          }
-        }
+          };
+        };
     
         // Array to store platform IDs
         const platformIds = [];
@@ -199,21 +198,21 @@ app.post("/addSurvey", async (req, res) => {
     
           if (num_plat) {
             platformIds.push(num_plat);
-          }
-        }
+          };
+        };
     
         await knex.transaction(async (trx) => {
           // Insert surveyEntry into survey_info table
           const [surveyIDpg] = await trx('survey_info').insert(surveyEntry).returning('survey_id');
           const entries =  Object.entries(surveyIDpg);
-          let surveynum = 0
+          let surveynum = 0;
           // goes through the json object returned from postgres and isolates the survey_id value, returning it to surveynum
           entries.forEach(([key, value]) => {
             console.log(`${key}: ${value}`);
             surveynum = value;
           });
 
-          let surveyId = surveynum
+          let surveyId = surveynum;
           // Loop through each selected organization and insert into ind_org table
           for (const org of organizationValues) {
             // Find num_org based on the type_org from org_info table
@@ -221,7 +220,7 @@ app.post("/addSurvey", async (req, res) => {
     
             // Insert num_org and survey_id into ind_org table
             await trx('ind_org').insert({ num_org, survey_id: surveyId });
-          }
+          };
     
           // Loop through each selected platform and insert into ind_plat table
           for (const platform of platformValues) {
@@ -230,7 +229,7 @@ app.post("/addSurvey", async (req, res) => {
     
             // Insert num_plat and survey_id into ind_plat table
             await trx('ind_plat').insert({ num_plat, survey_id: surveyId });
-          }
+          };
     
           // Commit the transaction
           await trx.commit();
@@ -242,7 +241,7 @@ app.post("/addSurvey", async (req, res) => {
         console.error('Error adding survey:', error);
         res.status(500).send('Error adding survey');
         res.redirect("/thankyou");
-      }
+      };
 });
 
 app.get("/createAccount", async (req, res) => {
@@ -256,7 +255,7 @@ app.get("/createAccount", async (req, res) => {
     else {
       let users = await knex.from("users").select('username', 'password', 'status');
       res.render('pages/createAccount', { user: users, msg: "", loggedin: req.session.loggedin });
-    }
+    };
   }
   else if (role == "cityworker") {
     let user = await knex.from("users").select('username', 'password', 'status').where({ username: req.session.username });
@@ -278,7 +277,7 @@ app.post("/createAccount", async (req, res)=> {
     res.render('pages/createAccount', { user: users, msg: 'error', loggedin: req.session.loggedin });
   }
   else if (passwordOne != passwordTwo) {
-    res.render('pages/createAccount', { user: users, msg: 'password', loggedin: req.session.loggedin })
+    res.render('pages/createAccount', { user: users, msg: 'password', loggedin: req.session.loggedin });
   }
   else {
     knex.from("users").insert({
@@ -326,7 +325,7 @@ app.post("/editAccountUsername", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).send("Invalid Username. (Username already taken)");
-  }
+  };
 });
 
 app.post("/editAccountPassword", async (req, res) => {
@@ -344,7 +343,7 @@ app.post("/editAccountPassword", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).send("Invalid Password.");
-  }
+  };
 });
 
 app.post("/deleteAccount", (req, res)=> {
