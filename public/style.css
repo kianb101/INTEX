@@ -58,13 +58,13 @@
     text-align: center;
 }
 
-/* need to find a dynamic way to do this */
+/* need to find a dynamic way to do this
 .sliderLabel {
     display: inline-block;
     width: 23px;
     text-align: center;
     margin-bottom: 10px;
-}
+} */
 
 #logo {
     width: 15em;
@@ -359,14 +359,14 @@ margin-left: 0.5em;
     font-weight: 100;
     color: #212121;
   }  
-  .background-gray {
+  /* .background-gray {
     padding: 10px;
-    background-color: rgba(235, 230, 230, 0.7); /* Adjust the alpha (last value) for transparency */
-    /* Other styles for positioning, padding, margins, etc. */
-}
-.banner-text {
+    background-color: rgba(235, 230, 230, 0.7);
+  }
+*/
+/* .banner-text {
     color: #212121;
-}
+} */
 @keyframes progress-bar-stripes {
     0% {
       background-position-x: 1rem;

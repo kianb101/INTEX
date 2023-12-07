@@ -1,15 +1,46 @@
 <%- include('../partials/head') %>
-<%- include('../partials/header') %>
+
 
 <body>
     <div class="banner-container">
-        <div class="banner" style="height: 200px;">
-            <div class="background-gray">
-                <div class="banner-text">
-                    <h1>Social Media Survey</h1>
-                    <p>This is a voluntary survey asking questions regarding some demographic information and
-                        social media use</p>
-                </div>
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <a href="/" class="navbar-brand">
+                    <img src="/logo2.png" alt="Provo City Council Logo" id="logo">
+                </a>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/" style="color: white;">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/dashboard" style="color: white;">Dashboard</a>
+                    </li>
+                    <% if (loggedin) { %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/createAccount" style="color: white;">Manage Accounts</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/report" style="color: white;">Report</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout" style="color: white;">Logout</a>
+                        </li>
+                    <% } else { %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login" style="color: white;">Login</a>
+                        </li>
+                    <% } %>
+                </ul>
+            </div>
+        </nav>
+        <div class="banner">
+            <div class="banner-text">
+                <h1>Social Media Survey</h1>
+                <p>This is a voluntary survey with questions regarding
+                    social media use</p>
             </div>
             <div class="container">
                 <div class="overlay"></div>
@@ -228,8 +259,7 @@
                             </div>
                             <div class="question-container" id="question11">
                                 <legend>Social Media Questions</legend>
-                                <label>How often do you get distracted by social media when you are busy doing
-                                    something?</label>
+                                <label>Do you feel restless if you haven’t used social media in a while?</label>
                                 <br><br>
                                 <span class="survey-response">Rarely</span>
                                         <label class="radio-label">

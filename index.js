@@ -1,3 +1,6 @@
+// Authors: Cassidy Hardisty, Kian Bangerter, Reed Stewart, Sky Song
+// Group: 1-2
+
 const express = require('express');
 let path = require("path");
 const session = require('express-session');
@@ -45,6 +48,10 @@ app.get('/survey', (req, res) => {
 
 app.get('/dashboard', (req, res) => {
   res.render('pages/dashboard', { loggedin: req.session.loggedin });
+})
+
+app.get('/thankyou', (req, res) => {
+  res.render('pages/thankYou', { loggedin: req.session.loggedin });
 })
 
 app.get('/report', async (req, res) => {
@@ -246,7 +253,9 @@ app.post("/addSurvey", async (req, res) => {
         console.error('Error adding survey:', error);
         res.status(500).send('Error adding survey');
       }
-    });
+
+    res.redirect("/thankyou");
+});
 
 app.get("/createAccount", async (req, res) => {
   let role = req.session.status;
