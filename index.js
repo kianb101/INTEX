@@ -106,7 +106,7 @@ app.get('/login', (req, res) => {
 app.get('/logout', (req, res) => {
   delete req.session.username;
   delete req.session.password;
-  delete req.session.role;
+  delete req.session.status;
   delete req.session.loggedin;
   res.render('pages/login', { msg: "logout", loggedin: req.session.loggedin });
 })
@@ -116,11 +116,11 @@ app.post('/validateUser', async (req, res) => {
   // // TO TEST:
   // req.session.loggedin = true;
   // req.session.username = "person";
-  // req.session.role = "admin";
+  // req.session.status = "admin";
 
   // console.log(req.session.loggedin);
   // console.log(req.session.username);
-  // console.log(req.session.role);
+  // console.log(req.session.status);
 
   // res.send('Session variables set for testing.');
 
@@ -135,7 +135,7 @@ app.post('/validateUser', async (req, res) => {
       if (user) {
         req.session.loggedin = true;
         req.session.username = user.username;
-        req.session.role = user.status;
+        req.session.status = user.status;
         res.redirect('/createAccount');
       } else {
         res.render('pages/login', { msg: "error", loggedin: req.session.loggedin });
@@ -249,7 +249,7 @@ app.post("/addSurvey", async (req, res) => {
     });
 
 app.get("/createAccount", async (req, res) => {
-  let role = req.session.role;
+  let role = req.session.status;
 
   if (role == "admin") {
     if (req.query.msg == 'success') {
