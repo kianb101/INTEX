@@ -8,7 +8,7 @@
 .banner-container {
     position: relative;
     height: 35em;
-    background: url('banner_3.jpeg') center/cover no-repeat;
+    background: url('banner_3.jpg') center/cover no-repeat;
     box-shadow: 5px 10px 10px rgba(0, 0, 0, 0.3);
     color: #fff;
     text-align: center;
@@ -97,7 +97,7 @@
     justify-content: center;
 } 
 
-#login-form {
+#login-form #modify-form {
     padding: 3em;
 }
 
