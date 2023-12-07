@@ -155,7 +155,7 @@ input[type="password"] {
     margin-bottom: 12px;
 }
 
-button {
+/* button {
     background-color: #419F42;
     border-color: #419F42;
     color: #fff;
@@ -165,7 +165,7 @@ button {
 
 button:hover {
     background-color: #2b6e2b;
-}
+} */
 
 /* for table search feature */
 .results tr[visible='false'],
