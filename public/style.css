@@ -208,3 +208,15 @@ table {
     border-radius: 8px;
     
 }
+
+/* Custom styles for the footer */
+footer {
+    padding: 3em 0;
+    text-align: center;
+}
+
+.footer-logo {
+    width: 4em; /* Set the width of your logo */
+    height: auto; /* Maintain aspect ratio */
+    margin-bottom: 2em; /* Adjust spacing between logo and text */
+}
