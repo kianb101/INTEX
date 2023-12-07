@@ -153,9 +153,7 @@ table {
     border-collapse: collapse; 
 }
 
-/* trying to css radio buttons*/
-
-
+/* survey styling */
 .form-check-inline {
     display: inline-block;
     margin-right: 1rem;
