@@ -120,18 +120,6 @@ app.get('/logout', (req, res) => {
 
 // ------- DATABASE CALLS --------
 app.post('/validateUser', async (req, res) => {
-  // // TO TEST:
-  // req.session.loggedin = true;
-  // req.session.username = "person";
-  // req.session.status = "admin";
-
-  // console.log(req.session.loggedin);
-  // console.log(req.session.username);
-  // console.log(req.session.status);
-
-  // res.send('Session variables set for testing.');
-
-  // IMPLEMENTATION:
   const usernameToCheck = req.body.username ? req.body.username : '';
   const passwordToCheck = req.body.password ? req.body.password : '';
   try {
@@ -357,11 +345,6 @@ app.post("/editAccountPassword", async (req, res) => {
     console.error(error);
     res.status(500).send("Invalid Password.");
   }
-});
-
-
-app.post("/modifyAccount", (req, res)=> {
-  // TODO: edit account here
 });
 
 app.post("/deleteAccount", (req, res)=> {
