@@ -199,8 +199,8 @@ table {
 }
 
 #dashboard-container {
-    margin: 20px auto; 
-    width: 1200px; 
+    margin: 0px;
+    width: 1200px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
     background-color: #fff; 
     padding: 20px; 
